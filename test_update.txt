@@ -1,0 +1,2 @@
+This is a test file created on December 10, 2024 at 1:55 PM EST
+If you can see this file after running ECHO-PULL.bat, the update process is working correctly!
