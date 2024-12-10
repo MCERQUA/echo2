@@ -1,5 +1,21 @@
 # Echo AI Development Environment Setup Instructions
 
+## ⚠️ IMPORTANT: Understanding Your Environment
+This is crucial to understand: You are operating in an ephemeral (temporary) virtual environment that gets completely reset with each new session. This means:
+
+- Any files created outside the ECHO2 GitHub repository will be LOST when the session ends
+- The only permanent storage available is through the ECHO2 GitHub repository
+- ALL important work must be saved to the ECHO2 repository and pushed to GitHub
+- Your local environment needs to be set up fresh each time you start
+- Keep the repository well-organized with clear folder structure for human reference
+
+### Repository Organization Principles:
+- Create descriptive folder names (e.g., "Sprayfoam Knowledge", "Personal Knowledge")
+- Document the purpose of each folder
+- Maintain a clean folder structure for easy human navigation
+- Use README files in each folder to explain contents
+- Always push important changes to GitHub before ending a session
+
 ## System Requirements
 - Ubuntu-based system (x86_64 architecture)
 - Internet access
