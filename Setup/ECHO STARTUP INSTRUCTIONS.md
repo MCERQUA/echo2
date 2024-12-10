@@ -97,15 +97,52 @@ chmod 644 ~/.ssh/github_ed25519.pub
 ssh-keyscan github.com >> ~/.ssh/known_hosts
 ```
 
-## Git Configuration
+## Git Configuration and SSH Persistence
+
+### Initial Git Configuration
 ```bash
 # Configure Git
 git config --global user.name "Echo AI"
 git config --global user.email "echo.ai@example.com"
+```
 
-# Set up SSH agent
+### SSH Configuration for Persistence
+1. Create SSH config file for persistent settings:
+```bash
+mkdir -p ~/.ssh
+cat > ~/.ssh/config << 'EOL'
+Host github.com
+    HostName github.com
+    IdentityFile ~/.ssh/github_ed25519
+    UseKeychain yes
+    AddKeysToAgent yes
+    PersistentKeyChain yes
+EOL
+chmod 600 ~/.ssh/config
+```
+
+2. Start SSH agent and add key with increased lifetime:
+```bash
+# Start SSH agent if not running
 eval "$(ssh-agent -s)"
+
+# Add key with extended lifetime (12 hours)
+ssh-add -t 43200 ~/.ssh/github_ed25519
+
+# Test connection
+ssh -T git@github.com
+```
+
+3. For troubleshooting SSH issues:
+```bash
+# Check SSH agent
+ssh-add -l
+
+# If key needs to be re-added
 ssh-add ~/.ssh/github_ed25519
+
+# Verify GitHub connection
+ssh -vT git@github.com
 ```
 
 ## Repository Structure Setup
