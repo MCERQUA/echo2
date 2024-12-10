@@ -74,16 +74,14 @@ mkdir -p ~/.ssh && chmod 700 ~/.ssh
 
 2. Create the private key file:
 ```bash
-cat > ~/.ssh/github_ed25519 << 'EOL'
------BEGIN OPENSSH PRIVATE KEY-----
-[Private key content here]
------END OPENSSH PRIVATE KEY-----
-EOL
+# [ASK USER FOR SSH PRIVATE KEY]
+# The private key content should be provided by the user and saved as ~/.ssh/github_ed25519
 ```
 
 3. Create the public key file:
 ```bash
-echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEi4EAOUCKIRNwlbp45iUYti0nwA7JxvSLGqYEi40qun computeruse@dceec227115b" > ~/.ssh/github_ed25519.pub
+# [ASK USER FOR SSH PUBLIC KEY]
+# The public key content should be provided by the user and saved as ~/.ssh/github_ed25519.pub
 ```
 
 4. Set correct permissions:
