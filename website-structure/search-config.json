@@ -1,0 +1,25 @@
+{
+    "searchConfig": {
+        "indexFields": [
+            "title",
+            "content",
+            "tags",
+            "keywords"
+        ],
+        "weightings": {
+            "title": 2.0,
+            "content": 1.0,
+            "tags": 1.5,
+            "keywords": 1.8
+        },
+        "minSearchLength": 3,
+        "maxResults": 20,
+        "highlightResults": true
+    },
+    "indexUpdateSchedule": "daily",
+    "excludePaths": [
+        "**/metadata.json",
+        "**/style-guide.md",
+        "**/temp/*"
+    ]
+}

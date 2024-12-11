@@ -1,0 +1,11 @@
+{
+    "pathMappings": {
+        "core/safety-statement": ["Home", "Core Documentation", "Safety Statement"],
+        "core/program-overview": ["Home", "Core Documentation", "Program Overview"],
+        "core/administration": ["Home", "Core Documentation", "Administration"],
+        "procedures/electrical-safety": ["Home", "Procedures", "Electrical Safety"],
+        "procedures/fire-prevention": ["Home", "Procedures", "Fire Prevention"]
+    },
+    "separator": " > ",
+    "homeLink": "/"
+}
