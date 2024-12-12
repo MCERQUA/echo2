@@ -1,0 +1,32 @@
+{
+    "caching_rules": {
+        "creation_threshold": {
+            "min_expected_reuse": 3,
+            "max_token_ratio": 1000,
+            "min_lifetime_seconds": 1800
+        },
+        "invalidation_rules": {
+            "max_age_seconds": 3600,
+            "min_remaining_uses": 2,
+            "update_threshold_percentage": 30
+        }
+    },
+    "optimization_rules": {
+        "preemptive_caching": {
+            "enabled": true,
+            "pattern_recognition": true,
+            "min_confidence": 0.8
+        },
+        "cache_pruning": {
+            "enabled": true,
+            "max_cache_size_mb": 100,
+            "prune_threshold_percentage": 90
+        }
+    },
+    "monitoring": {
+        "track_cache_hits": true,
+        "track_cache_misses": true,
+        "track_creation_costs": true,
+        "track_savings": true
+    }
+}

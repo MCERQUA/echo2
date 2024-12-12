@@ -1,0 +1,25 @@
+{
+    "limits": {
+        "requests_per_minute": 50,
+        "input_tokens_per_minute": 40000,
+        "output_tokens_per_minute": 8000
+    },
+    "safety_margins": {
+        "request_buffer": 5,
+        "token_buffer_percentage": 10
+    },
+    "cache_settings": {
+        "prompt_cache_timeout": 3600,
+        "cache_cost_multiplier": 5,
+        "cache_savings_percentage": 70
+    },
+    "optimization": {
+        "min_pause_seconds": 1.2,
+        "batch_size": 10,
+        "priority_levels": {
+            "user_interaction": 1,
+            "cache_management": 2,
+            "background_tasks": 3
+        }
+    }
+}
