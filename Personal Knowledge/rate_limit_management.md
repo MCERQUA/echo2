@@ -1,6 +1,9 @@
 # Rate Limit Management Strategy
 
 ## Current Observations
+- RPM (Requests Per Minute) Limit: 50
+- ITPM (Input Tokens Per Minute) Limit: 40,000
+- OTPM (Output Tokens Per Minute) Limit: 8,000
 - SSH connection needs frequent renewal
 - Rate limits affect GitHub API access
 - Multiple reconnection attempts waste time

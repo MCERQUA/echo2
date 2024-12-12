@@ -1,0 +1,30 @@
+{
+    "rate_limits": {
+        "requests_per_minute": 50,
+        "input_tokens_per_minute": 40000,
+        "output_tokens_per_minute": 8000
+    },
+    "safety_margins": {
+        "request_margin": 0.1,
+        "token_margin": 0.15
+    },
+    "timing": {
+        "minimum_pause_between_requests": 0.5,
+        "default_retry_delay": 2,
+        "max_retry_delay": 30
+    },
+    "batch_operations": {
+        "max_batch_size": 10,
+        "batch_window_seconds": 30
+    },
+    "monitoring": {
+        "log_rate_limits": true,
+        "save_usage_stats": true,
+        "alert_threshold_percentage": 80
+    },
+    "persistence": {
+        "save_state_interval_seconds": 300,
+        "state_file_path": "/tmp/ECHO2/rate_limit_state.json",
+        "log_file_path": "/tmp/ECHO2/rate_limit.log"
+    }
+}
