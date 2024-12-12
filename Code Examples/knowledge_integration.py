@@ -35,15 +35,20 @@ class KnowledgeIntegrator:
                     for file in files:
                         file_path = os.path.join(root, file)
                         rel_path = os.path.relpath(file_path, self.repo_path)
-                        with open(file_path, 'r', encoding='utf-8') as f:
-                            content = f.read()
-                            file_hash = hashlib.sha256(content.encode()).hexdigest()
-                            knowledge_files.append({
-                                'path': rel_path,
-                                'hash': file_hash,
-                                'last_modified': os.path.getmtime(file_path),
-                                'content': content
-                            })
+                        try:
+                            with open(file_path, 'r', encoding='utf-8') as f:
+                                content = f.read()
+                                file_hash = hashlib.sha256(content.encode()).hexdigest()
+                                knowledge_files.append({
+                                    'path': rel_path,
+                                    'hash': file_hash,
+                                    'last_modified': os.path.getmtime(file_path),
+                                    'content': content
+                                })
+                        except (UnicodeDecodeError, IOError):
+                            # Skip binary files or files with encoding issues
+                            print(f"Skipping binary or non-utf8 file: {rel_path}")
+                            continue
         
         self.knowledge_map = {
             'last_updated': datetime.datetime.now().isoformat(),
