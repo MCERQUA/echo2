@@ -14,13 +14,17 @@ class RateLimiter:
         self.input_tokens: Deque[Tuple[float, int]] = deque()  # Tracks input token usage
         self.output_tokens: Deque[Tuple[float, int]] = deque()  # Tracks output token usage
         
-        # Configure limits
-        self.REQUESTS_PER_MINUTE = 50
-        self.INPUT_TOKENS_PER_MINUTE = 40000
-        self.OUTPUT_TOKENS_PER_MINUTE = 8000
+        # Configure limits with safety margins (50% of actual limits)
+        self.REQUESTS_PER_MINUTE = 25  # 50% of max
+        self.INPUT_TOKENS_PER_MINUTE = 20000  # 50% of max
+        self.OUTPUT_TOKENS_PER_MINUTE = 4000  # 50% of max
+        
+        # Add cooling period after hitting limits
+        self.COOLING_PERIOD = 70  # seconds, slightly more than 1 minute
+        self.last_limit_hit = 0  # timestamp of last limit hit
         
         # Minimum delays (in seconds)
-        self.MIN_REQUEST_DELAY = 1.2  # 1.2 seconds between requests
+        self.MIN_REQUEST_DELAY = 2.5  # More conservative delay between requests
         self.WINDOW_SIZE = 60  # 1 minute window
 
     def _clean_window(self, window: Deque, current_time: float) -> None:
@@ -50,6 +54,13 @@ class RateLimiter:
                 self.WINDOW_SIZE - (current_time - self.request_window[0]),
                 self.MIN_REQUEST_DELAY
             )
+        else:
+            # Always enforce minimum delay between requests
+            if self.request_window:
+                last_request_time = self.request_window[-1]
+                time_since_last = current_time - last_request_time
+                if time_since_last < self.MIN_REQUEST_DELAY:
+                    delays['request_delay'] = self.MIN_REQUEST_DELAY - time_since_last
 
         # Check input tokens
         current_input = self._clean_token_window(self.input_tokens, current_time)
