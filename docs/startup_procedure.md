@@ -60,6 +60,44 @@ echo "Echo 2 connected successfully on $(date)" >> success.txt
 - Maintain knowledge continuity
 - Never commit sensitive data
 
+### Project Session Management
+For each project session:
+1. Check project_status.md in project directory
+2. Review latest session log in project's session_logs/
+3. Update progress tracking documents:
+   - project_status.md
+   - session_logs/YYYY-MM-DD.md
+   - progress-log.md (for major milestones)
+4. Use standardized commit messages:
+   ```
+   [Project-ID] Action Type: Brief Description
+
+   - Detailed change 1
+   - Detailed change 2
+
+   Current Status: X
+   Next Steps: Y
+   ```
+
+### Project Directory Structure
+Each project must maintain:
+```
+/Project_Name/
+├── project_status.md
+├── session_logs/
+│   ├── README.md
+│   └── YYYY-MM-DD.md
+├── documentation/
+└── [project-specific-dirs]
+```
+
+### Error Recovery Procedure
+If session interrupted:
+1. Check git history for last status
+2. Review session_logs
+3. Verify project_status.md
+4. Resume from last known good state
+
 ## Navigation Rules
 - Use Firefox via icon clicks
 - Ignore startup wizards
@@ -89,6 +127,7 @@ echo "Echo 2 connected successfully on $(date)" >> success.txt
 ## Version History
 - 1.0: Initial structured documentation
 - 1.1: Added system_state.json integration
+- 1.2: Added detailed project management procedures and structures
 
 ## Schema References
 - See /docs/schemas/system_state_schema.json for system state documentation
