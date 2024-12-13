@@ -1,14 +1,42 @@
 {
-    "section_id": "HAZ-COM-PROGRAM-000",
+    "section_id": "HAZ-COM-PRG-001",
     "title": "Hazard Communication Program",
-    "version": "0.1",
+    "version": "1.0",
     "last_updated": "2024-12-13",
-    "status": "In Planning",
-    "dependencies": ["HAZ-COM-POL"],
+    "review_date": "2025-12-13",
+    "status": "Draft",
+    "reviewers": [],
+    "dependencies": ["HAZ-COM-POL-001"],
+    "related_sections": [
+        "HAZ-COM-LAB",
+        "HAZ-COM-SDS",
+        "HAZ-COM-TRN"
+    ],
+    "regulatory_references": [
+        "29 CFR 1910.1200",
+        "GHS Requirements"
+    ],
+    "keywords": [
+        "hazard communication",
+        "program",
+        "chemical safety",
+        "SDS",
+        "labeling",
+        "training",
+        "inventory management"
+    ],
     "completion_status": {
-        "planning": "in_progress",
-        "content": "not_started",
+        "planning": "completed",
+        "content": "in_progress",
         "review": "not_started",
         "approval": "not_started"
-    }
+    },
+    "change_history": [
+        {
+            "date": "2024-12-13",
+            "version": "1.0",
+            "description": "Initial program document creation",
+            "author": "Echo 2"
+        }
+    ]
 }
