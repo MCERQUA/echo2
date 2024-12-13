@@ -1,0 +1,14 @@
+{
+    "section_id": "HAZ-COM-SDS-000",
+    "title": "Hazard Communication Sds",
+    "version": "0.1",
+    "last_updated": "2024-12-13",
+    "status": "In Planning",
+    "dependencies": ["HAZ-COM-POL"],
+    "completion_status": {
+        "planning": "in_progress",
+        "content": "not_started",
+        "review": "not_started",
+        "approval": "not_started"
+    }
+}
