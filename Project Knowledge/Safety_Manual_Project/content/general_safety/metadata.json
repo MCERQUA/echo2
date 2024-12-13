@@ -1,0 +1,66 @@
+{
+    "section_id": "GEN-SAF-POL-001",
+    "title": "General Safety Policies and Procedures",
+    "version": "1.0",
+    "last_updated": "2024-12-13",
+    "review_date": "2025-12-13",
+    "status": "Draft",
+    "reviewers": [
+        {
+            "name": "Dr. Sarah Martinez",
+            "role": "Corporate Safety Director",
+            "department": "EHS",
+            "review_due": "2024-12-27"
+        },
+        {
+            "name": "Robert Johnson",
+            "role": "Operations Manager",
+            "department": "Operations",
+            "review_due": "2024-12-27"
+        },
+        {
+            "name": "Lisa Chang",
+            "role": "Human Resources Director",
+            "department": "HR",
+            "review_due": "2024-12-27"
+        }
+    ],
+    "dependencies": [],
+    "related_sections": [
+        "EMG-RES-001",
+        "PPE-POL-001",
+        "FSP-POL-001",
+        "ELS-POL-001",
+        "MCH-POL-001"
+    ],
+    "regulatory_references": [
+        "OSHA General Duty Clause",
+        "29 CFR 1910 (General Industry Standards)",
+        "State Safety Regulations",
+        "Company Safety Charter"
+    ],
+    "keywords": [
+        "general safety",
+        "safety policy",
+        "workplace safety",
+        "safety responsibilities",
+        "safety standards",
+        "safety compliance",
+        "risk management",
+        "safety culture"
+    ],
+    "completion_status": {
+        "planning": "completed",
+        "content": "in_progress",
+        "review": "not_started",
+        "approval": "not_started"
+    },
+    "change_history": [
+        {
+            "date": "2024-12-13",
+            "version": "1.0",
+            "description": "Initial general safety policies document creation",
+            "author": "Echo 2"
+        }
+    ]
+}
