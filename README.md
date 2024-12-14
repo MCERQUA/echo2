@@ -1,5 +1,10 @@
 # ECHO2 System
 
+⚠️ IMPORTANT: GitHub is the ONLY Persistent Storage ⚠️
+- Every session starts with a completely fresh environment
+- Local files in /tmp/ECHO2 are temporary
+- Only files committed to GitHub persist between sessions
+
 ## Directory Structure
 
 ### .system/
