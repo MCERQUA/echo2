@@ -8,14 +8,19 @@
 - Workspace management
 - Startup procedures
 
+### projects/
+- Active projects
+- Completed projects
+- Project templates
+- Project documentation
+
 ### docs/
 - Technical documentation
-- Website templates and structure
+- System documentation
 - JSON schemas
 
 ### knowledge/
 - Personal knowledge and insights
-- Project-specific knowledge
 - Domain-specific knowledge
 - System and operational knowledge
 
@@ -32,9 +37,14 @@
 ## Quick Start
 1. Run `.system/startup/unified_startup.py`
 2. Check logs/session for current status
-3. Review knowledge/system for documentation
+3. Review active projects in projects/active
+
+## Project Management
+- Active projects in projects/active
+- Project templates in projects/templates
+- Completed projects archived in projects/completed
 
 ## Maintenance
-- All changes are tracked in logs/changes
+- All changes tracked in logs/changes
 - System configuration in .system/config
 - Documentation in docs/technical
