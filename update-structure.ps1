@@ -41,17 +41,17 @@ function Get-FormattedPath {
     $name = Split-Path $relativePath -Leaf
     
     if ($path.PSIsContainer) {
-        return "$indent📁 $name/"
+        return "$indent[DIR] $name/"
     } else {
         $ext = [System.IO.Path]::GetExtension($name)
         $icon = switch ($ext) {
-            ".md"     { "📝" }
-            ".ps1"    { "⚡" }
-            ".bat"    { "🔨" }
-            ".py"     { "🐍" }
-            ".json"   { "📊" }
-            ".txt"    { "📄" }
-            default   { "📎" }
+            ".md"     { "[MD]" }
+            ".ps1"    { "[PS1]" }
+            ".bat"    { "[BAT]" }
+            ".py"     { "[PY]" }
+            ".json"   { "[JSON]" }
+            ".txt"    { "[TXT]" }
+            default   { "[FILE]" }
         }
         return "$indent$icon $name"
     }
@@ -71,14 +71,14 @@ Get-ChildItem -Path . -Recurse -Force |
 @"
 
 ## Notes
-- 📁 Folders are marked with directory icon
-- 📝 Markdown files
-- ⚡ PowerShell scripts
-- 🔨 Batch files
-- 🐍 Python files
-- 📊 JSON files
-- 📄 Text files
-- 📎 Other files
+- [DIR]  Directories
+- [MD]   Markdown files
+- [PS1]  PowerShell scripts
+- [BAT]  Batch files
+- [PY]   Python files
+- [JSON] JSON files
+- [TXT]  Text files
+- [FILE] Other files
 
 Generated for Echo1's reference
 "@ | Add-Content $outputFile
