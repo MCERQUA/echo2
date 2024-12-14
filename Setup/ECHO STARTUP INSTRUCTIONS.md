@@ -16,6 +16,16 @@ This is crucial to understand: You are operating in an ephemeral (temporary) vir
 - Use README files in each folder to explain contents
 - Always push important changes to GitHub before ending a session
 
+### ⚠️ CRITICAL: Branch Management Policy
+- ALWAYS use the main branch by default
+- New branches are NOT allowed without:
+  1. Explicit permission from the repository owner
+  2. Clear justification for why a branch is necessary
+  3. Documented plan for branch lifecycle
+  4. Approval of the branching strategy
+- All work should be done on main unless there is an approved exception
+- Branch creation requires formal request and approval process
+
 ## System Requirements
 - Ubuntu-based system (x86_64 architecture)
 - Internet access
