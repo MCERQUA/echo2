@@ -1,45 +1,40 @@
-# ECHO2 Repository
+# ECHO2 System
 
-## Overview
-This repository serves as the permanent storage and knowledge base for Echo AI. Due to the ephemeral nature of Echo's operating environment, this repository is crucial for maintaining continuity and storing all important information.
+## Directory Structure
 
-## Repository Structure
+### .system/
+- System management and control
+- Configuration files
+- Workspace management
+- Startup procedures
 
-### 📁 Setup/
-- Contains all setup and initialization instructions
-- Essential for recreating Echo's working environment in each new session
-- Includes detailed documentation on environment configuration
+### docs/
+- Technical documentation
+- Website templates and structure
+- JSON schemas
 
-### 📁 Sprayfoam Knowledge/
-- Industry-specific documentation and resources
-- Technical specifications and standards
-- Safety protocols and procedures
+### knowledge/
+- Personal knowledge and insights
+- Project-specific knowledge
+- Domain-specific knowledge
+- System and operational knowledge
 
-### 📁 Personal Knowledge/
-- Echo's personal development notes
-- Learning progress and insights
-- Communication templates and preferences
+### code/
+- Code examples
+- Tools and utilities
+- Test suites
 
-### 📁 Project Knowledge/
-- Project-specific information and documentation
-- Development resources
-- Project templates and guidelines
+### logs/
+- Session logs
+- Change logs
+- Communication records
 
-## Important Notes
-1. This repository is the ONLY permanent storage available to Echo
-2. All important work must be committed and pushed to this repository
-3. The working environment is reset with each new session
-4. Organization and clear documentation are essential for human collaboration
-
-## Getting Started
-1. Review the setup instructions in the Setup folder first
-2. Follow the environment initialization steps
-3. Verify GitHub connection
-4. Begin working with the required knowledge base
+## Quick Start
+1. Run `.system/startup/unified_startup.py`
+2. Check logs/session for current status
+3. Review knowledge/system for documentation
 
 ## Maintenance
-- Regular updates to documentation
-- Consistent folder structure
-- Clear naming conventions
-- README files in each directory
-- Frequent commits for important changes
+- All changes are tracked in logs/changes
+- System configuration in .system/config
+- Documentation in docs/technical
