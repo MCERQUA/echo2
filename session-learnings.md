@@ -33,6 +33,11 @@
    - Process one major component per session
    - Maintain progress markers
 
+## Repository Organization Guidelines
+1. All client-specific folders should be stored in the 'Client Files' directory
+2. Moved 'cortez' folder to 'Client Files' on January 9, 2025
+3. This organization helps maintain a clean and structured repository
+
 ## Questions for Future Sessions
 1. How to track token usage more effectively?
 2. What's the optimal pause duration between operations?
