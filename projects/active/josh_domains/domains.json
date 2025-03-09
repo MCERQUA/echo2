@@ -1,0 +1,434 @@
+{
+  "meta": {
+    "total_domains": 48,
+    "active_domains": 15,
+    "not_active_domains": 33,
+    "last_updated": "2025-03-09T05:00:00Z",
+    "description": "Domain portfolio for Josh/Contractors Choice Agency"
+  },
+  "domains": [
+    {
+      "domain": "contractorinsuranceinfo.com",
+      "forwarding": "Add Forwarding",
+      "status": "Not Active",
+      "category": "Contractor Insurance",
+      "priority": "Medium",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "General contractor insurance information site"
+    },
+    {
+      "domain": "contractorlicense.biz",
+      "forwarding": "Add Forwarding",
+      "status": "Not Active",
+      "category": "Educational/Informational",
+      "priority": "Low",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Information on contractor licensing requirements"
+    },
+    {
+      "domain": "contractorlicense.pro",
+      "forwarding": "Add Forwarding",
+      "status": "Not Active",
+      "category": "Educational/Informational",
+      "priority": "Low",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Professional resource for contractor licensing"
+    },
+    {
+      "domain": "insinfographics.com",
+      "forwarding": "Add Forwarding",
+      "status": "Not Active",
+      "category": "Educational/Informational",
+      "priority": "Low",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Insurance infographics and visual resources"
+    },
+    {
+      "domain": "insuranceauctioneers.com",
+      "forwarding": "Add Forwarding",
+      "status": "Not Active",
+      "category": "Specialty Insurance",
+      "priority": "Medium",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Insurance products for auctioneers and auction houses"
+    },
+    {
+      "domain": "insuranceinfographics.com",
+      "forwarding": "Add Forwarding",
+      "status": "Not Active",
+      "category": "Educational/Informational",
+      "priority": "Low",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Comprehensive insurance infographics resource site"
+    },
+    {
+      "domain": "insurancekiosks.com",
+      "forwarding": "Add Forwarding",
+      "status": "Not Active",
+      "category": "Specialty Insurance",
+      "priority": "Low",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Information about insurance kiosk options and services"
+    },
+    {
+      "domain": "phxinsagency.com",
+      "forwarding": "Add Forwarding",
+      "status": "Not Active",
+      "category": "Regional/Location-based",
+      "priority": "Medium",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Phoenix-based insurance agency site"
+    },
+    {
+      "domain": "pipelinerjobs.com",
+      "forwarding": "Add Forwarding",
+      "status": "Not Active",
+      "category": "Specialty Insurance",
+      "priority": "Low",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Insurance for pipeline workers and related jobs"
+    },
+    {
+      "domain": "puroseguro.com",
+      "forwarding": "Add Forwarding",
+      "status": "Not Active",
+      "category": "Spanish Language",
+      "priority": "High",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Spanish language insurance services site"
+    },
+    {
+      "domain": "rigsoffroad.com",
+      "forwarding": "Add Forwarding",
+      "status": "Not Active",
+      "category": "Specialty Insurance",
+      "priority": "Medium",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Insurance for off-road vehicles and equipment"
+    },
+    {
+      "domain": "solocontratistas.com",
+      "forwarding": "Add Forwarding",
+      "status": "Not Active",
+      "category": "Spanish Language",
+      "priority": "High",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Spanish language site for contractor insurance"
+    },
+    {
+      "domain": "suretybonds4contractors.com",
+      "forwarding": "Add Forwarding",
+      "status": "Not Active",
+      "category": "Contractor Insurance",
+      "priority": "High",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Specialized site for contractor surety bonds"
+    },
+    {
+      "domain": "commercialremodelinginsurance.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Contractor Insurance",
+      "priority": "High",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Insurance for commercial remodeling contractors"
+    },
+    {
+      "domain": "contractorinsuranceschool.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Educational/Informational",
+      "priority": "Medium",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Educational resources for contractor insurance requirements"
+    },
+    {
+      "domain": "debrisremovalinsurance.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Specialty Insurance",
+      "priority": "Medium",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Insurance for debris removal contractors and services"
+    },
+    {
+      "domain": "insuranceendorsements.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Educational/Informational",
+      "priority": "Low",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Information about insurance endorsements and additional coverages"
+    },
+    {
+      "domain": "residentialremodelinginsurance.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Contractor Insurance",
+      "priority": "High",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Insurance for residential remodeling contractors"
+    },
+    {
+      "domain": "thecontractorschoiceagency.com",
+      "forwarding": "https://contractorschoiceagency.com",
+      "status": "Forwarded",
+      "category": "Contractor Insurance",
+      "priority": "High",
+      "nameserver": "ns1.domaincontrol.com",
+      "development_notes": "Main agency website - already live"
+    },
+    {
+      "domain": "unmannedaircraftsystemsinsurance.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Specialty Insurance",
+      "priority": "Medium",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Insurance for drone operators and UAV systems"
+    },
+    {
+      "domain": "arizonaenergyauditor.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Regional/Location-based",
+      "priority": "Medium",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Arizona-focused energy auditor insurance and resources"
+    },
+    {
+      "domain": "azenergyauditor.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Regional/Location-based",
+      "priority": "Medium",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Short version of Arizona energy auditor site"
+    },
+    {
+      "domain": "barndobonds.com",
+      "forwarding": "https://barndomiuminsurance.com",
+      "status": "Forwarded",
+      "category": "Specialty Insurance",
+      "priority": "Medium",
+      "nameserver": "ns5.domaincontrol.com",
+      "development_notes": "Specialized insurance for barndominiums and similar structures"
+    },
+    {
+      "domain": "bestdamnrooferinsurance.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Contractor Insurance",
+      "priority": "High",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Marketing-focused site for roofer insurance products"
+    },
+    {
+      "domain": "celluloseinsulationremoval.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Specialty Insurance",
+      "priority": "Low",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Insurance for cellulose insulation removal contractors"
+    },
+    {
+      "domain": "fiberglassinsulationremoval.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Specialty Insurance",
+      "priority": "Low",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Insurance for fiberglass insulation removal contractors"
+    },
+    {
+      "domain": "offratiopodcast.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Educational/Informational",
+      "priority": "Low",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Insurance industry podcast site"
+    },
+    {
+      "domain": "on-chaininsurance.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Specialty Insurance",
+      "priority": "Medium",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Blockchain/crypto insurance products and resources"
+    },
+    {
+      "domain": "roofmetaverse.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Educational/Informational",
+      "priority": "Low",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Metaverse-focused roofing industry site"
+    },
+    {
+      "domain": "sprayfoaminstitute.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Educational/Informational",
+      "priority": "Medium",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Educational resources for spray foam contractors"
+    },
+    {
+      "domain": "sprayfoamlicense.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Educational/Informational",
+      "priority": "Medium",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Licensing information for spray foam contractors"
+    },
+    {
+      "domain": "sprayfoamrooferarizona.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Regional/Location-based",
+      "priority": "High",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Arizona-focused spray foam roofing services"
+    },
+    {
+      "domain": "sprayfoamrooferphoenix.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Regional/Location-based",
+      "priority": "High",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Phoenix-focused spray foam roofing services"
+    },
+    {
+      "domain": "vegassprayfoam.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Regional/Location-based",
+      "priority": "High",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Las Vegas-focused spray foam services"
+    },
+    {
+      "domain": "wrapinstallerinsurance.com",
+      "forwarding": "-",
+      "status": "Not Active",
+      "category": "Specialty Insurance",
+      "priority": "Medium",
+      "nameserver": "ns1.wpdns.host",
+      "development_notes": "Insurance for vehicle wrap installation businesses"
+    },
+    {
+      "domain": "hotshottrucrersinsurance.com",
+      "forwarding": "https://hotshotttruckersinsurance.com",
+      "status": "Forwarded",
+      "category": "Specialty Insurance",
+      "priority": "Medium",
+      "nameserver": "ns11.domaincontrol.com",
+      "development_notes": "Insurance for hot shot truckers and services"
+    },
+    {
+      "domain": "traminginsurance.com",
+      "forwarding": "https://traminginsurance.com",
+      "status": "Forwarded",
+      "category": "Specialty Insurance",
+      "priority": "Medium",
+      "nameserver": "ns13.domaincontrol.com",
+      "development_notes": "Insurance for training services and education"
+    },
+    {
+      "domain": "sprayfoaminsurance.com",
+      "forwarding": "https://sprayfoaminsurance.com",
+      "status": "Forwarded",
+      "category": "Specialty Insurance",
+      "priority": "High",
+      "nameserver": "ns17.domaincontrol.com",
+      "development_notes": "Insurance for spray foam industry professionals"
+    },
+    {
+      "domain": "sedonainsurance.com",
+      "forwarding": "https://sedonainsurance.com",
+      "status": "Forwarded",
+      "category": "Regional/Location-based",
+      "priority": "Medium",
+      "nameserver": "ns23.domaincontrol.com",
+      "development_notes": "Sedona, Arizona focused insurance services"
+    },
+    {
+      "domain": "sunlakesinsurance.com",
+      "forwarding": "https://sunlakesinsurance.com",
+      "status": "Forwarded",
+      "category": "Regional/Location-based",
+      "priority": "Medium",
+      "nameserver": "ns23.domaincontrol.com",
+      "development_notes": "Sun Lakes, Arizona focused insurance services"
+    },
+    {
+      "domain": "tellurideinsurance.co",
+      "forwarding": "https://tellurideinsurance.co",
+      "status": "Forwarded",
+      "category": "Regional/Location-based",
+      "priority": "Medium",
+      "nameserver": "ns7.domaincontrol.com",
+      "development_notes": "Telluride, Colorado focused insurance services"
+    },
+    {
+      "domain": "solarcontractorsinsurance.com",
+      "forwarding": "https://solarcontractorsinsurance.com",
+      "status": "Forwarded",
+      "category": "Contractor Insurance",
+      "priority": "High",
+      "nameserver": "ns39.domaincontrol.com",
+      "development_notes": "Insurance for solar installation contractors"
+    },
+    {
+      "domain": "coatingsinsurance.com",
+      "forwarding": "https://www.coatingsinsurance.com",
+      "status": "Forwarded",
+      "category": "Specialty Insurance",
+      "priority": "Medium",
+      "nameserver": "ns29.domaincontrol.com",
+      "development_notes": "Insurance for coatings contractors and businesses"
+    },
+    {
+      "domain": "virtualinsuranceagent.io",
+      "forwarding": "https://virtualinsuranceagent.io",
+      "status": "Forwarded",
+      "category": "Educational/Informational",
+      "priority": "Medium",
+      "nameserver": "ns41.domaincontrol.com",
+      "development_notes": "Virtual insurance agent services and tools"
+    },
+    {
+      "domain": "wakeboatinsurance.com",
+      "forwarding": "https://wakeboatinsurance.com",
+      "status": "Forwarded",
+      "category": "Specialty Insurance",
+      "priority": "Medium",
+      "nameserver": "ns47.domaincontrol.com",
+      "development_notes": "Insurance for wake boats and related vessels"
+    },
+    {
+      "domain": "glamisinsurance.com",
+      "forwarding": "https://glamisinsurance.com",
+      "status": "Forwarded",
+      "category": "Regional/Location-based",
+      "priority": "Medium",
+      "nameserver": "ns7.domaincontrol.com",
+      "development_notes": "Glamis, California focused insurance services"
+    },
+    {
+      "domain": "roofinginsurance.com",
+      "forwarding": "https://roofinginsurance.com",
+      "status": "Forwarded",
+      "category": "Contractor Insurance",
+      "priority": "High",
+      "nameserver": "ns13.domaincontrol.com",
+      "development_notes": "Insurance for roofing contractors"
+    }
+  ]
+}
