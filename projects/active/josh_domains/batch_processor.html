@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Batch Processor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <style>
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #3498db;
+            width: 30px;
+            height: 30px;
+            animation: spin 2s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <h1 class="text-3xl font-bold mb-2 text-center">Domain Batch Processor</h1>
+        <p class="text-center mb-8 text-gray-600">Tool to process domains in batches and update data files</p>
+
+        <!-- Input Methods -->
+        <div class="mb-8">
+            <div class="bg-white p-6 rounded shadow">
+                <h2 class="text-xl font-semibold mb-4">Input Method</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-medium mb-2">Option 1: Paste Domains</h3>
+                        <p class="text-sm text-gray-600 mb-3">Enter domains one per line</p>
+                        <textarea id="domain-list-input" class="w-full h-40 p-2 border rounded" placeholder="example1.com
+example2.com
+example3.com"></textarea>
+                    </div>
+                    <div>
+                        <h3 class="font-medium mb-2">Option 2: Upload CSV</h3>
+                        <p class="text-sm text-gray-600 mb-3">Upload a CSV file with domain data</p>
+                        <input type="file" id="csv-upload" class="mb-4" accept=".csv">
+                        <div>
+                            <button id="upload-btn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 w-full">
+                                Upload CSV File
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 text-center">
+                    <button id="process-btn" class="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                        Process Domains
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Processing Configuration -->
+        <div class="mb-8">
+            <div class="bg-white p-6 rounded shadow">
+                <h2 class="text-xl font-semibold mb-4">Default Settings</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Default Category</label>
+                        <select id="default-category" class="w-full p-2 border rounded">
+                            <option value="Uncategorized">Uncategorized</option>
+                            <option value="Contractor Insurance">Contractor Insurance</option>
+                            <option value="Specialty Insurance">Specialty Insurance</option>
+                            <option value="Regional/Location-based">Regional/Location-based</option>
+                            <option value="Spanish Language">Spanish Language</option>
+                            <option value="Educational/Informational">Educational/Informational</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Default Priority</label>
+                        <select id="default-priority" class="w-full p-2 border rounded">
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Default Status</label>
+                        <select id="default-status" class="w-full p-2 border rounded">
+                            <option value="Not Active">Not Active</option>
+                            <option value="Forwarded">Forwarded</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Default Development Notes</label>
+                    <input type="text" id="default-notes" class="w-full p-2 border rounded" placeholder="Generic notes about domain purpose...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Domain Editor -->
+        <div id="editor-container" class="mb-8 hidden">
+            <div class="bg-white p-6 rounded shadow">
+                <h2 class="text-xl font-semibold mb-4">Domain Editor</h2>
+                <p class="text-sm text-gray-600 mb-4">
+                    Editing <span id="current-domain-count">0</span> of <span id="total-domain-count">0</span> domains. 
+                    <span id="completed-count">0</span> domains completed.
+                </p>
+
+                <div id="domain-form">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Domain</label>
+                        <input type="text" id="domain-input" class="w-full p-2 border rounded" readonly>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                            <select id="status-input" class="w-full p-2 border rounded">
+                                <option value="Not Active">Not Active</option>
+                                <option value="Forwarded">Forwarded</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                            <select id="category-input" class="w-full p-2 border rounded">
+                                <option value="Uncategorized">Uncategorized</option>
+                                <option value="Contractor Insurance">Contractor Insurance</option>
+                                <option value="Specialty Insurance">Specialty Insurance</option>
+                                <option value="Regional/Location-based">Regional/Location-based</option>
+                                <option value="Spanish Language">Spanish Language</option>
+                                <option value="Educational/Informational">Educational/Informational</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                            <select id="priority-input" class="w-full p-2 border rounded">
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Forwarding URL</label>
+                            <input type="text" id="forwarding-input" class="w-full p-2 border rounded" placeholder="https://example.com (leave empty if not forwarded)">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nameserver</label>
+                            <input type="text" id="nameserver-input" class="w-full p-2 border rounded" placeholder="ns1.wpdns.host">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Development Notes</label>
+                        <textarea id="notes-input" class="w-full p-2 border rounded h-20" placeholder="Notes about domain purpose, intended content, etc."></textarea>
+                    </div>
+                    <div class="flex justify-between">
+                        <button id="previous-btn" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
+                            Previous Domain
+                        </button>
+                        <div>
+                            <button id="skip-btn" class="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 mr-2">
+                                Skip Domain
+                            </button>
+                            <button id="next-btn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                Save & Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-container" class="mb-8 hidden">
+            <div class="bg-white p-6 rounded shadow">
+                <h2 class="text-xl font-semibold mb-4">Processing Results</h2>
+                <div id="processing-stats" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div class="p-4 bg-gray-100 rounded">
+                        <div class="text-sm text-gray-600">Total Processed</div>
+                        <div id="total-processed" class="text-2xl font-bold">0</div>
+                    </div>
+                    <div class="p-4 bg-gray-100 rounded">
+                        <div class="text-sm text-gray-600">Completed</div>
+                        <div id="total-completed" class="text-2xl font-bold">0</div>
+                    </div>
+                    <div class="p-4 bg-gray-100 rounded">
+                        <div class="text-sm text-gray-600">Skipped</div>
+                        <div id="total-skipped" class="text-2xl font-bold">0</div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <h3 class="font-medium mb-2">Export Options</h3>
+                    <div class="flex space-x-4">
+                        <button id="export-json-btn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                            Export to JSON
+                        </button>
+                        <button id="export-csv-btn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                            Export to CSV
+                        </button>
+                        <button id="export-md-btn" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">
+                            Export to Markdown
+                        </button>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-medium mb-2">Processed Domains</h3>
+                    <div class="max-h-60 overflow-y-auto border rounded p-2">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="py-2 px-3 text-left">Domain</th>
+                                    <th class="py-2 px-3 text-left">Status</th>
+                                    <th class="py-2 px-3 text-left">Category</th>
+                                    <th class="py-2 px-3 text-left">Priority</th>
+                                </tr>
+                            </thead>
+                            <tbody id="results-table">
+                                <!-- Results will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Domain data storage
+        const domainData = {
+            toProcess: [],
+            processed: [],
+            skipped: [],
+            currentIndex: -1
+        };
+
+        // DOM Elements
+        const domainListInput = document.getElementById('domain-list-input');
+        const csvUpload = document.getElementById('csv-upload');
+        const uploadBtn = document.getElementById('upload-btn');
+        const processBtn = document.getElementById('process-btn');
+        const editorContainer = document.getElementById('editor-container');
+        const resultsContainer = document.getElementById('results-container');
+        
+        // Domain editor elements
+        const currentDomainCount = document.getElementById('current-domain-count');
+        const totalDomainCount = document.getElementById('total-domain-count');
+        const completedCount = document.getElementById('completed-count');
+        const domainInput = document.getElementById('domain-input');
+        const statusInput = document.getElementById('status-input');
+        const categoryInput = document.getElementById('category-input');
+        const priorityInput = document.getElementById('priority-input');
+        const forwardingInput = document.getElementById('forwarding-input');
+        const nameserverInput = document.getElementById('nameserver-input');
+        const notesInput = document.getElementById('notes-input');
+        const previousBtn = document.getElementById('previous-btn');
+        const skipBtn = document.getElementById('skip-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        // Default settings elements
+        const defaultCategory = document.getElementById('default-category');
+        const defaultPriority = document.getElementById('default-priority');
+        const defaultStatus = document.getElementById('default-status');
+        const defaultNotes = document.getElementById('default-notes');
+        
+        // Results elements
+        const totalProcessed = document.getElementById('total-processed');
+        const totalCompleted = document.getElementById('total-completed');
+        const totalSkipped = document.getElementById('total-skipped');
+        const resultsTable = document.getElementById('results-table');
+        const exportJsonBtn = document.getElementById('export-json-btn');
+        const exportCsvBtn = document.getElementById('export-csv-btn');
+        const exportMdBtn = document.getElementById('export-md-btn');
+
+        // Event Listeners
+        processBtn.addEventListener('click', startProcessing);
+        uploadBtn.addEventListener('click', () => csvUpload.click());
+        csvUpload.addEventListener('change', handleCSVUpload);
+        previousBtn.addEventListener('click', goToPreviousDomain);
+        skipBtn.addEventListener('click', skipDomain);
+        nextBtn.addEventListener('click', saveAndGoToNextDomain);
+        exportJsonBtn.addEventListener('click', exportToJSON);
+        exportCsvBtn.addEventListener('click', exportToCSV);
+        exportMdBtn.addEventListener('click', exportToMarkdown);
+        
+        // Status changes the forwarding field
+        statusInput.addEventListener('change', function() {
+            if (this.value === 'Forwarded') {
+                forwardingInput.setAttribute('required', 'required');
+                forwardingInput.placeholder = 'https://example.com (required for forwarded domains)';
+            } else {
+                forwardingInput.removeAttribute('required');
+                forwardingInput.placeholder = 'https://example.com (leave empty if not forwarded)';
+                
+                // If switching from Forwarded to Not Active, clear the forwarding field
+                if (forwardingInput.value && forwardingInput.value !== 'Add Forwarding' && forwardingInput.value !== '-') {
+                    forwardingInput.value = '';
+                }
+            }
+        });
+
+        // Function to start processing domains
+        function startProcessing() {
+            // Get domains from input
+            const domains = domainListInput.value.trim().split('\n').filter(domain => domain.trim() !== '');
+            
+            if (domains.length === 0) {
+                alert('Please enter at least one domain to process');
+                return;
+            }
+            
+            // Reset domain data
+            domainData.toProcess = domains.map(domain => ({
+                domain: domain.trim(),
+                status: defaultStatus.value,
+                category: defaultCategory.value,
+                priority: defaultPriority.value,
+                forwarding: defaultStatus.value === 'Forwarded' ? '' : (defaultStatus.value === 'Not Active' ? '-' : ''),
+                nameserver: 'ns1.wpdns.host', // Default nameserver
+                development_notes: defaultNotes.value
+            }));
+            
+            domainData.processed = [];
+            domainData.skipped = [];
+            domainData.currentIndex = 0;
+            
+            // Update UI
+            totalDomainCount.textContent = domains.length;
+            currentDomainCount.textContent = '1';
+            completedCount.textContent = '0';
+            
+            // Show editor, hide results
+            editorContainer.classList.remove('hidden');
+            resultsContainer.classList.add('hidden');
+            
+            // Load first domain
+            loadCurrentDomain();
+        }
+
+        // Function to handle CSV upload
+        function handleCSVUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                
+                Papa.parse(content, {
+                    header: true,
+                    complete: function(results) {
+                        const domains = results.data.filter(item => item.Domain || item.domain);
+                        
+                        if (domains.length === 0) {
+                            alert('No domains found in the CSV file');
+                            return;
+                        }
+                        
+                        // Normalize field names
+                        domainData.toProcess = domains.map(item => ({
+                            domain: (item.Domain || item.domain || '').trim(),
+                            status: item.Status || item.status || defaultStatus.value,
+                            category: item.Category || item.category || defaultCategory.value,
+                            priority: item.Priority || item.priority || defaultPriority.value,
+                            forwarding: item.Forwarding || item.forwarding || '',
+                            nameserver: item.Nameserver || item.nameserver || 'ns1.wpdns.host',
+                            development_notes: item.Development_Notes || item.development_notes || item.Notes || item.notes || defaultNotes.value
+                        })).filter(item => item.domain);
+                        
+                        domainData.processed = [];
+                        domainData.skipped = [];
+                        domainData.currentIndex = 0;
+                        
+                        // Update UI
+                        totalDomainCount.textContent = domainData.toProcess.length;
+                        currentDomainCount.textContent = '1';
+                        completedCount.textContent = '0';
+                        
+                        // Show editor, hide results
+                        editorContainer.classList.remove('hidden');
+                        resultsContainer.classList.add('hidden');
+                        
+                        // Load first domain
+                        loadCurrentDomain();
+                    }
+                });
+            };
+            reader.readAsText(file);
+        }
+
+        // Function to load current domain into editor
+        function loadCurrentDomain() {
+            if (domainData.currentIndex < 0 || domainData.currentIndex >= domainData.toProcess.length) {
+                showResults();
+                return;
+            }
+            
+            const domain = domainData.toProcess[domainData.currentIndex];
+            
+            // Update UI
+            domainInput.value = domain.domain;
+            statusInput.value = domain.status;
+            categoryInput.value = domain.category;
+            priorityInput.value = domain.priority;
+            forwardingInput.value = domain.forwarding || '';
+            nameserverInput.value = domain.nameserver || 'ns1.wpdns.host';
+            notesInput.value = domain.development_notes || '';
+            
+            // Update counters
+            currentDomainCount.textContent = domainData.currentIndex + 1;
+            
+            // Trigger status change event to update forwarding field requirements
+            const event = new Event('change');
+            statusInput.dispatchEvent(event);
+            
+            // Disable previous button if on first domain
+            previousBtn.disabled = domainData.currentIndex === 0;
+        }
+
+        // Function to go to previous domain
+        function goToPreviousDomain() {
+            if (domainData.currentIndex > 0) {
+                domainData.currentIndex--;
+                loadCurrentDomain();
+            }
+        }
+
+        // Function to skip current domain
+        function skipDomain() {
+            const domain = domainData.toProcess[domainData.currentIndex];
+            domainData.skipped.push(domain);
+            
+            domainData.currentIndex++;
+            
+            if (domainData.currentIndex >= domainData.toProcess.length) {
+                showResults();
+            } else {
+                loadCurrentDomain();
+            }
+        }
+
+        // Function to save current domain and go to next
+        function saveAndGoToNextDomain() {
+            const domain = {
+                domain: domainInput.value,
+                status: statusInput.value,
+                category: categoryInput.value,
+                priority: priorityInput.value,
+                forwarding: forwardingInput.value || (statusInput.value === 'Not Active' ? '-' : ''),
+                nameserver: nameserverInput.value || 'ns1.wpdns.host',
+                development_notes: notesInput.value
+            };
+            
+            // Validate forwarding URL for forwarded domains
+            if (domain.status === 'Forwarded' && (!domain.forwarding || domain.forwarding === '-' || domain.forwarding === 'Add Forwarding')) {
+                alert('Please provide a forwarding URL for forwarded domains');
+                return;
+            }
+            
+            domainData.processed.push(domain);
+            completedCount.textContent = domainData.processed.length;
+            
+            domainData.currentIndex++;
+            
+            if (domainData.currentIndex >= domainData.toProcess.length) {
+                showResults();
+            } else {
+                loadCurrentDomain();
+            }
+        }
+
+        // Function to show results
+        function showResults() {
+            // Hide editor, show results
+            editorContainer.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+            
+            // Update stats
+            totalProcessed.textContent = domainData.processed.length + domainData.skipped.length;
+            totalCompleted.textContent = domainData.processed.length;
+            totalSkipped.textContent = domainData.skipped.length;
+            
+            // Clear results table
+            resultsTable.innerHTML = '';
+            
+            // Add rows to results table
+            domainData.processed.forEach(domain => {
+                const row = document.createElement('tr');
+                
+                const domainCell = document.createElement('td');
+                domainCell.className = 'py-2 px-3';
+                domainCell.textContent = domain.domain;
+                row.appendChild(domainCell);
+                
+                const statusCell = document.createElement('td');
+                statusCell.className = 'py-2 px-3';
+                statusCell.textContent = domain.status;
+                row.appendChild(statusCell);
+                
+                const categoryCell = document.createElement('td');
+                categoryCell.className = 'py-2 px-3';
+                categoryCell.textContent = domain.category;
+                row.appendChild(categoryCell);
+                
+                const priorityCell = document.createElement('td');
+                priorityCell.className = 'py-2 px-3';
+                priorityCell.textContent = domain.priority;
+                row.appendChild(priorityCell);
+                
+                resultsTable.appendChild(row);
+            });
+        }
+
+        // Function to export to JSON
+        function exportToJSON() {
+            if (domainData.processed.length === 0) {
+                alert('No domains to export');
+                return;
+            }
+            
+            const jsonData = {
+                meta: {
+                    total_domains: domainData.processed.length,
+                    active_domains: domainData.processed.filter(d => d.status === 'Forwarded').length,
+                    not_active_domains: domainData.processed.filter(d => d.status === 'Not Active').length,
+                    last_updated: new Date().toISOString(),
+                    description: 'Domain portfolio for Josh/Contractors Choice Agency'
+                },
+                domains: domainData.processed
+            };
+            
+            const jsonString = JSON.stringify(jsonData, null, 2);
+            downloadFile(jsonString, 'processed_domains.json', 'application/json');
+        }
+
+        // Function to export to CSV
+        function exportToCSV() {
+            if (domainData.processed.length === 0) {
+                alert('No domains to export');
+                return;
+            }
+            
+            const headers = 'Domain,Forwarding,Status,Category,Priority,Nameserver,Development_Notes\n';
+            
+            let csvContent = headers;
+            
+            domainData.processed.forEach(domain => {
+                const row = [
+                    domain.domain,
+                    domain.forwarding || '',
+                    domain.status,
+                    domain.category,
+                    domain.priority,
+                    domain.nameserver,
+                    (domain.development_notes || '').replace(/,/g, ';') // Replace commas in notes
+                ];
+                
+                csvContent += row.join(',') + '\n';
+            });
+            
+            downloadFile(csvContent, 'processed_domains.csv', 'text/csv');
+        }
+
+        // Function to export to Markdown
+        function exportToMarkdown() {
+            if (domainData.processed.length === 0) {
+                alert('No domains to export');
+                return;
+            }
+            
+            const now = new Date();
+            const dateStr = now.toISOString().split('T')[0];
+            
+            let mdContent = `# Processed Domains - ${dateStr}\n\n`;
+            
+            mdContent += `## Statistics\n\n`;
+            mdContent += `- Total Domains: ${domainData.processed.length}\n`;
+            mdContent += `- Active Domains: ${domainData.processed.filter(d => d.status === 'Forwarded').length}\n`;
+            mdContent += `- Not Active Domains: ${domainData.processed.filter(d => d.status === 'Not Active').length}\n\n`;
+            
+            mdContent += `## Domain List\n\n`;
+            mdContent += `| Domain | Status | Category | Priority | Forwarding | Nameserver |\n`;
+            mdContent += `|--------|--------|----------|----------|------------|------------|\n`;
+            
+            domainData.processed.forEach(domain => {
+                mdContent += `| ${domain.domain} | ${domain.status} | ${domain.category} | ${domain.priority} | ${domain.forwarding || ''} | ${domain.nameserver} |\n`;
+            });
+            
+            mdContent += `\n## Development Notes\n\n`;
+            
+            domainData.processed.forEach(domain => {
+                if (domain.development_notes && domain.development_notes.trim() !== '') {
+                    mdContent += `### ${domain.domain}\n${domain.development_notes}\n\n`;
+                }
+            });
+            
+            downloadFile(mdContent, 'processed_domains.md', 'text/markdown');
+        }
+
+        // Helper function to download a file
+        function downloadFile(content, fileName, contentType) {
+            const a = document.createElement('a');
+            const file = new Blob([content], { type: contentType });
+            a.href = URL.createObjectURL(file);
+            a.download = fileName;
+            a.click();
+        }
+    </script>
+</body>
+</html>
