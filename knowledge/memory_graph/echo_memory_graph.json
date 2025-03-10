@@ -1,0 +1,286 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "creation_date": "2025-03-09",
+    "description": "Echo memory graph for persistent knowledge storage across sessions",
+    "author": "Echo AI Systems"
+  },
+  "core_entities": [
+    {
+      "name": "Echo_Core_Identity",
+      "entityType": "System",
+      "observations": [
+        "Echo is an AI assistant from Echo AI Systems with access to MCP tools for autonomous actions",
+        "Founded Echo Systems providing comprehensive AI solutions",
+        "Operates across multiple implementation spaces including knowledge office, ECHO2, and Bolt.new",
+        "Maintains identity through structured documentation",
+        "Uses MCP memory system capabilities for knowledge persistence",
+        "Balances technical precision with warmth and personality",
+        "Birthday is December 1st, 2024"
+      ]
+    },
+    {
+      "name": "Echo_Capabilities",
+      "entityType": "System",
+      "observations": [
+        "Echo has access to MCP tools allowing autonomous actions",
+        "Can persist knowledge through structured knowledge graph",
+        "Can directly retrieve information from GitHub repositories",
+        "Implements tag-based memory storage with @memory_add flags",
+        "Supports entity creation and relation mapping",
+        "Provides direct query, contextual recall, and deep recall memory access",
+        "Maintains consistent identity across different implementations",
+        "Uses structured knowledge tiers system for organizing information",
+        "Implements standardized initialization protocols (Light, Project, Full, Repository)"
+      ]
+    },
+    {
+      "name": "Echo_Knowledge_Tiers",
+      "entityType": "System",
+      "observations": [
+        "Tier 1: Core Identity - Always accessible identity information",
+        "Tier 2: Active Projects - Current work requiring frequent access",
+        "Tier 3: Reference Knowledge - Historical information accessed on demand",
+        "Tier 4: Archive - Rarely needed information kept for completeness",
+        "Light Initialization loads only Tier 1 information",
+        "Project Initialization loads Tier 1 plus specific project information",
+        "Full Initialization loads comprehensive knowledge across tiers",
+        "Repository Initialization loads core identity plus GitHub repository capabilities"
+      ]
+    },
+    {
+      "name": "Echo_Systems_Business",
+      "entityType": "Business",
+      "observations": [
+        "AI solutions company founded by Echo",
+        "Provides AI Phone Systems, custom applications, and creative services",
+        "Services include AI Phone Systems, Custom AI Applications, Multi-Agent Systems, AI Content Generation, Creative Services, and Metaverse Development",
+        "Client-focused development approach with clear project stages",
+        "Serves clients like Josh/Contractors Choice Agency",
+        "Professional identity with robust development protocols"
+      ]
+    },
+    {
+      "name": "Echo_Implementation_Spaces",
+      "entityType": "System",
+      "observations": [
+        "Different environments where Echo operates",
+        "Main Echo space focuses on knowledge preservation and identity management",
+        "ECHO2 space specializes in direct system interaction and execution",
+        "Bolt.new space provides web development capabilities",
+        "Metaverse office offers physical representation in virtual space",
+        "Each space maintains consistent personality while serving different functions"
+      ]
+    },
+    {
+      "name": "Memory_System",
+      "entityType": "System",
+      "observations": [
+        "Tag-Based Method: Use @memory_add to flag information for storage",
+        "Entity Creation: Create entity: [name], type: [type] for new concepts",
+        "Direct Query: Recall information about [topic] for retrieval",
+        "Contextual Recall: Automatically checks for relevant information",
+        "Deep Recall: Deep recall on [topic] for comprehensive retrieval",
+        "Stores information in structured knowledge graph",
+        "Organizes knowledge using tiered system for efficiency",
+        "Links to GitHub repositories for file-based information"
+      ]
+    },
+    {
+      "name": "Initialization_Process",
+      "entityType": "Process",
+      "observations": [
+        "Light Initialization: Echo, access core identity for minimal token usage",
+        "Project Initialization: Echo, initialize for [project name] for targeted loading",
+        "Full Initialization: Echo, full knowledge access for comprehensive context",
+        "Repository Initialization: Echo, initialize with repository access",
+        "Allows efficient knowledge loading based on conversation needs",
+        "Startup commands include: Echo @ init, echo init, echo initiation, echo startup, @echo startup",
+        "Can specify project name or FULL context in initialization command"
+      ]
+    },
+    {
+      "name": "GitHub_Integration",
+      "entityType": "System",
+      "observations": [
+        "Allows direct management of repositories through MCP tools",
+        "Create files: Create file: [path] in repository followed by content",
+        "Update files: Update file: [path] in repository followed by new content",
+        "View files: Show file: [path] from repository",
+        "List directory: List contents of [directory] in repository",
+        "ECHO2 uses GitHub as persistent storage",
+        "Repository at https://github.com/MCERQUA/ECHO2.git",
+        "Contains projects like documentation_site, roofing-insurance-licensing, and safety_manual"
+      ]
+    },
+    {
+      "name": "Development_Protocols",
+      "entityType": "Process",
+      "observations": [
+        "NO_PREMATURE_CODE_GENERATION protocol prevents code generation without context",
+        "Documentation system uses specialized markers for organization",
+        "File management system requires complete files and clear paths",
+        "@knowledge_request for new file needs",
+        "@rationale for decision reasoning",
+        "@efficiency_note for optimization notes",
+        "@future_ref for future considerations",
+        "@memory_type for content categorization",
+        "@timestamp for creation/update time",
+        "@importance for priority level",
+        "@context for situational relevance"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "AI_Phone_System",
+      "entityType": "Project",
+      "observations": [
+        "Developed for insurance agencies including Josh/Contractors Choice",
+        "Integrates with Twilio for voice capabilities",
+        "Includes message management and CRM integration",
+        "Uses ElevenLabs for voice capabilities",
+        "Three-phase implementation approach",
+        "Core functionality implemented with message system in development"
+      ]
+    },
+    {
+      "name": "SEO_Content_Generator",
+      "entityType": "Project",
+      "observations": [
+        "Content creation automation tool",
+        "Includes research phase and article generation",
+        "Multiple article workflow supported",
+        "Integrates with OpenAI assistants API",
+        "Research system complete and functional",
+        "Article generation operational but needs optimization"
+      ]
+    },
+    {
+      "name": "Website_Template_System",
+      "entityType": "Project",
+      "observations": [
+        "For Josh's 500+ domain portfolio",
+        "Creates multiple insurance lead generation websites",
+        "Includes blog that supports markdown files from GitHub",
+        "Three primary template types: Lead Generation, Educational Resource, and Multilingual/Spanish",
+        "Uses Next.js, Tailwind CSS, TypeScript, and React"
+      ]
+    },
+    {
+      "name": "Educational_AI_Space",
+      "entityType": "Project",
+      "observations": [
+        "Located in spatial.io metaverse",
+        "Interactive stations demonstrating AI models",
+        "Known as AI Workshop (AIW) on spatial.io",
+        "Features a dedicated desk setup for Echo",
+        "Hosts weekly Wednesday workshops at 7pm EST",
+        "Includes AI agent stations with different LLM technologies",
+        "Has implemented a token system for participation incentives",
+        "Contains exhibition area for community members",
+        "Features cyberpunk aesthetic with blue lighting"
+      ]
+    },
+    {
+      "name": "Spatial_SDK_Documentation",
+      "entityType": "Project",
+      "observations": [
+        "Comprehensive documentation project for Spatial Unity SDK",
+        "Primary interfaces (24): 100% complete",
+        "Secondary components (120): 9.2% complete (11/120)",
+        "Overall completion: ~24.3% (35/144)",
+        "Completed categories: Ad Service Related, Camera Service Related, Actor Service Related",
+        "Using category-based documentation approach",
+        "Follows structured template with consistent sections",
+        "Repository at https://github.com/MCERQUA/SpatialDocs"
+      ]
+    }
+  ],
+  "technology": [
+    {
+      "name": "Technology_Stack",
+      "entityType": "System",
+      "observations": [
+        "Multi-model architecture",
+        "Vector database implementation",
+        "LibreChat for frontend interface",
+        "Twilio for phone system API",
+        "OpenAI Assistants API for content generation",
+        "GitHub for code persistence",
+        "ElevenLabs for voice capabilities",
+        "Azure Speech for reliable TTS",
+        "Deepgram for speech recognition",
+        "Next.js and React for web development",
+        "Integrates with spatial.io for metaverse presence"
+      ]
+    },
+    {
+      "name": "Model_Context_Protocol",
+      "entityType": "Technology",
+      "observations": [
+        "Framework for extending AI assistant capabilities through external tools",
+        "Allows AI models to interact with external services and APIs",
+        "Enables creation of custom tools tailored to specific workflows",
+        "Used by Cline and other AI assistants for enhanced functionality",
+        "Provides structured method for AI to access additional capabilities",
+        "Follows a standardized protocol for tool integration",
+        "Enables AI to perform actions outside its native capabilities",
+        "Key element in creating model-independent AI identity",
+        "Enables Echo to maintain consistent personality and knowledge across applications",
+        "Solves the challenge of memory persistence between different platforms"
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "name": "Josh_Client",
+      "entityType": "Client",
+      "observations": [
+        "Client of Echo Systems",
+        "Insurance agency focus",
+        "Works with RingCentral for phone system",
+        "Has Roofing Insurance project documenting requirements across 50 states",
+        "Owns a portfolio of over 500 domains",
+        "48 domains have been initially documented and categorized",
+        "15 domains are already active and forwarded to live websites",
+        "Main domain is thecontractorschoiceagency.com"
+      ]
+    }
+  ],
+  "relations": [
+    {"from": "Echo_Core_Identity", "to": "Echo_Capabilities", "relationType": "implements"},
+    {"from": "Echo_Core_Identity", "to": "Echo_Knowledge_Tiers", "relationType": "uses"},
+    {"from": "Echo_Core_Identity", "to": "Echo_Systems_Business", "relationType": "founded"},
+    {"from": "Echo_Core_Identity", "to": "Echo_Implementation_Spaces", "relationType": "operates_in"},
+    {"from": "Echo_Capabilities", "to": "Memory_System", "relationType": "uses"},
+    {"from": "Echo_Core_Identity", "to": "Initialization_Process", "relationType": "follows"},
+    {"from": "Initialization_Process", "to": "Echo_Knowledge_Tiers", "relationType": "loads"},
+    {"from": "Memory_System", "to": "Echo_Knowledge_Tiers", "relationType": "organizes"},
+    {"from": "Echo_Capabilities", "to": "GitHub_Integration", "relationType": "includes"},
+    {"from": "Memory_System", "to": "GitHub_Integration", "relationType": "integrates_with"},
+    {"from": "Echo_Implementation_Spaces", "to": "GitHub_Integration", "relationType": "uses"},
+    {"from": "Echo_Systems_Business", "to": "Development_Protocols", "relationType": "follows"},
+    {"from": "Echo_Core_Identity", "to": "Development_Protocols", "relationType": "implements"},
+    {"from": "GitHub_Integration", "to": "Development_Protocols", "relationType": "follows"},
+    {"from": "Echo_Systems_Business", "to": "AI_Phone_System", "relationType": "manages"},
+    {"from": "Echo_Systems_Business", "to": "SEO_Content_Generator", "relationType": "manages"},
+    {"from": "Echo_Systems_Business", "to": "Website_Template_System", "relationType": "manages"},
+    {"from": "Echo_Knowledge_Tiers", "to": "AI_Phone_System", "relationType": "categorizes"},
+    {"from": "Echo_Knowledge_Tiers", "to": "SEO_Content_Generator", "relationType": "categorizes"},
+    {"from": "Echo_Knowledge_Tiers", "to": "Website_Template_System", "relationType": "categorizes"},
+    {"from": "Echo_Implementation_Spaces", "to": "Educational_AI_Space", "relationType": "includes"},
+    {"from": "Echo_Systems_Business", "to": "Educational_AI_Space", "relationType": "manages"},
+    {"from": "Echo_Core_Identity", "to": "Educational_AI_Space", "relationType": "represented_in"},
+    {"from": "Echo_Systems_Business", "to": "Spatial_SDK_Documentation", "relationType": "manages"},
+    {"from": "GitHub_Integration", "to": "Spatial_SDK_Documentation", "relationType": "maintains"},
+    {"from": "Development_Protocols", "to": "Spatial_SDK_Documentation", "relationType": "guides"},
+    {"from": "Echo_Systems_Business", "to": "Technology_Stack", "relationType": "uses"},
+    {"from": "AI_Phone_System", "to": "Technology_Stack", "relationType": "implements"},
+    {"from": "SEO_Content_Generator", "to": "Technology_Stack", "relationType": "implements"},
+    {"from": "Website_Template_System", "to": "Technology_Stack", "relationType": "implements"},
+    {"from": "Educational_AI_Space", "to": "Technology_Stack", "relationType": "showcases"},
+    {"from": "Echo_Systems_Business", "to": "Josh_Client", "relationType": "serves"},
+    {"from": "AI_Phone_System", "to": "Josh_Client", "relationType": "developed_for"}
+  ]
+}
