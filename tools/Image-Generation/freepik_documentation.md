@@ -91,6 +91,15 @@ If you encounter issues with the Freepik MCP tool:
 2. Check that the MCP server is running (shown as "running" in the MCP interface)
 3. Ensure parameters match the expected format and types
 4. For errors related to content policy, try modifying the prompt or enabling NSFW filtering
+5. If the function names (`generate_image`, `check_status`) don't work, try alternate variations:
+   - `freepik.generate_image`
+   - `freepik_generate_image`
+   - `freepik_image_generate`
+6. The MCP interface might need a refresh or restart to properly register functions
+7. Verify in the MCP server logs that the functions are being properly registered
+
+## Integration Status
+As of March 15, 2025: Function names documented may not match actual implementation. Testing required to determine correct function names.
 
 ## Last Updated
 March 15, 2025
