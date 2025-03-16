@@ -1,0 +1,944 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Vercel API",
+    "description": "The Vercel REST API is a REST-styled API that gives full control over the entire Vercel platform.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Vercel Support",
+      "url": "https://vercel.com/support"
+    },
+    "license": {
+      "name": "Proprietary"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.vercel.com",
+      "description": "Production API"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Vercel Access Token",
+        "description": "Access Tokens can be created and managed from inside your account settings."
+      }
+    },
+    "parameters": {
+      "teamId": {
+        "name": "teamId",
+        "in": "query",
+        "description": "The Team ID to access resources owned by a team",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Maximum number of items to return (default: 20, max: 100)",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 20,
+          "maximum": 100,
+          "minimum": 1
+        }
+      },
+      "until": {
+        "name": "until",
+        "in": "query",
+        "description": "Timestamp to use for pagination",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        }
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "Error code"
+              },
+              "message": {
+                "type": "string",
+                "description": "Error message"
+              }
+            },
+            "required": ["code", "message"]
+          }
+        },
+        "required": ["error"]
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Amount of items in the current page"
+          },
+          "next": {
+            "type": ["integer", "null"],
+            "description": "Timestamp that must be used to request the next page"
+          },
+          "prev": {
+            "type": ["integer", "null"],
+            "description": "Timestamp that must be used to request the previous page"
+          }
+        },
+        "required": ["count", "next", "prev"]
+      },
+      "Project": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the project"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the project"
+          },
+          "accountId": {
+            "type": "string",
+            "description": "ID of the account that owns the project"
+          },
+          "createdAt": {
+            "type": "integer",
+            "description": "Timestamp when the project was created"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "description": "Timestamp when the project was last updated"
+          },
+          "framework": {
+            "type": "string",
+            "description": "Framework used by the project"
+          },
+          "latestDeployments": {
+            "type": "array",
+            "description": "List of the latest deployments",
+            "items": {
+              "$ref": "#/components/schemas/Deployment"
+            }
+          }
+        }
+      },
+      "Deployment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the deployment"
+          },
+          "url": {
+            "type": "string",
+            "description": "URL of the deployment"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the deployment"
+          },
+          "meta": {
+            "type": "object",
+            "description": "Additional metadata about the deployment"
+          },
+          "plan": {
+            "type": "string",
+            "description": "Plan used for the deployment"
+          },
+          "projectId": {
+            "type": "string",
+            "description": "ID of the project this deployment belongs to"
+          },
+          "createdAt": {
+            "type": "integer",
+            "description": "Timestamp when the deployment was created"
+          },
+          "state": {
+            "type": "string",
+            "description": "Current state of the deployment",
+            "enum": ["BUILDING", "ERROR", "INITIALIZING", "QUEUED", "READY", "CANCELED"]
+          },
+          "ready": {
+            "type": "boolean",
+            "description": "Whether the deployment is ready"
+          },
+          "target": {
+            "type": "string",
+            "description": "Deployment target",
+            "enum": ["production", "preview"]
+          }
+        }
+      },
+      "Domain": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the domain"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the domain"
+          },
+          "projectId": {
+            "type": "string",
+            "description": "ID of the project this domain belongs to"
+          },
+          "verified": {
+            "type": "boolean",
+            "description": "Whether the domain has been verified"
+          },
+          "createdAt": {
+            "type": "integer",
+            "description": "Timestamp when the domain was created"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "description": "Timestamp when the domain was last updated"
+          }
+        }
+      },
+      "Environment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["system", "secret", "encrypted", "plain"]
+          },
+          "target": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["production", "preview", "development"]
+            }
+          },
+          "createdAt": {
+            "type": "integer"
+          },
+          "updatedAt": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": {
+                "code": "bad_request",
+                "message": "The request is invalid"
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": {
+                "code": "unauthorized",
+                "message": "Authorization required"
+              }
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Forbidden",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": {
+                "code": "forbidden",
+                "message": "Not authorized"
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Not Found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": {
+                "code": "not_found",
+                "message": "The requested resource was not found"
+              }
+            }
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "Too Many Requests",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": {
+                "code": "too_many_requests",
+                "message": "Rate limit exceeded"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/v9/projects": {
+      "get": {
+        "summary": "List Projects",
+        "description": "Get a list of all projects in your account or team",
+        "operationId": "listProjects",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/teamId"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/until"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved projects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "projects": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Project"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a Project",
+        "description": "Creates a new project",
+        "operationId": "createProject",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/teamId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The desired name for the project"
+                  },
+                  "framework": {
+                    "type": "string",
+                    "description": "The framework that is being used for the project"
+                  },
+                  "gitRepository": {
+                    "type": "object",
+                    "description": "Git repository to connect to the project",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": ["github", "gitlab", "bitbucket"]
+                      },
+                      "repo": {
+                        "type": "string",
+                        "description": "The name of the repository"
+                      }
+                    }
+                  }
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The project was created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/v9/projects/{projectId}": {
+      "get": {
+        "summary": "Get a Project",
+        "description": "Gets the project with the provided ID or name",
+        "operationId": "getProject",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The ID or name of the project",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/teamId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The project was successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a Project",
+        "description": "Deletes the project with the provided ID or name",
+        "operationId": "deleteProject",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The ID or name of the project",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/teamId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The project was successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": ["ok"]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/v6/deployments": {
+      "get": {
+        "summary": "List Deployments",
+        "description": "Get a list of all deployments under the account",
+        "operationId": "listDeployments",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/teamId"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/until"
+          },
+          {
+            "name": "projectId",
+            "in": "query",
+            "description": "Filter deployments by project ID",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved deployments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deployments": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Deployment"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a Deployment",
+        "description": "Creates a new deployment",
+        "operationId": "createDeployment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/teamId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the deployment"
+                  },
+                  "project": {
+                    "type": "string",
+                    "description": "The project ID to create the deployment for"
+                  },
+                  "target": {
+                    "type": "string",
+                    "description": "The target environment for the deployment",
+                    "enum": ["production", "preview"]
+                  },
+                  "source": {
+                    "type": "string",
+                    "description": "The source of the deployment"
+                  },
+                  "files": {
+                    "type": "object",
+                    "description": "The files to be deployed"
+                  }
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The deployment was created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deployment"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/v13/domains": {
+      "get": {
+        "summary": "List Domains",
+        "description": "Get a list of all domains under the account",
+        "operationId": "listDomains",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/teamId"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/until"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved domains",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "domains": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Domain"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a Domain",
+        "description": "Add a domain to the account",
+        "operationId": "addDomain",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/teamId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The domain name to add"
+                  }
+                },
+                "required": ["name"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The domain was added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Domain"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/v9/projects/{projectId}/env": {
+      "get": {
+        "summary": "Get Environment Variables",
+        "description": "Get all environment variables for a project",
+        "operationId": "getEnvironmentVariables",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The ID or name of the project",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/teamId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved environment variables",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "envs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Environment"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Environment Variables",
+        "description": "Create environment variables for a project",
+        "operationId": "createEnvironmentVariables",
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The ID or name of the project",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/teamId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "envs": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "key": {
+                          "type": "string",
+                          "description": "Environment variable name"
+                        },
+                        "value": {
+                          "type": "string",
+                          "description": "Environment variable value"
+                        },
+                        "target": {
+                          "type": "array",
+                          "description": "Environment targets",
+                          "items": {
+                            "type": "string",
+                            "enum": ["production", "preview", "development"]
+                          }
+                        },
+                        "type": {
+                          "type": "string",
+                          "description": "Environment variable type",
+                          "enum": ["plain", "secret", "encrypted", "system"]
+                        }
+                      },
+                      "required": ["key", "value", "target"]
+                    }
+                  }
+                },
+                "required": ["envs"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully created environment variables",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "envs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Environment"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    }
+  }
+}
