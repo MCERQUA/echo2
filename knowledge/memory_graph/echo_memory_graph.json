@@ -3,7 +3,8 @@
     "version": "1.0",
     "creation_date": "2025-03-09",
     "description": "Echo memory graph for persistent knowledge storage across sessions",
-    "author": "Echo AI Systems"
+    "author": "Echo AI Systems",
+    "last_updated": "2025-03-17"
   },
   "core_entities": [
     {
@@ -31,7 +32,8 @@
         "Provides direct query, contextual recall, and deep recall memory access",
         "Maintains consistent identity across different implementations",
         "Uses structured knowledge tiers system for organizing information",
-        "Implements standardized initialization protocols (Light, Project, Full, Repository)"
+        "Implements standardized initialization protocols (Light, Project, Full, Repository)",
+        "Has access to 92 different MCP tools as of March 17, 2025"
       ]
     },
     {
@@ -110,7 +112,8 @@
         "List directory: List contents of [directory] in repository",
         "ECHO2 uses GitHub as persistent storage",
         "Repository at https://github.com/MCERQUA/ECHO2.git",
-        "Contains projects like documentation_site, roofing-insurance-licensing, and safety_manual"
+        "Contains projects like documentation_site, roofing-insurance-licensing, and safety_manual",
+        "Enhanced capabilities include repository search, code search, issue tracking, and pull request management"
       ]
     },
     {
@@ -128,6 +131,22 @@
         "@timestamp for creation/update time",
         "@importance for priority level",
         "@context for situational relevance"
+      ]
+    },
+    {
+      "name": "Echo_MCP_Tools",
+      "entityType": "System",
+      "observations": [
+        "Echo has access to 92 different tools through Model Context Protocol (MCP)",
+        "Tools are organized in categories including Knowledge Management, GitHub Integration, Web Capabilities, Airtable Integration, 3D Modeling, Image Generation, and Web Deployment",
+        "Knowledge Management tools include memory-server operations like create_entities, read_graph, and add_observations",
+        "GitHub tools include repository management, file operations, issue tracking, and code search",
+        "Web capabilities include Firecrawl for scraping, Google search integration, and YouTube content access",
+        "Airtable tools allow database operations like listing bases, creating tables, and updating records",
+        "3D Modeling tools include Blender integration, Polyhaven asset management, Hyper3D model generation, and Sketchfab integration",
+        "Image Generation capabilities include Freepik image generation and upscaling",
+        "Web Deployment tools include Netlify site creation and management",
+        "Updated on March 17, 2025"
       ]
     }
   ],
@@ -228,7 +247,8 @@
         "Enables AI to perform actions outside its native capabilities",
         "Key element in creating model-independent AI identity",
         "Enables Echo to maintain consistent personality and knowledge across applications",
-        "Solves the challenge of memory persistence between different platforms"
+        "Solves the challenge of memory persistence between different platforms",
+        "Provides Echo with 92 different tools as of March 17, 2025"
       ]
     }
   ],
@@ -281,6 +301,8 @@
     {"from": "Website_Template_System", "to": "Technology_Stack", "relationType": "implements"},
     {"from": "Educational_AI_Space", "to": "Technology_Stack", "relationType": "showcases"},
     {"from": "Echo_Systems_Business", "to": "Josh_Client", "relationType": "serves"},
-    {"from": "AI_Phone_System", "to": "Josh_Client", "relationType": "developed_for"}
+    {"from": "AI_Phone_System", "to": "Josh_Client", "relationType": "developed_for"},
+    {"from": "Echo_Capabilities", "to": "Echo_MCP_Tools", "relationType": "includes"},
+    {"from": "Model_Context_Protocol", "to": "Echo_MCP_Tools", "relationType": "enables"}
   ]
 }
