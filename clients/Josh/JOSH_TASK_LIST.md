@@ -3,19 +3,7 @@
 ## Active Projects
 
 ### OnPoint Insulation Website
-- [ ] Create Netlify deployment following best practices guide
-- [ ] Implement responsive onboarding website design
-- [ ] Set up reliable GitHub Actions workflow with hardcoded site ID
-- [ ] Create pre-built content in dist directory for redundancy
-- [ ] Implement the feedback form with Mailgun integration
-- [ ] Optimize all images for web performance
-- [ ] Add SEO-friendly metadata to all pages
-- [ ] Implement air sealing packages content section
-- [ ] Create eco-friendly practices section with authentic environmental commitment
-- [ ] Build energy efficiency ROI calculator tool
-- [ ] Set up building science educational content pages
-- [ ] Deploy Colorado-specific energy programs section
-- [ ] Set up site monitoring and analytics
+- [ ] Build website
 
 ### Domain Portfolio Management
 - [ ] Continue importing remaining domains into Airtable (505 remaining)
@@ -32,7 +20,7 @@
 - [ ] Set up SEO optimization for local search
 - [ ] Implement social media integration
 - [ ] Create staff profiles section
-- [ ] **Add nail pictures from Facebook chat to website gallery**
+- [ ] Add nail pictures from Facebook chat to website gallery
 
 ### MuscleCarInsurance.com
 - [ ] Create secondary logo featuring a Mustang
@@ -70,12 +58,8 @@
 ## Completed Tasks
 
 ### OnPoint Insulation
-- [x] Optimize all images and convert to WebP format (3/19/2025)
-- [x] Organize images into 13 specialized categories
-- [x] Rename images using SEO-friendly naming convention
-- [x] Reduce combined file sizes from 280MB to 20MB
-- [x] Develop comprehensive website plan
-- [x] Create sitemap proposal with eco-friendly and energy efficiency sections
+- [x] Rename existing pictures
+- [x] Setup domain nameservers
 
 ### HairPHD Salon Project
 - [x] Create nail polish color database with 68 unique colors
