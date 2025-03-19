@@ -1,35 +1,3 @@
-## Eco-Friendly Practices
-
-### Authentic Environmental Commitment
-
-OnPoint Insulation takes a realistic approach to environmental responsibility in an industry that has inherent environmental challenges:
-
-1. **Honest Approach to Sustainability**
-   - Acknowledges that spray foam installation isn't inherently eco-friendly
-   - Focuses on real, implementable practices to reduce environmental impact
-   - Emphasizes tangible actions rather than greenwashing
-   - Communicates the long-term environmental benefits of energy efficiency
-
-2. **Shore Power Utilization**
-   - Uses electrical connections at job sites whenever possible
-   - Reduces reliance on diesel generators (typically 40kW)
-   - Minimizes unnecessary fuel consumption and emissions
-   - Provides quieter, cleaner job sites for clients and neighbors
-   - Documents generator hours saved on applicable projects
-
-3. **Waste Reduction Strategies**
-   - Employs skilled technicians with "On-Point" precision application
-   - Reduces overspray and trim waste through careful measurement
-   - Uses reusable tarps instead of disposable plastic sheeting
-   - Implements careful planning to minimize material waste
-   - Proper disposal of unavoidable waste materials
-
-4. **Low-VOC Materials**
-   - Uses spray foam with lower volatile organic compound content
-   - Provides information about the specific products used
-   - Explains the health and environmental benefits of low-VOC products
-   - Compares VOC levels to industry standards
-
 ### Communication Strategy
 
 The website will clearly communicate OnPoint's approach to environmental responsibility:
@@ -537,6 +505,38 @@ The website will feature educational content explaining:
    - Sample report and interpretation guidance
 
 ### ROI Calculator Tool
+
+## Eco-Friendly Practices
+
+### Authentic Environmental Commitment
+
+OnPoint Insulation takes a realistic approach to environmental responsibility in an industry that has inherent environmental challenges:
+
+1. **Honest Approach to Sustainability**
+   - Acknowledges that spray foam installation isn't inherently eco-friendly
+   - Focuses on real, implementable practices to reduce environmental impact
+   - Emphasizes tangible actions rather than greenwashing
+   - Communicates the long-term environmental benefits of energy efficiency
+
+2. **Shore Power Utilization**
+   - Uses electrical connections at job sites whenever possible
+   - Reduces reliance on diesel generators (typically 40kW)
+   - Minimizes unnecessary fuel consumption and emissions
+   - Provides quieter, cleaner job sites for clients and neighbours
+   - Documents generator hours saved on applicable projects
+
+3. **Waste Reduction Strategies**
+   - Employs skilled technicians with "On-Point" precision application
+   - Reduces overspray and trim waste through careful measurement
+   - Uses reusable tarps instead of disposable plastic sheeting
+   - Implements careful planning to minimize material waste
+   - Proper disposal of unavoidable waste materials
+
+4. **Low-VOC Materials**
+   - Uses spray foam with lower volatile organic compound content
+   - Provides information about the specific products used
+   - Explains the health and environmental benefits of low-VOC products
+   - Compares VOC levels to industry standards
 
 A custom calculator tool will help homeowners understand the financial benefits:
 
