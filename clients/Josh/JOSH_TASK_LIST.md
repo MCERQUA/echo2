@@ -32,6 +32,15 @@
 - [ ] Set up SEO optimization for local search
 - [ ] Implement social media integration
 - [ ] Create staff profiles section
+- [ ] **Add nail pictures from Facebook chat to website gallery**
+
+### MuscleCarInsurance.com
+- [ ] Create secondary logo featuring a Mustang
+- [ ] Write article similar to "10 Muscle Cars That Were Built With Racing in Mind"
+- [ ] Create dedicated Mustangs page with history, models, and insurance considerations
+- [ ] Create dedicated Camaros page with history, models, and insurance considerations
+- [ ] Optimize all pages for SEO with muscle car insurance keywords
+- [ ] Add high-quality muscle car images throughout the site
 
 ### AI Phone System
 - [ ] Complete message management integration
