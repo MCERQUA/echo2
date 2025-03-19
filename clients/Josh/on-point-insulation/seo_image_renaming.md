@@ -58,7 +58,7 @@ This document tracks the progress of renaming the insulation project images usin
 
 ## Group 6: New Construction 2024
 
-- [ ] PXL_20240109_232423881.webp → onpoint-2lb-closed-cell-durango-insulation-before-1.webp
+- [x] PXL_20240109_232423881.webp → onpoint-2lb-closed-cell-durango-insulation-before-1.webp (Renamed on March 19, 2025)
 - [ ] PXL_20240109_232427046.MP.webp → onpoint-2lb-closed-cell-durango-insulation-prep-1.webp
 - [ ] PXL_20240109_232432910.webp → onpoint-2lb-closed-cell-durango-insulation-during-1.webp
 - [ ] PXL_20240109_232437969.webp → onpoint-2lb-closed-cell-durango-insulation-during-2.webp
@@ -78,3 +78,4 @@ For each file, we'll:
 - This process will keep both the original and renamed files in the repository for a while
 - After verifying all renamed files exist correctly, we can safely delete the originals
 - Each file will retain the same content but with a more SEO-friendly name
+- **Update (March 19, 2025)**: Starting the renaming process. The issue with direct renaming is that we need to preserve the image file contents, which requires downloading and re-uploading the images. This may be best done via a local Git clone rather than through the API.
