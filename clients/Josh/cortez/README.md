@@ -1,0 +1,1 @@
+This folder contains the cortez project files moved from Client Files/cortez
