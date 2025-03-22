@@ -4,7 +4,7 @@ This directory contains product information extracted from the Cortez Industries
 
 ## Contents
 
-1. `images/` - Directory containing all product images (73 images)
+1. `images/` - Directory containing all product images (73 images) .
 2. `product_data.json` - JSON file containing product information including:
    - Product names
    - Image URLs

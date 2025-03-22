@@ -5,7 +5,7 @@
 - Local files in /tmp/ECHO2 are temporary
 - Only files committed to GitHub persist between sessions
 
-## Directory Structure
+## Directory Structure  
 
 ### .system/
 - System management and control
