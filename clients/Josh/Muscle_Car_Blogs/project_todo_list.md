@@ -27,7 +27,7 @@
 **Next Actions:**
 - Article complete - Ready for publication
 
-### 3. Big-Block Alternatives to Common Muscle Cars (30% Complete)
+### 3. Big-Block Alternatives to Common Muscle Cars (In Progress - 40% Complete)
 - [X] Article Analysis
 - [X] Comprehensive Research
 - [X] External Link Collection
@@ -37,9 +37,9 @@
 - [ ] Final Review and SEO Optimization
 
 **Next Actions:**
-1. Begin drafting article content based on completed outline
-2. Source appropriate multimedia content
-3. Prepare for review and SEO optimization
+1. Begin article draft based on completed research and outline
+2. Identify and collect multimedia elements
+3. Complete draft and proceed to final review
 
 ## Newly Added Articles
 
@@ -111,7 +111,7 @@
 - [ ] Establish image optimization workflow
 
 ### Next Steps
-1. Complete drafting of Big-Block Alternatives article
-2. Source multimedia content for Big-Block Alternatives article
+1. Complete draft of Big-Block Alternatives article
+2. Collect multimedia elements for Big-Block Alternatives article
 3. Review and prioritize next batch of articles
 4. Establish publishing platform and workflow for completed articles
