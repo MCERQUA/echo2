@@ -37,9 +37,9 @@
 - [ ] Final Review and SEO Optimization
 
 **Next Actions:**
-1. Begin article draft using completed research and outline
+1. Begin drafting article based on completed research and outline
 2. Identify and collect appropriate multimedia content
-3. Schedule final review
+3. Complete first draft
 
 ## Newly Added Articles
 
@@ -111,18 +111,7 @@
 - [ ] Establish image optimization workflow
 
 ### Next Steps
-1. Complete article draft for Big-Block Alternatives article
+1. Complete draft for Big-Block Alternatives article based on research and outline
 2. Review and prioritize next batch of articles
 3. Begin work on highest priority new article (10 Rare Muscle Cars)
 4. Establish publishing platform and workflow for completed articles
-
-## Progress Update (March 26, 2025)
-- Mercury Cyclone article completed, ahead of schedule
-- Hellcat Comparison article completed, ahead of schedule
-- Big-Block Alternatives article research phase completed, including:
-  - Comprehensive article analysis document
-  - Detailed research document with specifications and historical context
-  - Complete article outline with section structure
-  - External links collection with 100 high-quality resources
-- Project is significantly ahead of schedule, with 2 articles complete and 1 at 40% completion
-- Next focus is on drafting the Big-Block Alternatives article and beginning research for the 10 Rare Muscle Cars article
