@@ -54,6 +54,8 @@
 - [ ] Create enhanced Mercury muscle car article
 - [ ] Create enhanced classic daily driver muscle cars article
 - [ ] Create enhanced big-block muscle cars article
+- [ ] Create article on Most Powerful Jeep (Trackhawk) as collector's item
+- [ ] Create article on Rare Muscle Cars Built in Low Numbers
 - [ ] Optimize all articles for SEO with additional research and links
 - [ ] More details: [MuscleCar_Blogs/todo_list.md](/clients/Josh/MuscleCar_Blogs/todo_list.md)
 
