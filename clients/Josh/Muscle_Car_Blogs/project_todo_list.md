@@ -37,9 +37,9 @@
 - [ ] Final Review and SEO Optimization
 
 **Next Actions:**
-1. Begin article draft based on completed research and outline
-2. Identify and collect multimedia elements
-3. Complete draft and proceed to final review
+1. Begin article draft based on completed outline
+2. Identify and collect appropriate multimedia content
+3. Complete initial draft by April 5, 2025
 
 ## Newly Added Articles
 
@@ -111,7 +111,7 @@
 - [ ] Establish image optimization workflow
 
 ### Next Steps
-1. Complete draft of Big-Block Alternatives article
-2. Collect multimedia elements for Big-Block Alternatives article
-3. Review and prioritize next batch of articles
-4. Establish publishing platform and workflow for completed articles
+1. Complete Big-Block Alternatives article draft
+2. Begin planning for "10 Rare Muscle Cars Built in Low Numbers" article (highest priority of new articles)
+3. Establish publishing platform and workflow for completed articles
+4. Develop standardized image collection workflow for all articles
