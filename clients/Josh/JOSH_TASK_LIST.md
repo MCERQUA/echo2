@@ -49,13 +49,29 @@
 - [ ] Booking system integration
 - [ ] Staff profiles section
 
-### Muscle Car Blogs Project (NEW - March 25, 2025)
+### Muscle Car Blogs Project
 - [ ] Research original MSN articles on muscle cars
 - [ ] Create enhanced Mercury muscle car article
 - [ ] Create enhanced classic daily driver muscle cars article
 - [ ] Create enhanced big-block muscle cars article
 - [ ] Optimize all articles for SEO with additional research and links
 - [ ] More details: [MuscleCar_Blogs/todo_list.md](/clients/Josh/MuscleCar_Blogs/todo_list.md)
+
+### Insulation Contractors of Arizona (NEW - March 26, 2025)
+- [x] Website review and analysis
+- [x] SEO audit and recommendations
+- [x] Keyword research and organization
+- [x] Competitor analysis
+- [x] Project documentation and planning
+- [ ] Create SEO-optimized article on Blown-In Insulation
+- [ ] Create SEO-optimized article on Attic Insulation
+- [ ] Create SEO-optimized article on Wall Insulation
+- [ ] Create SEO-optimized article on Attic Insulation Cost
+- [ ] Create SEO-optimized article on Cellulose Insulation Cost
+- [ ] Create SEO-optimized article on Fiberglass Insulation
+- [ ] Website redesign wireframes and mockups
+- [ ] Website development and implementation
+- [ ] More details: [InsulationContractorsOfArizona/jobs_todo_list.md](/clients/Josh/InsulationContractorsOfArizona/jobs_todo_list.md)
 
 ## Completed Projects
 - [x] CallFoamInc Initial SEO Audit
@@ -81,4 +97,4 @@
 - Weekly meeting: Thursday 2 PM ET
 - Priority level: High
 
-Last Updated: March 25, 2025
+Last Updated: March 26, 2025
