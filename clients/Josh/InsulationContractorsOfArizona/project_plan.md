@@ -1,47 +1,51 @@
 # Insulation Contractors of Arizona - Project Plan
 
-## Project Tasks
+## Project Overview
+This project focuses on analyzing and improving the online presence of Insulation Contractors of Arizona. Our goal is to thoroughly evaluate their current website, analyze their SEO performance, develop keyword strategies, and gather comprehensive information about the company.
 
-- [x] Create project folder in Josh's projects on Echo2 GitHub
-- [ ] Website Analysis
-  - [ ] Review overall design and user experience
-  - [ ] Evaluate site structure and navigation
-  - [ ] Assess mobile responsiveness
-  - [ ] Check page load speed
-  - [ ] Review content quality and relevance
-  - [ ] Analyze calls-to-action and conversion points
-- [ ] SEO Analysis
-  - [ ] Check meta titles and descriptions
-  - [ ] Analyze keyword usage
-  - [ ] Review header structure
-  - [ ] Evaluate image optimization
-  - [ ] Check internal linking structure
-  - [ ] Assess backlink profile
-  - [ ] Review schema markup/structured data
-- [ ] Keyword Research
+## Tasks
+
+- [x] Create project folder in Josh's projects on ECHO2 GitHub
+- [ ] Website Review
+  - [ ] Analyze site structure and navigation
+  - [ ] Review content quality and messaging
+  - [ ] Evaluate mobile responsiveness
+  - [ ] Assess page loading speed
+  - [ ] Check user experience and conversion paths
+  - [ ] Analyze visual design and branding consistency
+- [ ] SEO Report
+  - [ ] Conduct technical SEO audit
+  - [ ] Analyze current keyword rankings
+  - [ ] Review on-page SEO elements
+  - [ ] Examine backlink profile
+  - [ ] Check Google Business Profile optimization
+  - [ ] Assess local SEO performance
+- [ ] SEO Keyword Research
   - [ ] Identify primary service keywords
   - [ ] Research location-specific keywords
-  - [ ] Find long-tail keyword opportunities
   - [ ] Analyze competitor keywords
-  - [ ] Create comprehensive keyword list organized by category
+  - [ ] Develop long-tail keyword opportunities
+  - [ ] Create keyword categories by service/application
+  - [ ] Prioritize keywords by search volume and competition
 - [ ] Company Research
-  - [ ] Gather business information (history, services, team)
-  - [ ] Research customer reviews and testimonials
-  - [ ] Analyze competitors in the Arizona market
-  - [ ] Identify unique selling propositions
-  - [ ] Look for partnerships or affiliations
+  - [ ] Gather company history and background
+  - [ ] Identify key personnel
+  - [ ] Research service offerings and unique selling points
+  - [ ] Analyze online reputation and reviews
+  - [ ] Investigate competitors
+  - [ ] Research market positioning
 
 ## Timeline
-- Create project folder and plan: March 26, 2025
-- Complete website analysis: March 26, 2025
-- Complete SEO analysis: March 26, 2025
-- Complete keyword research: March 26, 2025
-- Complete company research: March 26, 2025
-- Final report compilation: March 26, 2025
+- Project setup: March 26, 2025
+- Website review completion: TBD
+- SEO report completion: TBD
+- Keyword research completion: TBD
+- Company research completion: TBD
+- Final recommendations: TBD
 
 ## Deliverables
-1. Website analysis report
-2. SEO analysis report
-3. Comprehensive keyword list
-4. Company research findings
-5. Recommendations for improvements
+1. Comprehensive website review report
+2. Technical and on-page SEO analysis
+3. Extensive keyword list organized by category and priority
+4. Company profile and competitor analysis
+5. Strategic recommendations based on findings
