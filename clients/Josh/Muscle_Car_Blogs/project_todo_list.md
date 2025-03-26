@@ -37,9 +37,9 @@
 - [ ] Final Review and SEO Optimization
 
 **Next Actions:**
-1. Begin drafting the article based on the completed outline
-2. Select appropriate multimedia content
-3. Finalize draft for review
+1. Begin article draft using completed research and outline
+2. Identify and collect appropriate multimedia content
+3. Complete draft by April 10, 2025
 
 ## Newly Added Articles
 
@@ -111,14 +111,7 @@
 - [ ] Establish image optimization workflow
 
 ### Next Steps
-1. Complete article draft for Big-Block Alternatives article 
-2. Review and prioritize next batch of articles
-3. Begin work on highest priority new article (10 Rare Muscle Cars)
-4. Establish publishing platform and workflow for completed articles
-
-## Project Progress Summary
-- **Completed Articles**: 2/3 (Mercury Cyclone, Classic vs Hellcat)
-- **In Progress Articles**: 1/3 (Big-Block Alternatives - Research phase completed)
-- **Pending Articles**: 3 (Identified for future development)
-- **Overall Project Completion**: ~66% on original scope, ~40% including new articles
-- **Timeline Status**: Ahead of schedule (original completion target: April 17, 2025)
+1. Complete draft for Big-Block Alternatives article using research and outline
+2. After Big-Block draft is underway, begin analysis of "10 Rare Muscle Cars" (high priority)
+3. Establish publishing platform and workflow for completed articles
+4. Create image collection workflow for all articles
