@@ -37,9 +37,9 @@
 - [ ] Final Review and SEO Optimization
 
 **Next Actions:**
-1. Begin article draft using completed research and outline
-2. Collect suitable images for article
-3. Prepare technical specification tables for each section
+1. Begin article draft based on comprehensive outline
+2. Identify key images needed for each section
+3. Create custom tables and graphics for specifications
 
 ## Newly Added Articles
 
@@ -111,7 +111,7 @@
 - [ ] Establish image optimization workflow
 
 ### Next Steps
-1. Complete article draft for Big-Block Alternatives article 
-2. Review and prioritize next batch of articles
-3. Begin work on highest priority new article (10 Rare Muscle Cars)
+1. Complete the draft for Big-Block Alternatives article
+2. Identify multimedia needs for Big-Block Alternatives article
+3. Review and prioritize next batch of articles
 4. Establish publishing platform and workflow for completed articles
