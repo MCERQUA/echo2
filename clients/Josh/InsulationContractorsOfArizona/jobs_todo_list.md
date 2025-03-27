@@ -3,6 +3,16 @@
 ## Content Creation Tasks
 
 ### SEO Optimized Blog Articles
+- [x] **The Complete Guide to Home Insulation Types in Arizona**
+  - Target Keywords: arizona home insulation, best insulation for desert climate, insulation types for hot weather
+  - Comprehensive overview of all insulation types suitable for Arizona
+  - Detail on R-values appropriate for desert climate
+  - Compare effectiveness in extreme heat conditions
+  - Include cost comparisons and ROI information
+  - Word Count: 2,500-3,000 words
+  - Detailed content plan available at: [research/insulation-blog-1-plan.md](research/insulation-blog-1-plan.md)
+  - Completed draft: [research/insulation-article-draft.md](research/insulation-article-draft.md)
+
 - [ ] **Blown-In Insulation: The Complete Guide for Arizona Homeowners**
   - Target Keywords: blown in insulation, blown insulation arizona, blown insulation cost phoenix
   - Focus on benefits for desert climate
@@ -50,15 +60,6 @@
   - Compare fiberglass to other insulation materials
   - Discuss installation considerations
   - Word Count: 1,500-2,000 words
-
-- [ ] **The Complete Guide to Home Insulation Types in Arizona**
-  - Target Keywords: arizona home insulation, best insulation for desert climate, insulation types for hot weather
-  - Comprehensive overview of all insulation types suitable for Arizona
-  - Detail on R-values appropriate for desert climate
-  - Compare effectiveness in extreme heat conditions
-  - Include cost comparisons and ROI information
-  - Word Count: 2,500-3,000 words
-  - Detailed content plan available at: [research/insulation-blog-1-plan.md](research/insulation-blog-1-plan.md)
 
 ## Website Development Tasks
 
