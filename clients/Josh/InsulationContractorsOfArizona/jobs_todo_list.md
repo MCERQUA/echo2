@@ -4,7 +4,7 @@
 
 ### SEO Optimized Blog Articles
 - [ ] **Blown-In Insulation: The Complete Guide for Arizona Homeowners**
-  - Target Keywords: blown in insulation, blown insulation arizona, blown in insulation cost phoenix
+  - Target Keywords: blown in insulation, blown insulation arizona, blown insulation cost phoenix
   - Focus on benefits for desert climate
   - Include process explanation with visuals
   - Address R-value and energy efficiency
@@ -50,6 +50,15 @@
   - Compare fiberglass to other insulation materials
   - Discuss installation considerations
   - Word Count: 1,500-2,000 words
+
+- [ ] **The Complete Guide to Home Insulation Types in Arizona**
+  - Target Keywords: arizona home insulation, best insulation for desert climate, insulation types for hot weather
+  - Comprehensive overview of all insulation types suitable for Arizona
+  - Detail on R-values appropriate for desert climate
+  - Compare effectiveness in extreme heat conditions
+  - Include cost comparisons and ROI information
+  - Word Count: 2,500-3,000 words
+  - Detailed content plan available at: [research/insulation-blog-1-plan.md](research/insulation-blog-1-plan.md)
 
 ## Website Development Tasks
 
@@ -169,3 +178,12 @@
   - Case study development
   - Award submission management
   - Community involvement documentation
+
+## Research Resources
+
+- [x] **SEO-Enhanced Article Research**
+  - Comprehensive research plan created for URL resources: [research/insulation-arizona-research-plan.md](research/insulation-arizona-research-plan.md)
+  - High-quality external URL tracking database: [research/insulation-resource-tracking.md](research/insulation-resource-tracking.md)
+  - 55+ authoritative resources identified and categorized
+  - Resources rated by authority, relevance, content quality, and Arizona-specificity
+  - Top resources mapped to planned blog topics
