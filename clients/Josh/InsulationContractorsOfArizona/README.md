@@ -24,6 +24,11 @@ This repository contains comprehensive analysis and recommendations for Insulati
 - [SEO Keywords (Part 1)](seo_keywords.md) - Primary service, location, and application keywords
 - [SEO Keywords (Part 2)](seo_keywords_part2.md) - Extended keyword lists including long-tail and industry-specific terms
 
+### Research & Content Planning
+- [URL Research Plan](research/insulation-arizona-research-plan.md) - Comprehensive plan for authoritative URL resources to support blog content
+- [URL Resource Tracking](research/insulation-resource-tracking.md) - Database of 55+ high-quality external resources rated by authority and relevance
+- [Article #1 Content Plan](research/insulation-blog-1-plan.md) - Detailed content plan for "The Complete Guide to Home Insulation Types in Arizona"
+
 ## Key Findings
 
 ### Website Analysis
@@ -72,12 +77,18 @@ This repository contains comprehensive analysis and recommendations for Insulati
 
 The following SEO-optimized blog articles have been prioritized for creation:
 
-1. **Blown-In Insulation Guide** - Comprehensive guide to blown-in insulation options for Arizona homes
-2. **Attic Insulation** - Critical information about proper attic insulation in desert climates
-3. **Attic Insulation Cost** - Breakdown of costs, factors, and ROI for attic insulation in Arizona
-4. **Wall Insulation** - Benefits and options for wall insulation in extreme temperature environments
-5. **Cellulose Insulation Cost** - Detailed pricing guide for cellulose insulation in Arizona
-6. **Fiberglass Insulation** - Complete guide to fiberglass insulation applications for Arizona homes
+1. **The Complete Guide to Home Insulation Types in Arizona** - Comprehensive guide to all insulation options for Arizona's climate
+   * Content plan and structure available at: [research/insulation-blog-1-plan.md](research/insulation-blog-1-plan.md)
+   * 2,500-3,000 word comprehensive guide with detailed sections on each insulation type
+   * Based on 55+ authoritative external resources specifically chosen for Arizona relevance
+   * Optimized for primary keywords: arizona home insulation, best insulation for desert climate, insulation types for hot weather
+
+2. **Blown-In Insulation Guide** - Comprehensive guide to blown-in insulation options for Arizona homes
+3. **Attic Insulation** - Critical information about proper attic insulation in desert climates
+4. **Attic Insulation Cost** - Breakdown of costs, factors, and ROI for attic insulation in Arizona
+5. **Wall Insulation** - Benefits and options for wall insulation in extreme temperature environments
+6. **Cellulose Insulation Cost** - Detailed pricing guide for cellulose insulation in Arizona
+7. **Fiberglass Insulation** - Complete guide to fiberglass insulation applications for Arizona homes
 
 For detailed specifications on each article, see the [Jobs Todo List](jobs_todo_list.md#seo-optimized-blog-articles).
 
