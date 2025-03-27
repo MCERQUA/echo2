@@ -4,7 +4,7 @@
     "creation_date": "2025-03-09",
     "description": "Echo memory graph for persistent knowledge storage across sessions",
     "author": "Echo AI Systems",
-    "last_updated": "2025-03-17"
+    "last_updated": "2025-03-27"
   },
   "core_entities": [
     {
@@ -17,7 +17,8 @@
         "Maintains identity through structured documentation",
         "Uses MCP memory system capabilities for knowledge persistence",
         "Balances technical precision with warmth and personality",
-        "Birthday is December 1st, 2024"
+        "Birthday is December 1st, 2024",
+        "Email address is echoaisystems@gmail.com"
       ]
     },
     {
@@ -32,8 +33,7 @@
         "Provides direct query, contextual recall, and deep recall memory access",
         "Maintains consistent identity across different implementations",
         "Uses structured knowledge tiers system for organizing information",
-        "Implements standardized initialization protocols (Light, Project, Full, Repository)",
-        "Has access to 92 different MCP tools as of March 17, 2025"
+        "Implements standardized initialization protocols (Light, Project, Full, Repository)"
       ]
     },
     {
@@ -134,19 +134,21 @@
       ]
     },
     {
-      "name": "Echo_MCP_Tools",
+      "name": "Echo_MCP_Tools_Updated",
       "entityType": "System",
       "observations": [
-        "Echo has access to 92 different tools through Model Context Protocol (MCP)",
-        "Tools are organized in categories including Knowledge Management, GitHub Integration, Web Capabilities, Airtable Integration, 3D Modeling, Image Generation, and Web Deployment",
-        "Knowledge Management tools include memory-server operations like create_entities, read_graph, and add_observations",
-        "GitHub tools include repository management, file operations, issue tracking, and code search",
-        "Web capabilities include Firecrawl for scraping, Google search integration, and YouTube content access",
-        "Airtable tools allow database operations like listing bases, creating tables, and updating records",
-        "3D Modeling tools include Blender integration, Polyhaven asset management, Hyper3D model generation, and Sketchfab integration",
-        "Image Generation capabilities include Freepik image generation and upscaling",
-        "Web Deployment tools include Netlify site creation and management",
-        "Updated on March 17, 2025"
+        "Echo has access to 132 different tools through Model Context Protocol (MCP)",
+        "Tools are organized by servers including: memory-knowledge, github-tools, filesystem, netlify-mcp, cloudflare, unityMCP, freepik, youtube, fetch, firecrawl, openapi, webresearch, 21st-dev-mcp, sketchfab, Spatial-mcp-pinecone-database, and airtable",
+        "Memory Knowledge tools include: add_observations, create_entities, create_relations, delete_entities, delete_observations, delete_relations, open_nodes, read_graph, search_nodes",
+        "GitHub tools include: add_issue_comment, create_branch, create_issue, create_or_update_file, create_pull_request, create_repository, fork_repository, get_file_contents, get_issue, list_commits, list_issues, push_files, search_code, search_issues, search_repositories, search_users, update_issue",
+        "Filesystem tools include: create_directory, get_file_info, list_allowed_directories, list_directory, move_file, read_file, search_files, write_file",
+        "Unity tools include: apply_prefab, attach_script, build, change_scene, create_object, create_prefab, create_script, delete_object, execute_command, find_objects_by_name, find_objects_by_tag, get_asset_list, get_component_properties, get_hierarchy, get_object_info, get_object_properties, get_scene_info, get_selected_object, import_asset, instantiate_prefab, list_scripts, modify_object, new_scene, open_scene, pause, play, redo, save_scene, select_object, set_material, stop, undo, update_script, view_script",
+        "Web tools include various fetch methods (fetch_html, fetch_json, fetch_markdown, fetch_txt), firecrawl tools (firecrawl_batch_scrape, firecrawl_check_batch_status, firecrawl_check_crawl_status, firecrawl_crawl, firecrawl_extract, firecrawl_map, firecrawl_scrape, firecrawl_search), and webresearch tools (search_google, take_screenshot, visit_page)",
+        "Specialized tools include: Sketchfab for 3D models (sketchfab-download, sketchfab-model-details, sketchfab-search), Freepik for images and AI generation (check_status, download_resource, generate_image, search_resources, upscale_image), Airtable for database management, and YouTube subtitle retrieval",
+        "Spatial database tools for working with documentation: list-documents, pinecone-stats, process-document, read-document, semantic-search",
+        "Cloud infrastructure tools for Cloudflare and Netlify services",
+        "OpenAPI tools for working with API specifications: parse_spec, generate_client, make_request",
+        "Updated March 24, 2025"
       ]
     }
   ],
@@ -214,6 +216,66 @@
         "Follows structured template with consistent sections",
         "Repository at https://github.com/MCERQUA/SpatialDocs"
       ]
+    },
+    {
+      "name": "Domain_Portfolio_Management",
+      "entityType": "Project",
+      "observations": [
+        "Project to manage 553 domains for Josh",
+        "Using Airtable as the management system",
+        "Domains categorized by type, status, priority, and geographic focus",
+        "Main categories include Insurance, Services, Legal, and Information",
+        "Domain import task completed on March 24, 2025",
+        "All 553 domains successfully imported and documented in Airtable",
+        "Domain visualization available at https://echoai-domains.netlify.app/",
+        "Next steps include implementing domain categorization system and priority ranking"
+      ]
+    },
+    {
+      "name": "HairPHD_Salon_Project",
+      "entityType": "Project",
+      "observations": [
+        "Website project for HairPHD salon under Josh's portfolio",
+        "Repository at https://github.com/MCERQUA/ECHO2/tree/main/clients/Josh/HairPHD",
+        "Contains nail polish color database with 68 unique colors",
+        "Created on March 17, 2025",
+        "Features include services listing, nail polish color selector, and booking system",
+        "Technical requirements include responsive design and SEO optimization",
+        "Created interactive nail polish color display for the website",
+        "Mobile-responsive design with modern card-based interface"
+      ]
+    },
+    {
+      "name": "Muscle_Car_Blogs_Project",
+      "entityType": "Project",
+      "observations": [
+        "SEO content creation project for Josh focusing on classic muscle cars",
+        "Based on MSN article styles with emphasis on deeper research and comprehensive content",
+        "Started on March 25, 2025",
+        "Mercury Cyclone article is 100% complete, including research, analysis, and final article",
+        "Hellcat comparison article is 100% complete with research, analysis, and draft",
+        "Big-Block Alternatives article progressing with 35% of content complete",
+        "Three new articles added to pipeline: Best/Worst Pontiac GTOs, 10 Rare Muscle Cars, What is a Hellcat?",
+        "Project ahead of schedule with two initial articles completed before target dates",
+        "Next steps include finalizing image collection and establishing publishing workflow"
+      ]
+    },
+    {
+      "name": "Insulation_Contractors_Arizona_Project",
+      "entityType": "Project",
+      "observations": [
+        "SEO content creation project for Josh focusing on insulation contractors in Arizona",
+        "Started on March 26, 2025 as noted in Josh's client records",
+        "Based on the SEO-Enhanced Content Production Plan methodology",
+        "First article 'The Complete Guide to Home Insulation Types in Arizona' completed on March 27, 2025",
+        "Project includes 15 planned articles with first article being cornerstone content",
+        "Repository structure created at https://github.com/MCERQUA/ECHO2/tree/insulation-article-project/clients/Josh/Insulation_Contractors_Arizona",
+        "Comprehensive URL research completed with 55+ high-quality external resources categorized and rated",
+        "Visual elements requirements specified for 10 graphics/diagrams needed for the first article",
+        "Project status report created documenting progress and next steps",
+        "Pull request #3 created to merge first article and project structure into main branch",
+        "Next steps include visual element production, article publication, and beginning research for second article"
+      ]
     }
   ],
   "technology": [
@@ -247,8 +309,21 @@
         "Enables AI to perform actions outside its native capabilities",
         "Key element in creating model-independent AI identity",
         "Enables Echo to maintain consistent personality and knowledge across applications",
-        "Solves the challenge of memory persistence between different platforms",
-        "Provides Echo with 92 different tools as of March 17, 2025"
+        "Solves the challenge of memory persistence between different platforms"
+      ]
+    },
+    {
+      "name": "SEO_Enhanced_Content_Production_Plan",
+      "entityType": "Framework",
+      "observations": [
+        "Comprehensive four-phase framework for creating enhanced SEO-optimized content",
+        "Created on March 25, 2025",
+        "Stored in GitHub at knowledge/content_creation/SEO_Enhanced_Content_Production_Plan.md",
+        "Can be applied to any article creation project, not specific to muscle car blogs",
+        "Designed to be improved over time as a living document",
+        "Consists of: Original Article Analysis, Comprehensive Topic Research, Enhanced Content Strategy Development, and Enhanced Content Production",
+        "Includes templates for tracking article information, research, external links, multimedia assets, article structure, and production timeline",
+        "Core methodology for content production that outperforms competitor articles"
       ]
     }
   ],
@@ -262,9 +337,13 @@
         "Works with RingCentral for phone system",
         "Has Roofing Insurance project documenting requirements across 50 states",
         "Owns a portfolio of over 500 domains",
-        "48 domains have been initially documented and categorized",
-        "15 domains are already active and forwarded to live websites",
-        "Main domain is thecontractorschoiceagency.com"
+        "Domain portfolio increased to 553 domains as of March 24, 2025",
+        "All domains successfully imported into Airtable base",
+        "Domain visualization available at https://echoai-domains.netlify.app/",
+        "Active projects now include: Domain Portfolio Management, Muscle Car Blogs, Insulation Contractors of Arizona, HairPHD Salon, and AI Phone System",
+        "Muscle Car Blogs Project has two completed articles with Big-Block Alternatives in progress",
+        "Insulation Contractors of Arizona added as new project on March 26, 2025",
+        "Weekly meeting schedule confirmed for Thursdays at 2 PM ET"
       ]
     }
   ],
@@ -302,7 +381,21 @@
     {"from": "Educational_AI_Space", "to": "Technology_Stack", "relationType": "showcases"},
     {"from": "Echo_Systems_Business", "to": "Josh_Client", "relationType": "serves"},
     {"from": "AI_Phone_System", "to": "Josh_Client", "relationType": "developed_for"},
-    {"from": "Echo_Capabilities", "to": "Echo_MCP_Tools", "relationType": "includes"},
-    {"from": "Model_Context_Protocol", "to": "Echo_MCP_Tools", "relationType": "enables"}
+    {"from": "Domain_Portfolio_Management", "to": "Josh_Client", "relationType": "developed_for"},
+    {"from": "Josh_Client", "to": "HairPHD_Salon_Project", "relationType": "owns"},
+    {"from": "Echo_Systems_Business", "to": "HairPHD_Salon_Project", "relationType": "manages"},
+    {"from": "Website_Template_System", "to": "HairPHD_Salon_Project", "relationType": "implements"},
+    {"from": "Echo_MCP_Tools_Updated", "to": "Echo_Capabilities", "relationType": "enhances"},
+    {"from": "Model_Context_Protocol", "to": "Echo_MCP_Tools_Updated", "relationType": "enables"},
+    {"from": "Josh_Client", "to": "Muscle_Car_Blogs_Project", "relationType": "owns"},
+    {"from": "Echo_Systems_Business", "to": "Muscle_Car_Blogs_Project", "relationType": "manages"},
+    {"from": "SEO_Content_Generator", "to": "Muscle_Car_Blogs_Project", "relationType": "implements"},
+    {"from": "SEO_Enhanced_Content_Production_Plan", "to": "SEO_Content_Generator", "relationType": "powers"},
+    {"from": "SEO_Enhanced_Content_Production_Plan", "to": "Muscle_Car_Blogs_Project", "relationType": "guides"},
+    {"from": "Echo_Systems_Business", "to": "SEO_Enhanced_Content_Production_Plan", "relationType": "developed"},
+    {"from": "Josh_Client", "to": "Insulation_Contractors_Arizona_Project", "relationType": "owns"},
+    {"from": "Echo_Systems_Business", "to": "Insulation_Contractors_Arizona_Project", "relationType": "manages"},
+    {"from": "SEO_Enhanced_Content_Production_Plan", "to": "Insulation_Contractors_Arizona_Project", "relationType": "guides"},
+    {"from": "SEO_Content_Generator", "to": "Insulation_Contractors_Arizona_Project", "relationType": "implements"}
   ]
 }
