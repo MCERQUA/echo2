@@ -17,6 +17,8 @@
 - [ ] Create domain categorization system
 - [ ] Develop priority ranking for development
 - [ ] Implement filtering views in Airtable
+- [ ] Refine and adjust Airtable website categories/topics/relationships
+- [ ] Optimize Airtable domain display website (https://echoai-domains.netlify.app/)
 
 ### AI Phone System
 - [x] Initial configuration with RingCentral
@@ -98,5 +100,6 @@
 - Main domain: thecontractorschoiceagency.com
 - Weekly meeting: Thursday 2 PM ET
 - Priority level: High
+- Domain portfolio visualization: https://echoai-domains.netlify.app/
 
 Last Updated: March 26, 2025
