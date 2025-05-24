@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Projections Calculator | Blue Collar Business School</title>
+    <link rel="stylesheet" href="../../../assets/css/global.css">
+    <link rel="stylesheet" href="module-1-3.css">
+</head>
+<body>
+    <header class="main-header">
+        <nav class="nav-container">
+            <div class="logo">
+                <a href="../../../index.html">Blue Collar Business School</a>
+            </div>
+            <div class="nav-menu">
+                <a href="../../../index.html">Home</a>
+                <a href="index.html">← Back to Module 1.3</a>
+                <a href="business-plan-tool.html">Business Plan Tool</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="tool-container">
+            <div class="tool-header">
+                <h1>📊 Financial Projections Calculator</h1>
+                <p class="tool-subtitle">Get realistic financial projections for your contracting business</p>
+            </div>
+
+            <div class="calculator-container">
+                <div class="calculator-inputs">
+                    <div class="input-section">
+                        <h2>Business Basics</h2>
+                        <div class="input-group">
+                            <label for="tradeType">Your Trade</label>
+                            <select id="tradeType">
+                                <option value="">Select Your Trade</option>
+                                <option value="electrical">Electrical Contractor</option>
+                                <option value="plumbing">Plumbing Contractor</option>
+                                <option value="hvac">HVAC Contractor</option>
+                                <option value="roofing">Roofing Contractor</option>
+                                <option value="general">General Contractor</option>
+                                <option value="flooring">Flooring Contractor</option>
+                                <option value="painting">Painting Contractor</option>
+                                <option value="landscaping">Landscaping Contractor</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="location">Location Type</label>
+                            <select id="location">
+                                <option value="urban">Urban/City</option>
+                                <option value="suburban" selected>Suburban</option>
+                                <option value="rural">Rural</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="experienceLevel">Experience Level</label>
+                            <select id="experienceLevel">
+                                <option value="new">New to Business (0-1 years)</option>
+                                <option value="some" selected>Some Experience (2-5 years)</option>
+                                <option value="experienced">Experienced (5+ years)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-section">
+                        <h2>Revenue Goals</h2>
+                        <div class="input-group">
+                            <label for="targetRevenue">Year 1 Revenue Goal ($)</label>
+                            <input type="number" id="targetRevenue" placeholder="80000" min="0" step="1000">
+                            <small class="helper-text">Leave blank to see trade recommendations</small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="averageJobSize">Average Job Value ($)</label>
+                            <input type="number" id="averageJobSize" placeholder="350" min="0" step="25">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="jobsPerMonth">Target Jobs per Month</label>
+                            <input type="number" id="jobsPerMonth" placeholder="20" min="1" step="1">
+                        </div>
+                    </div>
+
+                    <div class="input-section">
+                        <h2>Cost Structure</h2>
+                        <div class="cost-grid">
+                            <div class="input-group">
+                                <label for="vehicleCosts">Vehicle Costs (Monthly)</label>
+                                <input type="number" id="vehicleCosts" placeholder="800" min="0" step="50">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="insuranceCosts">Insurance (Monthly)</label>
+                                <input type="number" id="insuranceCosts" placeholder="1500" min="0" step="50">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="licensingCosts">Licensing/Permits (Monthly)</label>
+                                <input type="number" id="licensingCosts" placeholder="300" min="0" step="25">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="marketingCosts">Marketing (Monthly)</label>
+                                <input type="number" id="marketingCosts" placeholder="600" min="0" step="50">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="toolsCosts">Tools/Equipment (Monthly)</label>
+                                <input type="number" id="toolsCosts" placeholder="400" min="0" step="25">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="otherCosts">Other Fixed Costs (Monthly)</label>
+                                <input type="number" id="otherCosts" placeholder="300" min="0" step="25">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="materialCostPercent">Material Costs (% of Revenue)</label>
+                            <select id="materialCostPercent">
+                                <option value="15">15%</option>
+                                <option value="20">20%</option>
+                                <option value="25">25%</option>
+                                <option value="30" selected>30%</option>
+                                <option value="35">35%</option>
+                                <option value="40">40%</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="fuelCostPercent">Fuel/Travel (% of Revenue)</label>
+                            <select id="fuelCostPercent">
+                                <option value="5">5%</option>
+                                <option value="8">8%</option>
+                                <option value="10" selected>10%</option>
+                                <option value="12">12%</option>
+                                <option value="15">15%</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-section">
+                        <h2>Working Capital</h2>
+                        <div class="input-group">
+                            <label for="workingCapitalWeeks">Working Capital Buffer (weeks)</label>
+                            <select id="workingCapitalWeeks">
+                                <option value="4">4 weeks</option>
+                                <option value="6">6 weeks</option>
+                                <option value="8" selected>8 weeks</option>
+                                <option value="12">12 weeks</option>
+                                <option value="16">16 weeks</option>
+                            </select>
+                            <small class="helper-text">Time between job completion and payment</small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="seasonalBuffer">Seasonal Buffer (months of expenses)</label>
+                            <select id="seasonalBuffer">
+                                <option value="2">2 months</option>
+                                <option value="3" selected>3 months</option>
+                                <option value="4">4 months</option>
+                                <option value="6">6 months</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="calculator-actions">
+                        <button class="btn btn-primary" onclick="calculateProjections()">📊 Calculate Projections</button>
+                        <button class="btn btn-secondary" onclick="resetCalculator()">🔄 Reset</button>
+                        <button class="btn btn-outline" onclick="saveCalculation()">💾 Save Results</button>
+                    </div>
+                </div>
+
+                <div class="calculator-results" id="calculatorResults">
+                    <div class="results-header">
+                        <h2>📈 Your Financial Projections</h2>
+                        <div class="scenario-tabs">
+                            <button class="scenario-tab active" onclick="showScenario('conservative')">Conservative</button>
+                            <button class="scenario-tab" onclick="showScenario('realistic')">Realistic</button>
+                            <button class="scenario-tab" onclick="showScenario('optimistic')">Optimistic</button>
+                        </div>
+                    </div>
+
+                    <div class="scenario-results" id="conservativeResults">
+                        <!-- Conservative scenario results will be inserted here -->
+                    </div>
+
+                    <div class="scenario-results" id="realisticResults" style="display: none;">
+                        <!-- Realistic scenario results will be inserted here -->
+                    </div>
+
+                    <div class="scenario-results" id="optimisticResults" style="display: none;">
+                        <!-- Optimistic scenario results will be inserted here -->
+                    </div>
+
+                    <div class="cash-flow-chart">
+                        <h3>💰 Monthly Cash Flow Projection</h3>
+                        <div class="chart-container" id="cashFlowChart">
+                            <!-- Cash flow chart will be generated here -->
+                        </div>
+                    </div>
+
+                    <div class="break-even-analysis">
+                        <h3>⚖️ Break-Even Analysis</h3>
+                        <div id="breakEvenResults">
+                            <!-- Break-even analysis will be inserted here -->
+                        </div>
+                    </div>
+
+                    <div class="financial-ratios">
+                        <h3>📊 Key Financial Ratios</h3>
+                        <div id="financialRatios">
+                            <!-- Financial ratios will be inserted here -->
+                        </div>
+                    </div>
+
+                    <div class="recommendations">
+                        <h3>💡 Recommendations</h3>
+                        <div id="recommendationsContent">
+                            <!-- Recommendations will be inserted here -->
+                        </div>
+                    </div>
+
+                    <div class="action-items">
+                        <h3>✅ Next Steps</h3>
+                        <div id="actionItems">
+                            <!-- Action items will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Financial Calculator</h3>
+                <p>Get realistic projections for your contracting business</p>
+            </div>
+            <div class="footer-section">
+                <h3>Module 1.3 Tools</h3>
+                <ul>
+                    <li><a href="index.html">← Back to Lesson</a></li>
+                    <li><a href="business-plan-tool.html">Business Plan Creator</a></li>
+                    <li><a href="pricing-calculator.html">Pricing Calculator</a></li>
+                    <li><a href="service-area-tool.html">Service Area Tool</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Blue Collar Business School. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../../assets/js/core.js"></script>
+    <script src="financial-calculator.js"></script>
+</body>
+</html>

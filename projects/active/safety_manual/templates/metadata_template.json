@@ -1,0 +1,27 @@
+{
+    "section_id": "",
+    "title": "",
+    "version": "0.1",
+    "last_updated": "",
+    "review_date": "",
+    "status": "Not Started",
+    "reviewers": [],
+    "dependencies": [],
+    "related_sections": [],
+    "regulatory_references": [],
+    "keywords": [],
+    "completion_status": {
+        "planning": "not_started",
+        "content": "not_started",
+        "review": "not_started",
+        "approval": "not_started"
+    },
+    "change_history": [
+        {
+            "date": "",
+            "version": "0.1",
+            "description": "Initial structure creation",
+            "author": "Echo 2"
+        }
+    ]
+}

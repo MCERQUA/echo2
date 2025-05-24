@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Licensing Lookup Tool | Module 1.2 | Blue Collar Business School</title>
+    <meta name="description" content="Find specific licensing requirements and costs for your trade and state.">
+    <link rel="stylesheet" href="../../../assets/css/global.css">
+    <link rel="stylesheet" href="module-1-2.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../../../index.html">Blue Collar Business School</a></h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="index.html">Module 1.2</a></li>
+                        <li><a href="../../../stage1/index.html">Stage 1</a></li>
+                        <li><a href="../../../index.html">Home</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="lookup-hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Licensing Requirements Lookup</h1>
+                    <p class="hero-subtitle">Get specific licensing requirements, costs, and timeline for your trade and state.</p>
+                    <div class="cost-range-display">
+                        <div class="cost-range-item">
+                            <span class="range-label">Lowest Cost:</span>
+                            <span class="range-amount">$2,500 (Texas)</span>
+                        </div>
+                        <div class="cost-range-item">
+                            <span class="range-label">Highest Cost:</span>
+                            <span class="range-amount">$11,350 (California)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lookup-section">
+            <div class="container">
+                <div class="lookup-form">
+                    <h2>Select Your Trade and State</h2>
+                    <form id="licensing-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="trade-select">Trade Type</label>
+                                <select id="trade-select" required>
+                                    <option value="">Select your trade</option>
+                                    <option value="electrical">Electrical Contractor</option>
+                                    <option value="plumbing">Plumbing Contractor</option>
+                                    <option value="hvac">HVAC Contractor</option>
+                                    <option value="roofing">Roofing Contractor</option>
+                                    <option value="general">General Contractor</option>
+                                    <option value="landscaping">Landscaping Contractor</option>
+                                    <option value="flooring">Flooring Contractor</option>
+                                    <option value="painting">Painting Contractor</option>
+                                    <option value="drywall">Drywall Contractor</option>
+                                    <option value="concrete">Concrete Contractor</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="state-select">State</label>
+                                <select id="state-select" required>
+                                    <option value="">Select your state</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
+                            </div>
+                            
+                            <button type="button" id="lookup-btn" class="btn btn-primary">Get Requirements</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="results-panel" id="results-panel" style="display: none;">
+                    <div class="results-header">
+                        <h2 id="results-title">Licensing Requirements</h2>
+                        <div class="cost-highlight" id="total-cost">$0</div>
+                    </div>
+                    
+                    <div class="requirements-grid">
+                        <div class="requirement-section">
+                            <h3>📋 License Requirements</h3>
+                            <div id="license-requirements" class="requirement-content">
+                                <!-- License requirements will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <div class="requirement-section">
+                            <h3>💰 Cost Breakdown</h3>
+                            <div id="cost-breakdown" class="requirement-content">
+                                <!-- Cost breakdown will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <div class="requirement-section">
+                            <h3>⏱️ Timeline</h3>
+                            <div id="timeline-info" class="requirement-content">
+                                <!-- Timeline will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <div class="requirement-section">
+                            <h3>🔗 Resources</h3>
+                            <div id="resources-links" class="requirement-content">
+                                <!-- Resource links will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="exam-info" id="exam-info" style="display: none;">
+                        <h3>📚 Exam Information</h3>
+                        <div id="exam-details" class="exam-content">
+                            <!-- Exam details will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <div class="bonding-info" id="bonding-info" style="display: none;">
+                        <h3>🛡️ Bonding Requirements</h3>
+                        <div id="bonding-details" class="bonding-content">
+                            <!-- Bonding details will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <div class="special-requirements" id="special-requirements" style="display: none;">
+                        <h3>⚠️ Special Requirements</h3>
+                        <div id="special-details" class="special-content">
+                            <!-- Special requirements will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="save-requirements" class="btn btn-success">Save Requirements</button>
+                        <button id="print-requirements" class="btn btn-outline">Print Report</button>
+                        <a href="insurance-calculator.html" class="btn btn-primary">Continue to Insurance</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="comparison-section">
+            <div class="container">
+                <h2>State Comparison</h2>
+                <div class="state-comparison-grid">
+                    <div class="state-card friendly">
+                        <h3>🟢 Business-Friendly States</h3>
+                        <div class="state-examples">
+                            <div class="state-example">
+                                <strong>Texas:</strong> $2,500 avg cost, local jurisdiction licensing
+                            </div>
+                            <div class="state-example">
+                                <strong>Wyoming:</strong> $2,800 avg cost, minimal state requirements
+                            </div>
+                            <div class="state-example">
+                                <strong>Montana:</strong> $3,200 avg cost, registration-based system
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="state-card moderate">
+                        <h3>🟡 Moderate Requirements</h3>
+                        <div class="state-examples">
+                            <div class="state-example">
+                                <strong>Florida:</strong> $4,200 avg cost, state licensing with exams
+                            </div>
+                            <div class="state-example">
+                                <strong>Georgia:</strong> $3,800 avg cost, trade-specific requirements
+                            </div>
+                            <div class="state-example">
+                                <strong>North Carolina:</strong> $4,100 avg cost, experience requirements
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="state-card strict">
+                        <h3>🔴 Strict Requirements</h3>
+                        <div class="state-examples">
+                            <div class="state-example">
+                                <strong>California:</strong> $11,350 avg cost, $25K bond, 4-year experience
+                            </div>
+                            <div class="state-example">
+                                <strong>New York:</strong> $8,900 avg cost, comprehensive licensing
+                            </div>
+                            <div class="state-example">
+                                <strong>Illinois:</strong> $5,600 avg cost, extensive requirements
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="comparison-notes">
+                    <h3>Important Notes</h3>
+                    <ul>
+                        <li><strong>Local Requirements:</strong> Even in states with minimal requirements, cities and counties may have additional licensing</li>
+                        <li><strong>Trade Variations:</strong> Electrical and plumbing typically have the strictest requirements</li>
+                        <li><strong>Experience Requirements:</strong> Some states require 2-4 years of documented experience</li>
+                        <li><strong>Continuing Education:</strong> Many states require ongoing education to maintain licenses</li>
+                        <li><strong>Reciprocity:</strong> Few states have reciprocal licensing agreements</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Blue Collar Business School</h3>
+                    <p>Practical business education for contractors who want to succeed.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Module 1.2 Tools</h4>
+                    <ul>
+                        <li><a href="index.html">Main Lesson</a></li>
+                        <li><a href="business-structure.html">Business Structure Tool</a></li>
+                        <li><a href="licensing-lookup.html">Licensing Lookup</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../../assets/js/core.js"></script>
+    <script src="licensing-lookup.js"></script>
+</body>
+</html>

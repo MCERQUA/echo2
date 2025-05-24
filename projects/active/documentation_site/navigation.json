@@ -1,0 +1,86 @@
+{
+    "mainNavigation": {
+        "core": {
+            "title": "Core Safety Documentation",
+            "order": 1,
+            "sections": [
+                {
+                    "id": "safety-statement",
+                    "title": "Company Safety Statement",
+                    "path": "/core/safety-statement",
+                    "order": 1,
+                    "status": "completed"
+                },
+                {
+                    "id": "program-overview",
+                    "title": "Safety Program Overview",
+                    "path": "/core/program-overview",
+                    "order": 2,
+                    "status": "pending"
+                },
+                {
+                    "id": "administration",
+                    "title": "Administration & Responsibilities",
+                    "path": "/core/administration",
+                    "order": 3,
+                    "status": "pending"
+                }
+            ]
+        },
+        "procedures": {
+            "title": "Safety Procedures",
+            "order": 2,
+            "sections": [
+                {
+                    "id": "electrical-safety",
+                    "title": "Electrical Safety",
+                    "path": "/procedures/electrical-safety",
+                    "status": "pending"
+                },
+                {
+                    "id": "fire-prevention",
+                    "title": "Fire Prevention",
+                    "path": "/procedures/fire-prevention",
+                    "status": "pending"
+                }
+            ]
+        },
+        "programs": {
+            "title": "Specialized Programs",
+            "order": 3,
+            "sections": [
+                {
+                    "id": "hazard-communication",
+                    "title": "Hazard Communication",
+                    "path": "/programs/hazard-communication",
+                    "status": "pending"
+                },
+                {
+                    "id": "respiratory-protection",
+                    "title": "Respiratory Protection",
+                    "path": "/programs/respiratory-protection",
+                    "status": "pending"
+                }
+            ]
+        }
+    },
+    "quickLinks": {
+        "emergency": {
+            "title": "Emergency Procedures",
+            "path": "/procedures/emergency"
+        },
+        "forms": {
+            "title": "Safety Forms",
+            "path": "/resources/forms"
+        },
+        "training": {
+            "title": "Training Calendar",
+            "path": "/resources/training"
+        }
+    },
+    "searchIndex": {
+        "version": "1.0",
+        "lastUpdated": "2024-12-11",
+        "indexPath": "/search/index.json"
+    }
+}

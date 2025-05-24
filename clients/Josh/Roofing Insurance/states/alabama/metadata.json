@@ -1,0 +1,30 @@
+{
+    "state": "Alabama",
+    "status": "In Progress",
+    "last_updated": "2025-01-19",
+    "completed_sections": [
+        "licensing_requirements",
+        "application_process",
+        "reciprocity",
+        "insurance_requirements",
+        "compliance_notes"
+    ],
+    "pending_sections": [
+        "bonding_requirements",
+        "renewal_requirements"
+    ],
+    "sources": [
+        {
+            "name": "Alabama Licensing Board for General Contractors",
+            "url": "https://genconbd.alabama.gov/",
+            "last_verified": "2025-01-19",
+            "sections": ["licensing", "application"]
+        }
+    ],
+    "notes": [
+        "Need to verify bonding requirements from Rules & Regulations",
+        "Need to access Renewal Information section for renewal requirements",
+        "All information sourced from official government website"
+    ],
+    "version": "1.0.0"
+}

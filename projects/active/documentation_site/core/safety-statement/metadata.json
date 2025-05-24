@@ -1,0 +1,23 @@
+{
+    "title": "Company Health and Safety Policy Statement",
+    "section": "core",
+    "order": 1,
+    "lastUpdated": "2024-12-11",
+    "version": "2.1",
+    "tags": [
+        "policy",
+        "safety",
+        "core-document",
+        "compliance"
+    ],
+    "relatedDocuments": [
+        "training-requirements",
+        "safety-program-overview",
+        "administration-responsibilities"
+    ],
+    "navigation": {
+        "parent": "core",
+        "next": "safety-program-overview",
+        "previous": null
+    }
+}

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Cost Calculator | Blue Collar Business School</title>
+    <meta name="description" content="Calculate exactly how much money you need to start your contracting business.">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Calculator Header */
+        .calc-header {
+            background: linear-gradient(135deg, #ea580c 0%, #fb923c 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .calc-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .calc-header p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Calculator Form */
+        .calculator-section {
+            background: white;
+            padding: 3rem 0;
+        }
+
+        .form-section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .form-section h3 {
+            color: #1e40af;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #ea580c;
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #374151;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #ea580c;
+        }
+
+        .help-text {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+
+        /* Results Section */
+        .results-section {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 3rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .total-card {
+            background: rgba(234, 88, 12, 0.2);
+            border: 2px solid rgba(234, 88, 12, 0.5);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #ea580c;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            cursor: pointer;
+            margin: 0 0.5rem;
+        }
+
+        .btn:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #1e40af;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .calc-header h1 {
+                font-size: 2rem;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">🔨 Blue Collar Business School</div>
+            <div class="breadcrumb">
+                <a href="../index.html">Home</a> / <a href="../stage1/index.html">Stage 1</a> / Startup Calculator
+            </div>
+        </nav>
+    </header>
+
+    <!-- Calculator Header -->
+    <section class="calc-header">
+        <div class="container">
+            <h1>💰 Startup Cost Calculator</h1>
+            <p>Get an accurate estimate of how much money you'll need to start your contracting business. Fill out the form below and we'll calculate your total startup costs.</p>
+        </div>
+    </section>
+
+    <!-- Results Section (Sticky) -->
+    <section class="results-section" id="resultsSection">
+        <div class="container">
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="result-value" id="legalCosts">$750</div>
+                    <div class="result-label">Legal & Licensing</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-value" id="insuranceCosts">$3,600</div>
+                    <div class="result-label">Insurance (Annual)</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-value" id="equipmentCosts">$10,000</div>
+                    <div class="result-label">Equipment & Tools</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-value" id="vehicleCosts">$7,000</div>
+                    <div class="result-label">Vehicle & Transport</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-value" id="marketingCosts">$4,500</div>
+                    <div class="result-label">Marketing & Website</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-value" id="operatingCosts">$30,000</div>
+                    <div class="result-label">6-Month Operating</div>
+                </div>
+                <div class="result-card total-card">
+                    <div class="result-value" id="totalCosts">$55,850</div>
+                    <div class="result-label">TOTAL STARTUP COST</div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn" onclick="printResults()">Print Report</button>
+                <button class="btn btn-secondary" onclick="resetCalculator()">Reset Calculator</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Form -->
+    <section class="calculator-section">
+        <div class="container">
+            <!-- Business Type -->
+            <div class="form-section">
+                <h3>1. Business Information</h3>
+                <div class="form-group">
+                    <label for="businessType">Type of Contracting Business</label>
+                    <select id="businessType" onchange="updateEstimates()">
+                        <option value="">Select your trade...</option>
+                        <option value="electrical">Electrical Contractor</option>
+                        <option value="plumbing">Plumbing Contractor</option>
+                        <option value="hvac">HVAC Contractor</option>
+                        <option value="roofing">Roofing Contractor</option>
+                        <option value="painting">Painting Contractor</option>
+                        <option value="landscaping">Landscaping Contractor</option>
+                        <option value="flooring">Flooring Contractor</option>
+                        <option value="handyman">Handyman Services</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="businessState">State/Province</label>
+                    <select id="businessState" onchange="calculateCosts()">
+                        <option value="">Select your state...</option>
+                        <option value="CA">California</option>
+                        <option value="TX">Texas</option>
+                        <option value="FL">Florida</option>
+                        <option value="NY">New York</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Legal & Licensing -->
+            <div class="form-section">
+                <h3>2. Legal & Licensing Costs</h3>
+                <div class="form-group">
+                    <label for="businessRegistration">Business Registration Fee</label>
+                    <input type="number" id="businessRegistration" value="100" onchange="calculateCosts()">
+                    <div class="help-text">Cost to register your LLC or corporation</div>
+                </div>
+                <div class="form-group">
+                    <label for="contractorLicense">Contractor License Fee</label>
+                    <input type="number" id="contractorLicense" value="500" onchange="calculateCosts()">
+                    <div class="help-text">Cost for your trade-specific license</div>
+                </div>
+                <div class="form-group">
+                    <label for="businessLicense">Local Business License</label>
+                    <input type="number" id="businessLicense" value="150" onchange="calculateCosts()">
+                    <div class="help-text">Local city/county business license</div>
+                </div>
+            </div>
+
+            <!-- Insurance -->
+            <div class="form-section">
+                <h3>3. Insurance Costs (Annual)</h3>
+                <div class="form-group">
+                    <label for="generalLiability">General Liability Insurance</label>
+                    <input type="number" id="generalLiability" value="1200" onchange="calculateCosts()">
+                    <div class="help-text">Protects against accidents and property damage</div>
+                </div>
+                <div class="form-group">
+                    <label for="workersComp">Workers Compensation (if hiring)</label>
+                    <input type="number" id="workersComp" value="0" onchange="calculateCosts()">
+                    <div class="help-text">Required if you plan to hire employees</div>
+                </div>
+                <div class="form-group">
+                    <label for="vehicleInsurance">Commercial Vehicle Insurance</label>
+                    <input type="number" id="vehicleInsurance" value="2400" onchange="calculateCosts()">
+                    <div class="help-text">Commercial auto insurance for work vehicles</div>
+                </div>
+            </div>
+
+            <!-- Equipment & Tools -->
+            <div class="form-section">
+                <h3>4. Equipment & Tools</h3>
+                <div class="form-group">
+                    <label for="basicTools">Basic Hand Tools</label>
+                    <input type="number" id="basicTools" value="2000" onchange="calculateCosts()">
+                    <div class="help-text">Essential hand tools for your trade</div>
+                </div>
+                <div class="form-group">
+                    <label for="powerTools">Power Tools</label>
+                    <input type="number" id="powerTools" value="3000" onchange="calculateCosts()">
+                    <div class="help-text">Power tools and equipment needed</div>
+                </div>
+                <div class="form-group">
+                    <label for="specialtyEquipment">Specialty Equipment</label>
+                    <input type="number" id="specialtyEquipment" value="5000" onchange="calculateCosts()">
+                    <div class="help-text">Trade-specific equipment and machinery</div>
+                </div>
+            </div>
+
+            <!-- Vehicle & Transportation -->
+            <div class="form-section">
+                <h3>5. Vehicle & Transportation</h3>
+                <div class="form-group">
+                    <label for="vehicleDownPayment">Vehicle Down Payment</label>
+                    <input type="number" id="vehicleDownPayment" value="5000" onchange="calculateCosts()">
+                    <div class="help-text">Down payment for work truck/van</div>
+                </div>
+                <div class="form-group">
+                    <label for="vehicleWrap">Vehicle Wrapping/Signage</label>
+                    <input type="number" id="vehicleWrap" value="2000" onchange="calculateCosts()">
+                    <div class="help-text">Professional vehicle branding</div>
+                </div>
+            </div>
+
+            <!-- Marketing & Website -->
+            <div class="form-section">
+                <h3>6. Marketing & Website</h3>
+                <div class="form-group">
+                    <label for="websiteSetup">Website Setup</label>
+                    <input type="number" id="websiteSetup" value="1500" onchange="calculateCosts()">
+                    <div class="help-text">Professional website development</div>
+                </div>
+                <div class="form-group">
+                    <label for="marketingMaterials">Marketing Materials</label>
+                    <input type="number" id="marketingMaterials" value="1000" onchange="calculateCosts()">
+                    <div class="help-text">Business cards, flyers, yard signs</div>
+                </div>
+                <div class="form-group">
+                    <label for="initialAdvertising">Initial Advertising Budget</label>
+                    <input type="number" id="initialAdvertising" value="2000" onchange="calculateCosts()">
+                    <div class="help-text">Google Ads, Facebook ads, local advertising</div>
+                </div>
+            </div>
+
+            <!-- Operating Expenses -->
+            <div class="form-section">
+                <h3>7. 6-Month Operating Expenses</h3>
+                <div class="form-group">
+                    <label for="monthlyPersonalExpenses">Monthly Personal Living Expenses</label>
+                    <input type="number" id="monthlyPersonalExpenses" value="4000" onchange="calculateCosts()">
+                    <div class="help-text">Your personal monthly expenses while building the business</div>
+                </div>
+                <div class="form-group">
+                    <label for="monthlyBusinessExpenses">Monthly Business Expenses</label>
+                    <input type="number" id="monthlyBusinessExpenses" value="1000" onchange="calculateCosts()">
+                    <div class="help-text">Phone, internet, software, office supplies</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: #1f2937; color: white; text-align: center; padding: 2rem 0;">
+        <div class="container">
+            <p>&copy; 2025 Blue Collar Business School. All rights reserved.</p>
+            <p>Built by contractors, for contractors.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Trade-specific default values
+        const tradeDefaults = {
+            electrical: {
+                contractorLicense: 800,
+                basicTools: 3000,
+                powerTools: 4000,
+                specialtyEquipment: 8000
+            },
+            plumbing: {
+                contractorLicense: 600,
+                basicTools: 2500,
+                powerTools: 3500,
+                specialtyEquipment: 6000
+            },
+            hvac: {
+                contractorLicense: 700,
+                basicTools: 2000,
+                powerTools: 4000,
+                specialtyEquipment: 10000
+            },
+            roofing: {
+                contractorLicense: 500,
+                basicTools: 1500,
+                powerTools: 3000,
+                specialtyEquipment: 5000
+            },
+            painting: {
+                contractorLicense: 300,
+                basicTools: 1000,
+                powerTools: 2000,
+                specialtyEquipment: 3000
+            },
+            landscaping: {
+                contractorLicense: 400,
+                basicTools: 2000,
+                powerTools: 4000,
+                specialtyEquipment: 8000
+            },
+            flooring: {
+                contractorLicense: 450,
+                basicTools: 1800,
+                powerTools: 3500,
+                specialtyEquipment: 4000
+            },
+            handyman: {
+                contractorLicense: 200,
+                basicTools: 2500,
+                powerTools: 3000,
+                specialtyEquipment: 2000
+            }
+        };
+
+        // Update estimates based on business type
+        function updateEstimates() {
+            const businessType = document.getElementById('businessType').value;
+            if (businessType && tradeDefaults[businessType]) {
+                const defaults = tradeDefaults[businessType];
+                document.getElementById('contractorLicense').value = defaults.contractorLicense;
+                document.getElementById('basicTools').value = defaults.basicTools;
+                document.getElementById('powerTools').value = defaults.powerTools;
+                document.getElementById('specialtyEquipment').value = defaults.specialtyEquipment;
+                calculateCosts();
+            }
+        }
+
+        // Calculate all costs
+        function calculateCosts() {
+            // Legal & Licensing
+            const businessRegistration = parseFloat(document.getElementById('businessRegistration').value) || 0;
+            const contractorLicense = parseFloat(document.getElementById('contractorLicense').value) || 0;
+            const businessLicense = parseFloat(document.getElementById('businessLicense').value) || 0;
+            const legalTotal = businessRegistration + contractorLicense + businessLicense;
+
+            // Insurance
+            const generalLiability = parseFloat(document.getElementById('generalLiability').value) || 0;
+            const workersComp = parseFloat(document.getElementById('workersComp').value) || 0;
+            const vehicleInsurance = parseFloat(document.getElementById('vehicleInsurance').value) || 0;
+            const insuranceTotal = generalLiability + workersComp + vehicleInsurance;
+
+            // Equipment & Tools
+            const basicTools = parseFloat(document.getElementById('basicTools').value) || 0;
+            const powerTools = parseFloat(document.getElementById('powerTools').value) || 0;
+            const specialtyEquipment = parseFloat(document.getElementById('specialtyEquipment').value) || 0;
+            const equipmentTotal = basicTools + powerTools + specialtyEquipment;
+
+            // Vehicle & Transportation
+            const vehicleDownPayment = parseFloat(document.getElementById('vehicleDownPayment').value) || 0;
+            const vehicleWrap = parseFloat(document.getElementById('vehicleWrap').value) || 0;
+            const vehicleTotal = vehicleDownPayment + vehicleWrap;
+
+            // Marketing & Website
+            const websiteSetup = parseFloat(document.getElementById('websiteSetup').value) || 0;
+            const marketingMaterials = parseFloat(document.getElementById('marketingMaterials').value) || 0;
+            const initialAdvertising = parseFloat(document.getElementById('initialAdvertising').value) || 0;
+            const marketingTotal = websiteSetup + marketingMaterials + initialAdvertising;
+
+            // Operating Expenses (6 months)
+            const monthlyPersonalExpenses = parseFloat(document.getElementById('monthlyPersonalExpenses').value) || 0;
+            const monthlyBusinessExpenses = parseFloat(document.getElementById('monthlyBusinessExpenses').value) || 0;
+            const operatingTotal = (monthlyPersonalExpenses + monthlyBusinessExpenses) * 6;
+
+            // Total
+            const grandTotal = legalTotal + insuranceTotal + equipmentTotal + vehicleTotal + marketingTotal + operatingTotal;
+
+            // Update display
+            document.getElementById('legalCosts').textContent = formatCurrency(legalTotal);
+            document.getElementById('insuranceCosts').textContent = formatCurrency(insuranceTotal);
+            document.getElementById('equipmentCosts').textContent = formatCurrency(equipmentTotal);
+            document.getElementById('vehicleCosts').textContent = formatCurrency(vehicleTotal);
+            document.getElementById('marketingCosts').textContent = formatCurrency(marketingTotal);
+            document.getElementById('operatingCosts').textContent = formatCurrency(operatingTotal);
+            document.getElementById('totalCosts').textContent = formatCurrency(grandTotal);
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Reset calculator
+        function resetCalculator() {
+            document.getElementById('businessType').value = '';
+            document.getElementById('businessState').value = '';
+            
+            // Reset to default values
+            document.getElementById('businessRegistration').value = 100;
+            document.getElementById('contractorLicense').value = 500;
+            document.getElementById('businessLicense').value = 150;
+            document.getElementById('generalLiability').value = 1200;
+            document.getElementById('workersComp').value = 0;
+            document.getElementById('vehicleInsurance').value = 2400;
+            document.getElementById('basicTools').value = 2000;
+            document.getElementById('powerTools').value = 3000;
+            document.getElementById('specialtyEquipment').value = 5000;
+            document.getElementById('vehicleDownPayment').value = 5000;
+            document.getElementById('vehicleWrap').value = 2000;
+            document.getElementById('websiteSetup').value = 1500;
+            document.getElementById('marketingMaterials').value = 1000;
+            document.getElementById('initialAdvertising').value = 2000;
+            document.getElementById('monthlyPersonalExpenses').value = 4000;
+            document.getElementById('monthlyBusinessExpenses').value = 1000;
+            
+            calculateCosts();
+        }
+
+        // Print results
+        function printResults() {
+            window.print();
+        }
+
+        // Initialize calculator
+        calculateCosts();
+
+        // Add event listeners to all inputs
+        document.querySelectorAll('input, select').forEach(input => {
+            input.addEventListener('change', calculateCosts);
+            input.addEventListener('input', calculateCosts);
+        });
+    </script>
+</body>
+</html>

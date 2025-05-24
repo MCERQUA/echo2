@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Josh's Domain Portfolio Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Papa Parse for CSV -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <h1 class="text-3xl font-bold mb-6 text-center">Josh's Domain Portfolio Dashboard</h1>
+        
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="text-lg font-semibold">Total Domains</h3>
+                <p class="text-3xl" id="total-domains">0</p>
+            </div>
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="text-lg font-semibold">Active Domains</h3>
+                <p class="text-3xl" id="active-domains">0</p>
+            </div>
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="text-lg font-semibold">Not Active Domains</h3>
+                <p class="text-3xl" id="not-active-domains">0</p>
+            </div>
+        </div>
+        
+        <!-- Filter Controls -->
+        <div class="bg-white p-4 rounded shadow mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                    <input
+                      type="text"
+                      id="search-input"
+                      class="w-full p-2 border rounded"
+                      placeholder="Search domains..."
+                    />
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <select
+                      id="category-filter"
+                      class="w-full p-2 border rounded"
+                    >
+                      <option value="All">All</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <select
+                      id="status-filter"
+                      class="w-full p-2 border rounded"
+                    >
+                      <option value="All">All</option>
+                      <option value="Forwarded">Forwarded</option>
+                      <option value="Not Active">Not Active</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                    <select
+                      id="priority-filter"
+                      class="w-full p-2 border rounded"
+                    >
+                      <option value="All">All</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
+                    <select
+                      id="sort-by"
+                      class="w-full p-2 border rounded"
+                    >
+                      <option value="Domain">Domain Name</option>
+                      <option value="Status">Status</option>
+                      <option value="Category">Category</option>
+                      <option value="Priority">Priority</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Domain Table -->
+        <div class="bg-white rounded shadow overflow-hidden mb-8">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="Domain">
+                                Domain Name <span class="sort-indicator">↑</span>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="Status">
+                                Status <span class="sort-indicator"></span>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="Forwarding">
+                                Forwarding <span class="sort-indicator"></span>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="Category">
+                                Category <span class="sort-indicator"></span>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" data-sort="Priority">
+                                Priority <span class="sort-indicator"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="domain-table-body" class="bg-white divide-y divide-gray-200">
+                        <!-- Table rows will be injected here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-gray-50 px-6 py-3 border-t" id="table-footer">
+                Showing 0 of 0 domains
+            </div>
+        </div>
+        
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="text-lg font-semibold mb-4">Domains by Category</h3>
+                <canvas id="category-chart" height="250"></canvas>
+            </div>
+            
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="text-lg font-semibold mb-4">Domains by Priority</h3>
+                <canvas id="priority-chart" height="250"></canvas>
+            </div>
+        </div>
+        
+        <!-- Domain Status Chart -->
+        <div class="grid grid-cols-1 mb-8">
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="text-lg font-semibold mb-4">Domains by Status</h3>
+                <div class="grid grid-cols-2">
+                    <div>
+                        <canvas id="status-chart" height="200"></canvas>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <div class="mb-4">
+                            <h4 class="font-medium text-gray-700">Active Rate</h4>
+                            <div class="mt-2 bg-gray-200 rounded-full h-4 overflow-hidden">
+                                <div id="active-percentage-bar" class="bg-green-500 h-full" style="width: 0%"></div>
+                            </div>
+                            <div class="text-sm text-center mt-2" id="active-percentage-text">0% Active</div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium text-gray-700">Development Status</h4>
+                            <div class="grid grid-cols-2 gap-4 mt-2">
+                                <div class="text-center p-2 bg-green-100 rounded">
+                                    <span class="block text-xl font-bold text-green-600" id="forwarded-count">0</span>
+                                    <span class="text-sm text-gray-600">Forwarded</span>
+                                </div>
+                                <div class="text-center p-2 bg-blue-100 rounded">
+                                    <span class="block text-xl font-bold text-blue-600" id="not-active-count">0</span>
+                                    <span class="text-sm text-gray-600">To Develop</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Development Plan Section -->
+        <div class="bg-white p-4 rounded shadow mb-8">
+            <h3 class="text-lg font-semibold mb-4">Domain Development Plan</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 border rounded">
+                    <h4 class="font-semibold text-lg mb-2">Batch 1: High Priority</h4>
+                    <p class="text-sm text-gray-600 mb-4">Focus on contractor insurance domains with high profit potential</p>
+                    <div id="batch1-domains" class="flex flex-wrap gap-2"></div>
+                </div>
+                
+                <div class="p-4 border rounded">
+                    <h4 class="font-semibold text-lg mb-2">Batch 2: Spanish Market</h4>
+                    <p class="text-sm text-gray-600 mb-4">Develop Spanish language domains for specialized market</p>
+                    <div id="batch2-domains" class="flex flex-wrap gap-2"></div>
+                </div>
+                
+                <div class="p-4 border rounded">
+                    <h4 class="font-semibold text-lg mb-2">Batch 3: Regional Focus</h4>
+                    <p class="text-sm text-gray-600 mb-4">Target specific geographic markets with location-based domains</p>
+                    <div id="batch3-domains" class="flex flex-wrap gap-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Constants
+        const CSV_URL = 'domains.csv';
+        const priorityColors = {
+            'High': { bg: 'bg-red-100', text: 'text-red-800' },
+            'Medium': { bg: 'bg-yellow-100', text: 'text-yellow-800' },
+            'Low': { bg: 'bg-green-100', text: 'text-green-800' }
+        };
+        
+        // State
+        let allDomains = [];
+        let filteredDomains = [];
+        let currentSort = { field: 'Domain', direction: 'asc' };
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadCSVData();
+            setupEventListeners();
+            updateUI();
+        });
+        
+        // Load CSV data
+        async function loadCSVData() {
+            try {
+                const response = await fetch(CSV_URL);
+                const csvData = await response.text();
+                
+                Papa.parse(csvData, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        allDomains = results.data;
+                        filteredDomains = [...allDomains];
+                        
+                        // Populate filter dropdowns
+                        populateFilterOptions();
+                        
+                        // Apply initial sort
+                        sortDomains();
+                        
+                        // Update UI
+                        updateUI();
+                    },
+                    error: function(error) {
+                        console.error('Error parsing CSV:', error);
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching CSV:', error);
+            }
+        }
+        
+        // Set up event listeners
+        function setupEventListeners() {
+            // Search input
+            document.getElementById('search-input').addEventListener('input', function() {
+                applyFilters();
+            });
+            
+            // Category filter
+            document.getElementById('category-filter').addEventListener('change', function() {
+                applyFilters();
+            });
+            
+            // Status filter
+            document.getElementById('status-filter').addEventListener('change', function() {
+                applyFilters();
+            });
+            
+            // Priority filter
+            document.getElementById('priority-filter').addEventListener('change', function() {
+                applyFilters();
+            });
+            
+            // Sort dropdown
+            document.getElementById('sort-by').addEventListener('change', function() {
+                currentSort.field = this.value;
+                sortDomains();
+                updateUI();
+            });
+            
+            // Table header sorting
+            document.querySelectorAll('th[data-sort]').forEach(th => {
+                th.addEventListener('click', function() {
+                    const field = this.getAttribute('data-sort');
+                    
+                    if (currentSort.field === field) {
+                        // Toggle direction if same field
+                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        // New field, default to ascending
+                        currentSort.field = field;
+                        currentSort.direction = 'asc';
+                    }
+                    
+                    // Update sort indicators
+                    document.querySelectorAll('.sort-indicator').forEach(indicator => {
+                        indicator.textContent = '';
+                    });
+                    
+                    const indicator = this.querySelector('.sort-indicator');
+                    indicator.textContent = currentSort.direction === 'asc' ? '↑' : '↓';
+                    
+                    // Apply sort
+                    sortDomains();
+                    updateUI();
+                });
+            });
+        }
+        
+        // Populate filter options from data
+        function populateFilterOptions() {
+            // For categories
+            const categories = ['All', ...new Set(allDomains.map(d => d.Category))];
+            const categorySelect = document.getElementById('category-filter');
+            categorySelect.innerHTML = '';
+            
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categorySelect.appendChild(option);
+            });
+            
+            // For priorities
+            const priorities = ['All', ...new Set(allDomains.map(d => d.Priority))];
+            const prioritySelect = document.getElementById('priority-filter');
+            prioritySelect.innerHTML = '';
+            
+            priorities.forEach(priority => {
+                const option = document.createElement('option');
+                option.value = priority;
+                option.textContent = priority;
+                prioritySelect.appendChild(option);
+            });
+        }
+        
+        // Apply filters
+        function applyFilters() {
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            const categoryFilter = document.getElementById('category-filter').value;
+            const statusFilter = document.getElementById('status-filter').value;
+            const priorityFilter = document.getElementById('priority-filter').value;
+            
+            filteredDomains = allDomains.filter(domain => {
+                // Search filter
+                const matchesSearch = domain.Domain.toLowerCase().includes(searchQuery);
+                
+                // Category filter
+                const matchesCategory = categoryFilter === 'All' || domain.Category === categoryFilter;
+                
+                // Status filter
+                const matchesStatus = statusFilter === 'All' || domain.Status === statusFilter;
+                
+                // Priority filter
+                const matchesPriority = priorityFilter === 'All' || domain.Priority === priorityFilter;
+                
+                return matchesSearch && matchesCategory && matchesStatus && matchesPriority;
+            });
+            
+            // Sort the filtered results
+            sortDomains();
+            
+            // Update UI
+            updateUI();
+        }
+        
+        // Sort domains
+        function sortDomains() {
+            filteredDomains.sort((a, b) => {
+                const aValue = a[currentSort.field];
+                const bValue = b[currentSort.field];
+                
+                if (currentSort.direction === 'asc') {
+                    return aValue.localeCompare(bValue);
+                } else {
+                    return bValue.localeCompare(aValue);
+                }
+            });
+        }
+        
+        // Update the UI with current data
+        function updateUI() {
+            updateStats();
+            updateTable();
+            updateCharts();
+            updateDevelopmentPlan();
+        }
+        
+        // Update stats
+        function updateStats() {
+            const totalDomains = allDomains.length;
+            const activeDomains = allDomains.filter(d => d.Status === 'Forwarded').length;
+            const notActiveDomains = allDomains.filter(d => d.Status === 'Not Active').length;
+            
+            document.getElementById('total-domains').textContent = totalDomains;
+            document.getElementById('active-domains').textContent = activeDomains;
+            document.getElementById('not-active-domains').textContent = notActiveDomains;
+            
+            // Update active percentage
+            const activePercentage = Math.round((activeDomains / totalDomains) * 100);
+            document.getElementById('active-percentage-bar').style.width = `${activePercentage}%`;
+            document.getElementById('active-percentage-text').textContent = `${activePercentage}% Active`;
+            
+            // Update development status
+            document.getElementById('forwarded-count').textContent = activeDomains;
+            document.getElementById('not-active-count').textContent = notActiveDomains;
+        }
+        
+        // Update table
+        function updateTable() {
+            const tableBody = document.getElementById('domain-table-body');
+            tableBody.innerHTML = '';
+            
+            filteredDomains.forEach((domain, index) => {
+                const row = document.createElement('tr');
+                row.className = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+                
+                // Domain column
+                const domainCell = document.createElement('td');
+                domainCell.className = 'px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600';
+                
+                const domainLink = document.createElement('a');
+                domainLink.href = `http://${domain.Domain}`;
+                domainLink.target = '_blank';
+                domainLink.rel = 'noopener noreferrer';
+                domainLink.textContent = domain.Domain;
+                
+                domainCell.appendChild(domainLink);
+                row.appendChild(domainCell);
+                
+                // Status column
+                const statusCell = document.createElement('td');
+                statusCell.className = 'px-6 py-4 whitespace-nowrap text-sm';
+                
+                const statusBadge = document.createElement('span');
+                statusBadge.className = domain.Status === 'Forwarded' 
+                    ? 'bg-green-100 text-green-800 px-2 py-1 rounded' 
+                    : 'bg-gray-100 text-gray-800 px-2 py-1 rounded';
+                statusBadge.textContent = domain.Status;
+                
+                statusCell.appendChild(statusBadge);
+                row.appendChild(statusCell);
+                
+                // Forwarding column
+                const forwardingCell = document.createElement('td');
+                forwardingCell.className = 'px-6 py-4 whitespace-nowrap text-sm';
+                
+                if (domain.Forwarding && domain.Forwarding !== '-' && domain.Forwarding !== 'Add Forwarding') {
+                    const forwardingLink = document.createElement('a');
+                    forwardingLink.href = domain.Forwarding;
+                    forwardingLink.target = '_blank';
+                    forwardingLink.rel = 'noopener noreferrer';
+                    forwardingLink.className = 'text-blue-600';
+                    forwardingLink.textContent = domain.Forwarding;
+                    forwardingCell.appendChild(forwardingLink);
+                } else {
+                    forwardingCell.textContent = domain.Forwarding || '-';
+                }
+                
+                row.appendChild(forwardingCell);
+                
+                // Category column
+                const categoryCell = document.createElement('td');
+                categoryCell.className = 'px-6 py-4 whitespace-nowrap text-sm';
+                categoryCell.textContent = domain.Category;
+                row.appendChild(categoryCell);
+                
+                // Priority column
+                const priorityCell = document.createElement('td');
+                priorityCell.className = 'px-6 py-4 whitespace-nowrap text-sm';
+                
+                const priorityBadge = document.createElement('span');
+                priorityBadge.className = `px-2 py-1 rounded ${priorityColors[domain.Priority]?.bg || ''} ${priorityColors[domain.Priority]?.text || ''}`;
+                priorityBadge.textContent = domain.Priority;
+                
+                priorityCell.appendChild(priorityBadge);
+                row.appendChild(priorityCell);
+                
+                // Add row to table
+                tableBody.appendChild(row);
+            });
+            
+            // Update table footer
+            document.getElementById('table-footer').textContent = `Showing ${filteredDomains.length} of ${allDomains.length} domains`;
+        }
+        
+        // Update charts
+        function updateCharts() {
+            // Category chart
+            const categoryData = {};
+            allDomains.forEach(domain => {
+                categoryData[domain.Category] = (categoryData[domain.Category] || 0) + 1;
+            });
+            
+            const categoryLabels = Object.keys(categoryData);
+            const categoryValues = Object.values(categoryData);
+            const categoryColors = [
+                '#4299E1', // blue
+                '#48BB78', // green
+                '#F6AD55', // orange
+                '#F56565', // red
+                '#9F7AEA'  // purple
+            ];
+            
+            const categoryCtx = document.getElementById('category-chart').getContext('2d');
+            if (window.categoryChart) {
+                window.categoryChart.destroy();
+            }
+            
+            window.categoryChart = new Chart(categoryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: categoryLabels,
+                    datasets: [{
+                        data: categoryValues,
+                        backgroundColor: categoryColors.slice(0, categoryLabels.length),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        }
+                    }
+                }
+            });
+            
+            // Priority chart
+            const priorityData = {};
+            allDomains.forEach(domain => {
+                priorityData[domain.Priority] = (priorityData[domain.Priority] || 0) + 1;
+            });
+            
+            const priorityLabels = Object.keys(priorityData);
+            const priorityValues = Object.values(priorityData);
+            const priorityChartColors = {
+                'High': '#F56565',   // red
+                'Medium': '#F6AD55', // orange
+                'Low': '#48BB78'     // green
+            };
+            
+            const priorityColors = priorityLabels.map(label => priorityChartColors[label] || '#CBD5E0');
+            
+            const priorityCtx = document.getElementById('priority-chart').getContext('2d');
+            if (window.priorityChart) {
+                window.priorityChart.destroy();
+            }
+            
+            window.priorityChart = new Chart(priorityCtx, {
+                type: 'bar',
+                data: {
+                    labels: priorityLabels,
+                    datasets: [{
+                        label: 'Number of Domains',
+                        data: priorityValues,
+                        backgroundColor: priorityColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Status chart
+            const activeDomains = allDomains.filter(d => d.Status === 'Forwarded').length;
+            const notActiveDomains = allDomains.filter(d => d.Status === 'Not Active').length;
+            
+            const statusCtx = document.getElementById('status-chart').getContext('2d');
+            if (window.statusChart) {
+                window.statusChart.destroy();
+            }
+            
+            window.statusChart = new Chart(statusCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Active', 'Not Active'],
+                    datasets: [{
+                        data: [activeDomains, notActiveDomains],
+                        backgroundColor: ['#48BB78', '#CBD5E0'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+        
+        // Update development plan section
+        function updateDevelopmentPlan() {
+            // Batch 1: High Priority Contractor Insurance
+            const batch1Domains = allDomains
+                .filter(d => d.Priority === 'High' && d.Category === 'Contractor Insurance' && d.Status === 'Not Active')
+                .slice(0, 5);
+                
+            const batch1Container = document.getElementById('batch1-domains');
+            batch1Container.innerHTML = '';
+            
+            batch1Domains.forEach(domain => {
+                const badge = document.createElement('span');
+                badge.className = 'inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm';
+                badge.textContent = domain.Domain;
+                batch1Container.appendChild(badge);
+            });
+            
+            // Batch 2: Spanish Language
+            const batch2Domains = allDomains
+                .filter(d => d.Category === 'Spanish Language')
+                .slice(0, 5);
+                
+            const batch2Container = document.getElementById('batch2-domains');
+            batch2Container.innerHTML = '';
+            
+            batch2Domains.forEach(domain => {
+                const badge = document.createElement('span');
+                badge.className = 'inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm';
+                badge.textContent = domain.Domain;
+                batch2Container.appendChild(badge);
+            });
+            
+            // Batch 3: Regional Focus
+            const batch3Domains = allDomains
+                .filter(d => d.Category === 'Regional/Location-based' && d.Status === 'Not Active')
+                .slice(0, 5);
+                
+            const batch3Container = document.getElementById('batch3-domains');
+            batch3Container.innerHTML = '';
+            
+            batch3Domains.forEach(domain => {
+                const badge = document.createElement('span');
+                badge.className = 'inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm';
+                badge.textContent = domain.Domain;
+                batch3Container.appendChild(badge);
+            });
+        }
+    </script>
+</body>
+</html>

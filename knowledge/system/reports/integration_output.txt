@@ -1,0 +1,3 @@
+Skipping binary or non-utf8 file: Code Examples/__pycache__/knowledge_integration.cpython-311.pyc
+Skipping binary or non-utf8 file: Code Examples/__pycache__/version_comparison.cpython-311.pyc
+Skipping binary or non-utf8 file: Code Examples/__pycache__/cross_reference_manager.cpython-311.pyc

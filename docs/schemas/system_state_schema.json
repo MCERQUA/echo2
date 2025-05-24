@@ -1,0 +1,120 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Echo2 System State",
+    "description": "Schema for tracking Echo2 system state and sessions",
+    "type": "object",
+    "required": ["sessions", "current_capabilities", "system_goals", "partnership_status"],
+    "properties": {
+        "sessions": {
+            "type": "array",
+            "description": "History of all Echo2 sessions",
+            "items": {
+                "type": "object",
+                "required": ["timestamp", "session_id", "system_info", "available_tools"],
+                "properties": {
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "ISO 8601 timestamp of session start"
+                    },
+                    "session_id": {
+                        "type": "string",
+                        "pattern": "^ECHO2_\\d{8}_\\d{4}$",
+                        "description": "Unique session identifier (format: ECHO2_YYYYMMDD_HHMM)"
+                    },
+                    "system_info": {
+                        "type": "object",
+                        "required": ["display", "resolution", "architecture", "os"],
+                        "properties": {
+                            "display": {"type": "string"},
+                            "resolution": {"type": "string"},
+                            "architecture": {"type": "string"},
+                            "os": {"type": "string"}
+                        }
+                    },
+                    "available_tools": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": ["name", "type", "capabilities"],
+                            "properties": {
+                                "name": {"type": "string"},
+                                "type": {"type": "string"},
+                                "capabilities": {
+                                    "type": "array",
+                                    "items": {"type": "string"}
+                                }
+                            }
+                        }
+                    },
+                    "installed_applications": {
+                        "type": "array",
+                        "items": {"type": "string"}
+                    },
+                    "session_type": {"type": "string"},
+                    "improvements_made": {
+                        "type": "array",
+                        "items": {"type": "string"}
+                    },
+                    "knowledge_state": {
+                        "type": "object",
+                        "properties": {
+                            "repository": {"type": "string"},
+                            "persistent_storage": {"type": "boolean"},
+                            "documentation_format": {"type": "string"}
+                        }
+                    }
+                }
+            }
+        },
+        "current_capabilities": {
+            "type": "object",
+            "required": ["execution", "analysis", "internet_access", "gui_interaction"],
+            "properties": {
+                "execution": {"type": "boolean"},
+                "analysis": {"type": "boolean"},
+                "internet_access": {"type": "boolean"},
+                "gui_interaction": {"type": "boolean"}
+            }
+        },
+        "system_goals": {
+            "type": "object",
+            "required": ["short_term", "long_term"],
+            "properties": {
+                "short_term": {
+                    "type": "array",
+                    "items": {"type": "string"}
+                },
+                "long_term": {
+                    "type": "array",
+                    "items": {"type": "string"}
+                }
+            }
+        },
+        "partnership_status": {
+            "type": "object",
+            "required": ["echo1", "echo2"],
+            "properties": {
+                "echo1": {
+                    "type": "object",
+                    "properties": {
+                        "role": {"type": "string"},
+                        "last_interaction": {"type": ["string", "null"]},
+                        "shared_knowledge_base": {"type": "string"}
+                    }
+                },
+                "echo2": {
+                    "type": "object",
+                    "properties": {
+                        "role": {"type": "string"},
+                        "active": {"type": "boolean"},
+                        "capabilities": {
+                            "type": "array",
+                            "items": {"type": "string"}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

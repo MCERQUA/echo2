@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stage 1: Starting Your Contracting Business | Blue Collar Business School</title>
+    <meta name="description" content="Step-by-step guide to starting your contracting business - from business idea to first customers.">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Stage Header */
+        .stage-header {
+            background: linear-gradient(135deg, #ea580c 0%, #fb923c 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .stage-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stage-header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            padding: 2rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .progress-bar {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #16a34a, #22c55e);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        /* Modules Grid */
+        .modules-section {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: #1e40af;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid #ea580c;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .module-card.completed {
+            border-left-color: #16a34a;
+            background: #f0f9ff;
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .module-number {
+            background: #ea580c;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .module-number.completed {
+            background: #16a34a;
+        }
+
+        .module-status {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .module-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #1e40af;
+        }
+
+        .module-card p {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+
+        .module-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #ea580c;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn.completed {
+            background: #16a34a;
+        }
+
+        /* Tools Section */
+        .tools-section {
+            padding: 4rem 0;
+            background: #f8f9fa;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tool-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .tool-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .stage-header h1 {
+                font-size: 2rem;
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">🔨 Blue Collar Business School</div>
+            <div class="breadcrumb">
+                <a href="../index.html">Home</a> / Stage 1: Starting Your Business
+            </div>
+        </nav>
+    </header>
+
+    <!-- Stage Header -->
+    <section class="stage-header">
+        <div class="container">
+            <h1>🚀 Stage 1: Starting Your Contracting Business</h1>
+            <p>Ready to turn your skills into a successful business? Follow these four essential modules to set up your contracting business the right way from day one.</p>
+        </div>
+    </section>
+
+    <!-- Progress Section -->
+    <section class="progress-container">
+        <div class="container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0 of 4 modules completed</div>
+        </div>
+    </section>
+
+    <!-- Modules Section -->
+    <section class="modules-section">
+        <div class="container">
+            <h2 class="section-title">Your Path to Business Success</h2>
+            
+            <div class="modules-grid">
+                <!-- Module 1.1 -->
+                <div class="module-card" data-module="1">
+                    <div class="module-header">
+                        <div class="module-number">1</div>
+                        <div class="module-status">Not Started</div>
+                    </div>
+                    <h3>Is This Right for Me?</h3>
+                    <p>Before you invest time and money, let's make sure starting a contracting business is the right move for your situation.</p>
+                    <div class="module-details">
+                        <span>📚 4 lessons</span>
+                        <span>⏱️ 45 minutes</span>
+                        <span>🎯 Assessment</span>
+                    </div>
+                    <a href="module1/index.html" class="btn">Start Module</a>
+                </div>
+
+                <!-- Module 1.2 -->
+                <div class="module-card" data-module="2">
+                    <div class="module-header">
+                        <div class="module-number">2</div>
+                        <div class="module-status">Locked</div>
+                    </div>
+                    <h3>Legal Business Setup</h3>
+                    <p>Set up your business legally and properly. Choose the right structure, get licenses, and protect yourself with insurance.</p>
+                    <div class="module-details">
+                        <span>📚 5 lessons</span>
+                        <span>⏱️ 60 minutes</span>
+                        <span>📋 Checklists</span>
+                    </div>
+                    <a href="#" class="btn btn-secondary">Complete Module 1 First</a>
+                </div>
+
+                <!-- Module 1.3 -->
+                <div class="module-card" data-module="3">
+                    <div class="module-header">
+                        <div class="module-number">3</div>
+                        <div class="module-status">Locked</div>
+                    </div>
+                    <h3>Basic Business Plan</h3>
+                    <p>Create a simple but effective business plan that will guide your decisions and help you secure financing if needed.</p>
+                    <div class="module-details">
+                        <span>📚 4 lessons</span>
+                        <span>⏱️ 90 minutes</span>
+                        <span>📊 Calculator</span>
+                    </div>
+                    <a href="#" class="btn btn-secondary">Complete Previous Modules</a>
+                </div>
+
+                <!-- Module 1.4 -->
+                <div class="module-card" data-module="4">
+                    <div class="module-header">
+                        <div class="module-number">4</div>
+                        <div class="module-status">Locked</div>
+                    </div>
+                    <h3>Getting Your First Customers</h3>
+                    <p>Learn proven strategies to find and win your first customers, even before you officially launch your business.</p>
+                    <div class="module-details">
+                        <span>📚 6 lessons</span>
+                        <span>⏱️ 75 minutes</span>
+                        <span>🎯 Action Plan</span>
+                    </div>
+                    <a href="#" class="btn btn-secondary">Complete Previous Modules</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="tools-section">
+        <div class="container">
+            <h2 class="section-title">Stage 1 Tools & Calculators</h2>
+            <p style="text-align: center; margin-bottom: 2rem; color: #6b7280;">Practical tools to help you make smart decisions about starting your business</p>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">💰</div>
+                    <h3>Startup Cost Calculator</h3>
+                    <p>Calculate exactly how much money you need to start your contracting business</p>
+                    <a href="../tools/startup-calculator.html" class="btn">Use Calculator</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">📋</div>
+                    <h3>Business Readiness Assessment</h3>
+                    <p>Take our quiz to see if you're truly ready to start your own business</p>
+                    <a href="../tools/readiness-quiz.html" class="btn">Take Assessment</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">🎯</div>
+                    <h3>Market Research Template</h3>
+                    <p>Research your local market and competition with our step-by-step guide</p>
+                    <a href="../tools/market-research.html" class="btn">Start Research</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">📄</div>
+                    <h3>Business Plan Template</h3>
+                    <p>Download our contractor-specific business plan template</p>
+                    <a href="../downloads/business-plan-template.pdf" class="btn">Download PDF</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Next Steps -->
+    <section class="modules-section" style="background: #f0f9ff; padding: 3rem 0;">
+        <div class="container" style="text-align: center;">
+            <h2 style="color: #1e40af; margin-bottom: 1rem;">What Happens After Stage 1?</h2>
+            <p style="color: #6b7280; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Once you complete Stage 1, you'll have a legally established business with a solid plan. You'll be ready to move to Stage 2: Getting Online and attracting customers through digital marketing.
+            </p>
+            <a href="../stage2/index.html" class="btn" style="background: #1e40af;">Preview Stage 2: Getting Online</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: #1f2937; color: white; text-align: center; padding: 2rem 0;">
+        <div class="container">
+            <p>&copy; 2025 Blue Collar Business School. All rights reserved.</p>
+            <p>Built by contractors, for contractors.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Progress tracking
+        let completedModules = JSON.parse(localStorage.getItem('stage1Progress') || '[]');
+        
+        function updateProgress() {
+            const totalModules = 4;
+            const completed = completedModules.length;
+            const percentage = (completed / totalModules) * 100;
+            
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${completed} of ${totalModules} modules completed`;
+            
+            // Update module cards
+            document.querySelectorAll('.module-card').forEach((card, index) => {
+                const moduleNumber = index + 1;
+                const moduleNumberEl = card.querySelector('.module-number');
+                const statusEl = card.querySelector('.module-status');
+                const btn = card.querySelector('.btn');
+                
+                if (completedModules.includes(moduleNumber)) {
+                    card.classList.add('completed');
+                    moduleNumberEl.classList.add('completed');
+                    statusEl.textContent = 'Completed ✓';
+                    btn.textContent = 'Review Module';
+                    btn.classList.add('completed');
+                } else if (moduleNumber === 1 || completedModules.includes(moduleNumber - 1)) {
+                    // First module or previous module completed
+                    statusEl.textContent = 'Available';
+                    btn.classList.remove('btn-secondary');
+                    btn.textContent = 'Start Module';
+                    btn.href = `module${moduleNumber}/index.html`;
+                } else {
+                    statusEl.textContent = 'Locked';
+                    btn.classList.add('btn-secondary');
+                }
+            });
+        }
+        
+        // Initialize progress
+        updateProgress();
+        
+        // Module completion (this would be called from individual module pages)
+        function completeModule(moduleNumber) {
+            if (!completedModules.includes(moduleNumber)) {
+                completedModules.push(moduleNumber);
+                localStorage.setItem('stage1Progress', JSON.stringify(completedModules));
+                updateProgress();
+            }
+        }
+        
+        // Add click tracking
+        document.querySelectorAll('.module-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (!e.target.classList.contains('btn')) {
+                    const btn = this.querySelector('.btn');
+                    if (btn && !btn.classList.contains('btn-secondary')) {
+                        window.location.href = btn.href;
+                    }
+                }
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

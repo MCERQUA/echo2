@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insulation Contractors of Arizona - Website Report</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap">
+    <style>
+        :root {
+            --primary: #1E40AF;
+            --primary-light: #3B82F6;
+            --primary-dark: #1E3A8A;
+            --secondary: #F97316;
+            --secondary-light: #FB923C;
+            --accent: #10B981;
+            --light: #F3F4F6;
+            --dark: #1F2937;
+            --gray: #6B7280;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-light));
+            --gradient-secondary: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+            --gradient-accent: linear-gradient(135deg, var(--accent), #0EA5E9);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+            --glow-primary: 0 0 15px rgba(59, 130, 246, 0.5);
+            --glow-secondary: 0 0 15px rgba(249, 115, 22, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary-light);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .nav-mobile {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 80vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            background: url('/api/placeholder/1200/600') center/cover no-repeat;
+            background-attachment: fixed;
+            margin-top: 70px;
+            overflow: hidden;
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.8), rgba(249, 115, 22, 0.5));
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            max-width: 700px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            box-shadow: var(--shadow-md), var(--glow-primary);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--gradient-secondary);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: var(--shadow-md), var(--glow-secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--light);
+            color: var(--light);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            display: inline-block;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-primary);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+
+        .section-description {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-text {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        /* Grid & Flex Layouts */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        /* Executive Summary Section */
+        .summary-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .summary-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .summary-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        /* Blog Section */
+        .blog-card {
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background: white;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-5px);
+        }
+
+        .blog-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .blog-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .blog-card:hover .blog-img img {
+            transform: scale(1.1);
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .blog-text {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .blog-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-status {
+            font-size: 0.875rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-weight: 500;
+        }
+
+        .status-completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-in-progress {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .status-pending {
+            background: rgba(107, 114, 128, 0.1);
+            color: var(--gray);
+        }
+
+        /* SEO Analysis Section */
+        .progress-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 1s ease;
+        }
+
+        .fill-primary {
+            background: var(--gradient-primary);
+        }
+
+        .fill-secondary {
+            background: var(--gradient-secondary);
+        }
+
+        .fill-accent {
+            background: var(--gradient-accent);
+        }
+
+        /* Tasks Section */
+        .task-list {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .task-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-body {
+            padding: 0;
+        }
+
+        .task-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .task-item:hover {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .task-item:last-child {
+            border-bottom: none;
+        }
+
+        .task-checkbox {
+            position: relative;
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .task-checkbox input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: white;
+            border: 2px solid var(--primary);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .task-checkbox:hover input ~ .checkmark {
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        .task-checkbox input:checked ~ .checkmark {
+            background-color: var(--primary);
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .task-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .task-checkbox .checkmark:after {
+            left: 6px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .task-content {
+            flex-grow: 1;
+        }
+
+        .task-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .task-description {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        .task-date {
+            font-size: 0.75rem;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+        }
+
+        /* Company Information Section */
+        .info-section {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .info-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .info-body {
+            padding: 1.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            border-radius: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .info-content {
+            flex-grow: 1;
+        }
+
+        .info-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-text {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        /* Accordion */
+        .accordion {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion-body {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .accordion-active .accordion-header {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .accordion-active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-active .accordion-content {
+            max-height: 500px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-logo {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            max-width: 400px;
+        }
+
+        .footer-title {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+
+        .footer-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 1.5px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            margin-top: 3rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+
+        /* Utilities */
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 0.75rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mt-8 { margin-top: 2rem; }
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .my-4 { margin-top: 1rem; margin-bottom: 1rem; }
+        .my-8 { margin-top: 2rem; margin-bottom: 2rem; }
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+        .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+        .text-center { text-align: center; }
+        .text-white { color: white; }
+        .text-primary { color: var(--primary); }
+        .text-secondary { color: var(--secondary); }
+        .text-gray { color: var(--gray); }
+        .bg-white { background: white; }
+        .bg-primary { background: var(--primary); }
+        .bg-light { background: var(--light); }
+        .rounded { border-radius: 0.5rem; }
+        .shadow { box-shadow: var(--shadow); }
+        .shadow-md { box-shadow: var(--shadow-md); }
+        .w-full { width: 100%; }
+        .max-w-xl { max-width: 36rem; }
+        .max-w-2xl { max-width: 42rem; }
+        .max-w-3xl { max-width: 48rem; }
+        .max-w-4xl { max-width: 56rem; }
+        .max-w-5xl { max-width: 64rem; }
+        .max-w-6xl { max-width: 72rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.7s ease forwards;
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .animate-delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .animate-delay-2 {
+            animation-delay: 0.3s;
+        }
+
+        .animate-delay-3 {
+            animation-delay: 0.5s;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar-container {
+                padding: 0.75rem 1rem;
+            }
+
+            .logo {
+                font-size: 1.25rem;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: white;
+                padding: 1rem;
+                box-shadow: var(--shadow);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-mobile {
+                display: block;
+            }
+
+            .hero {
+                height: 70vh;
+                min-height: 500px;
+            }
+
+            .hero h1 {
+                font-size: 2.25rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="logo">
+                <i class="fas fa-home logo-icon"></i>
+                                        <span>Insulation</span> Website Report
+            </a>
+            <div class="nav-links">
+                <a href="#summary" class="nav-link">Executive Summary</a>
+                <a href="#company" class="nav-link">Company Info</a>
+                <a href="#seo" class="nav-link">SEO Analysis</a>
+                <a href="#blog" class="nav-link">Blog Plan</a>
+                <a href="#tasks" class="nav-link">Tasks</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content animate-fadeInUp">
+                <h1>Insulation Contractors of Arizona</h1>
+                <p>Comprehensive website report with SEO analysis, content strategy, and implementation plan for enhancing online presence and market positioning.</p>
+                <div class="flex gap-4 mt-6">
+                    <a href="#summary" class="btn btn-primary">View Report</a>
+                    <a href="#tasks" class="btn btn-outline">Project Tasks</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Executive Summary Section -->
+    <section id="summary" class="section">
+        <div class="container">
+            <div class="section-title animate-fadeInUp">
+                <h2>Executive Summary</h2>
+            </div>
+            <div class="section-description animate-fadeInUp animate-delay-1">
+                We have completed a comprehensive analysis of Insulation Contractors of Arizona's online presence, SEO performance, and market positioning. This summary highlights our key findings and recommendations.
+            </div>
+
+            <div class="grid animate-fadeInUp animate-delay-2">
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Company Overview</h3>
+                    <ul>
+                        <li>Established business with 20+ years in the Arizona market</li>
+                        <li>Family-owned and operated by Christopher Kuhn</li>
+                        <li>Multiple locations in Glendale and Wittmann</li>
+                        <li>Diverse insulation services including spray foam, fiberglass, and cellulose</li>
+                        <li>Properly licensed, bonded, and insured with BBB accreditation</li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3>Website Assessment</h3>
+                    <ul>
+                        <li>Basic structure with limited navigation and content depth</li>
+                        <li>Content gaps in service descriptions and educational content</li>
+                        <li>Basic mobile responsiveness without optimization</li>
+                        <li>Simple contact forms without conversion optimization</li>
+                        <li>Limited imagery and visual demonstrations</li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>SEO Opportunities</h3>
+                    <ul>
+                        <li>Significant potential for technical SEO improvements</li>
+                        <li>Content development for comprehensive service pages</li>
+                        <li>Local SEO enhancement with city-specific landing pages</li>
+                        <li>Extensive keyword opportunities across services and locations</li>
+                        <li>Strategic implementation of schema markup</li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Competitive Landscape</h3>
+                    <ul>
+                        <li>Primary competitors: Barrier Insulation, Arizona Spray Foam</li>
+                        <li>Positioned in mid-market segment with family-business approach</li>
+                        <li>Lacks the comprehensive digital presence of competitors</li>
+                        <li>Untapped differentiation in family ownership and experience</li>
+                        <li>Specialized applications offer unique positioning opportunity</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion mt-8 animate-fadeInUp animate-delay-3">
+                <div class="accordion-item accordion-active">
+                    <div class="accordion-header">
+                        <span>Strategic Recommendations</span>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content" style="max-height: 800px;">
+                        <div class="accordion-body">
+                            <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));">
+                                <div>
+                                    <h4 class="mb-2">Website Enhancements</h4>
+                                    <ol>
+                                        <li>Complete redesign with modern, responsive structure</li>
+                                        <li>Comprehensive service pages and educational resources</li>
+                                        <li>Strategic lead generation elements and optimized forms</li>
+                                        <li>Visual storytelling with project galleries</li>
+                                        <li>Robust testimonial showcase highlighting customer experiences</li>
+                                    </ol>
+                                </div>
+                                <div>
+                                    <h4 class="mb-2">SEO Implementation</h4>
+                                    <ol>
+                                        <li>Technical foundation with proper structure and metadata</li>
+                                        <li>City-specific landing pages for key service areas</li>
+                                        <li>Content strategy targeting identified keywords</li>
+                                        <li>Schema markup implementation for enhanced visibility</li>
+                                        <li>Mobile optimization for all pages</li>
+                                    </ol>
+                                </div>
+                                <div>
+                                    <h4 class="mb-2">Competitive Positioning</h4>
+                                    <ol>
+                                        <li>Enhanced family business emphasis and personal service</li>
+                                        <li>Strategic showcase of 20+ years experience</li>
+                                        <li>Highlighting unique capabilities and specializations</li>
+                                        <li>Development of explicit service guarantees</li>
+                                        <li>Increased visibility of community involvement</li>
+                                    </ol>
+                                </div>
+                                <div>
+                                    <h4 class="mb-2">Digital Marketing Strategy</h4>
+                                    <ol>
+                                        <li>Systematic review generation approach</li>
+                                        <li>Consistent social media posting strategy</li>
+                                        <li>Strategic local business partnerships</li>
+                                        <li>Seasonal content relevant to Arizona climate</li>
+                                        <li>Email nurturing campaigns for lead conversion</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Implementation Timeline</span>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));">
+                                <div class="mb-4">
+                                    <h4 class="mb-2">Immediate Actions (1-30 Days)</h4>
+                                    <ol>
+                                        <li>Website architecture planning and design concepts</li>
+                                        <li>Technical SEO audit implementation</li>
+                                        <li>Initial content development for core services</li>
+                                        <li>Google Business Profile optimization</li>
+                                        <li>Social media profile enhancement</li>
+                                    </ol>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="mb-2">Short-Term Actions (1-3 Months)</h4>
+                                    <ol>
+                                        <li>Complete website design and development</li>
+                                        <li>Core content creation and implementation</li>
+                                        <li>Lead generation system setup</li>
+                                        <li>Local SEO implementation with city pages</li>
+                                        <li>Review generation system implementation</li>
+                                    </ol>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="mb-2">Medium-Term Actions (3-6 Months)</h4>
+                                    <ol>
+                                        <li>Educational content hub development</li>
+                                        <li>Case study creation and implementation</li>
+                                        <li>Email marketing system setup</li>
+                                        <li>Advanced conversion optimization</li>
+                                        <li>Expanded service description development</li>
+                                    </ol>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="mb-2">Long-Term Actions (6-12 Months)</h4>
+                                    <ol>
+                                        <li>Ongoing content marketing implementation</li>
+                                        <li>Performance analysis and optimization</li>
+                                        <li>Advanced SEO techniques implementation</li>
+                                        <li>Competitor strategy adjustment</li>
+                                        <li>Market expansion planning</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Expected Outcomes</span>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <ul>
+                                <li><strong>Improved Online Visibility:</strong> Higher rankings for targeted keywords</li>
+                                <li><strong>Increased Lead Generation:</strong> More qualified leads through optimized website</li>
+                                <li><strong>Enhanced Brand Perception:</strong> Stronger market positioning against competitors</li>
+                                <li><strong>Greater Customer Engagement:</strong> More interaction through educational content</li>
+                                <li><strong>Business Growth:</strong> Expanded market share and service area reach</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Information Section -->
+    <section id="company" class="section bg-light">
+        <div class="container">
+            <div class="section-title animate-fadeInUp">
+                <h2>Company Information</h2>
+            </div>
+            <div class="section-description animate-fadeInUp animate-delay-1">
+                Insulation Contractors of Arizona is a family-owned business with over 20 years of experience providing insulation services throughout Arizona.
+            </div>
+
+            <div class="info-section animate-fadeInUp animate-delay-2">
+                <div class="info-header">
+                    <h3>Business Overview</h3>
+                </div>
+                <div class="info-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-title">Company Name</div>
+                                <div class="info-text">Insulation Contractors of Arizona LLC</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-title">Owner/Leader</div>
+                                <div class="info-text">Christopher Kuhn</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-business-time"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-title">Years in Business</div>
+                                <div class="info-text">20+ years in Arizona</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-title">Business Status</div>
+                                <div class="info-text">Licensed, Bonded, and Insured</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section animate-fadeInUp animate-delay-2">
+                <div class="info-header">
+                    <h3>Locations</h3>
+                </div>
+                <div class="info-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-title">Primary Location</div>
+                                <div class="info-text">10616 N 50th Ave, Glendale, AZ 85304</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-title">Secondary Location</div>
+                                <div class="info-text">20944 W Jomax Rd, Wittmann, AZ 85361</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-title">Phone</div>
+                                <div class="info-text">623-241-1939</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-title">Email</div>
+                                <div class="info-text">insulationcontractorsofaz@gmail.com</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section animate-fadeInUp animate-delay-3">
+                <div class="info-header">
+                    <h3>Services Offered</h3>
+                </div>
+                <div class="info-body">
+                    <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4 class="card-title">Spray Foam Insulation</h4>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    <li>Open Cell Spray Foam Insulation</li>
+                                    <li>Closed Cell Spray Foam Insulation</li>
+                                    <li>Drill and Fill Spray Foam Insulation (Retrofoam)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4 class="card-title">Fiberglass Insulation</h4>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    <li>Fiberglass Batt Insulation</li>
+                                    <li>Blown-in Fiberglass Insulation</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4 class="card-title">Other Insulation Services</h4>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    <li>Cellulose Blown-in Insulation</li>
+                                    <li>Garage Insulation</li>
+                                    <li>Insulation Removal</li>
+                                    <li>Attic Insulation</li>
+                                    <li>Wall Insulation</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4 class="card-title">Specialized Applications</h4>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    <li>Shipping Container Insulation</li>
+                                    <li>Commercial Building Insulation</li>
+                                    <li>New Construction Insulation</li>
+                                    <li>Custom Home Insulation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEO Analysis Section -->
+    <section id="seo" class="section">
+        <div class="container">
+            <div class="section-title animate-fadeInUp">
+                <h2>SEO Analysis</h2>
+            </div>
+            <div class="section-description animate-fadeInUp animate-delay-1">
+                Our comprehensive SEO analysis identifies current performance issues and opportunities for improvement across technical, on-page, and local search factors.
+            </div>
+
+            <div class="grid animate-fadeInUp animate-delay-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">On-Page SEO Analysis</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Title Tags</span>
+                                <span>30%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-primary" style="width: 30%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Meta Descriptions</span>
+                                <span>10%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-primary" style="width: 10%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Header Tags</span>
+                                <span>40%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-primary" style="width: 40%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Content Quality</span>
+                                <span>45%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-primary" style="width: 45%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>URL Structure</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-primary" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Internal Linking</span>
+                                <span>25%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-primary" style="width: 25%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Technical SEO Analysis</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Site Structure</span>
+                                <span>50%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-secondary" style="width: 50%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Mobile Responsiveness</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-secondary" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Page Speed</span>
+                                <span>40%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-secondary" style="width: 40%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Indexability</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-secondary" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Schema Markup</span>
+                                <span>10%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-secondary" style="width: 10%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>HTTPS Implementation</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-secondary" style="width: 90%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Local SEO Analysis</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Google Business Profile</span>
+                                <span>55%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-accent" style="width: 55%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>NAP Consistency</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-accent" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Local Keywords</span>
+                                <span>35%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-accent" style="width: 35%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Citations & Directories</span>
+                                <span>20%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-accent" style="width: 20%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Customer Reviews</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-accent" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-title">
+                                <span>Location Pages</span>
+                                <span>15%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill fill-accent" style="width: 15%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion mt-8 animate-fadeInUp animate-delay-3">
+                <div class="accordion-item accordion-active">
+                    <div class="accordion-header">
+                        <span>Keyword Opportunities</span>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content" style="max-height: 500px;">
+                        <div class="accordion-body">
+                            <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+                                <div>
+                                    <h4 class="mb-2">Primary Service Keywords</h4>
+                                    <ul>
+                                        <li>spray foam insulation Arizona</li>
+                                        <li>fiberglass insulation Phoenix</li>
+                                        <li>attic insulation Glendale AZ</li>
+                                        <li>insulation contractor Arizona</li>
+                                        <li>cellulose insulation Phoenix</li>
+                                        <li>blown-in insulation Scottsdale</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="mb-2">Long-Tail Opportunities</h4>
+                                    <ul>
+                                        <li>best insulation for Arizona summer heat</li>
+                                        <li>cost of spray foam insulation in Phoenix</li>
+                                        <li>energy saving insulation Arizona desert</li>
+                                        <li>R-value requirements Arizona homes</li>
+                                        <li>how to reduce cooling costs with insulation in Arizona</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="mb-2">Local Keywords</h4>
+                                    <ul>
+                                        <li>insulation contractors near me Phoenix</li>
+                                        <li>Glendale AZ insulation company</li>
+                                        <li>Scottsdale home insulation services</li>
+                                        <li>attic insulation Tempe AZ</li>
+                                        <li>insulation removal Mesa Arizona</li>
+                                        <li>garage insulation Paradise Valley</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item accordion-active">
+                    <div class="accordion-header">
+                        <span>Priority SEO Recommendations</span>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content" style="max-height: 500px;">
+                        <div class="accordion-body">
+                            <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));">
+                                <div class="mb-4">
+                                    <h4 class="mb-2">Technical Optimization</h4>
+                                    <ol>
+                                        <li>Implement proper title tags and meta descriptions</li>
+                                        <li>Fix heading structure (single H1, proper hierarchy)</li>
+                

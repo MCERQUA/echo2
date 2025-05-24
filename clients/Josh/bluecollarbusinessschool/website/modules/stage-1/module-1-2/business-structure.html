@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Structure Selection Tool | Module 1.2 | Blue Collar Business School</title>
+    <meta name="description" content="Interactive tool to help contractors choose the right business structure for protection and tax advantages.">
+    <link rel="stylesheet" href="../../../assets/css/global.css">
+    <link rel="stylesheet" href="module-1-2.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="../../../index.html">Blue Collar Business School</a></h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="index.html">Module 1.2</a></li>
+                        <li><a href="../../../stage1/index.html">Stage 1</a></li>
+                        <li><a href="../../../index.html">Home</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="tool-hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Business Structure Selection Tool</h1>
+                    <p class="hero-subtitle">Answer a few questions to get personalized recommendations for your business structure.</p>
+                    <div class="tool-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="tool-progress" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text" id="progress-text">Question 1 of 8</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tool-section">
+            <div class="container">
+                <div class="tool-content">
+                    <div class="question-container" id="question-container">
+                        <!-- Questions will be loaded here by JavaScript -->
+                    </div>
+
+                    <div class="question-navigation">
+                        <button id="prev-btn" class="btn btn-secondary" disabled>Previous</button>
+                        <button id="next-btn" class="btn btn-primary" disabled>Next</button>
+                        <button id="get-recommendation" class="btn btn-success" style="display: none;">Get Recommendation</button>
+                    </div>
+                </div>
+
+                <div class="tool-sidebar">
+                    <div class="structure-preview">
+                        <h3>Business Structures</h3>
+                        <div class="structure-list">
+                            <div class="structure-option">
+                                <h4>LLC</h4>
+                                <p>Limited liability with tax flexibility</p>
+                            </div>
+                            <div class="structure-option">
+                                <h4>S-Corporation</h4>
+                                <p>Tax savings when profits exceed $75K</p>
+                            </div>
+                            <div class="structure-option">
+                                <h4>Sole Proprietorship</h4>
+                                <p>Simplest but highest risk</p>
+                            </div>
+                            <div class="structure-option">
+                                <h4>Partnership</h4>
+                                <p>For multiple business owners</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="considerations-box">
+                        <h3>Key Considerations</h3>
+                        <ul>
+                            <li>Liability protection needs</li>
+                            <li>Expected annual profits</li>
+                            <li>Number of owners</li>
+                            <li>Tax optimization goals</li>
+                            <li>Administrative complexity tolerance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="results-section" id="results-section" style="display: none;">
+            <div class="container">
+                <div class="results-content">
+                    <h2>Your Business Structure Recommendation</h2>
+                    
+                    <div class="recommendation-card" id="recommendation-card">
+                        <!-- Recommendation will be loaded here -->
+                    </div>
+
+                    <div class="comparison-table">
+                        <h3>Structure Comparison</h3>
+                        <div class="table-container">
+                            <table class="comparison-table-grid">
+                                <thead>
+                                    <tr>
+                                        <th>Feature</th>
+                                        <th>Sole Proprietorship</th>
+                                        <th>LLC</th>
+                                        <th>S-Corporation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Liability Protection</td>
+                                        <td class="negative">None</td>
+                                        <td class="positive">Full</td>
+                                        <td class="positive">Full</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Setup Cost</td>
+                                        <td class="positive">$0-$50</td>
+                                        <td class="neutral">$200-$600</td>
+                                        <td class="neutral">$300-$800</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Annual Maintenance</td>
+                                        <td class="positive">Minimal</td>
+                                        <td class="neutral">Low</td>
+                                        <td class="negative">High</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tax Flexibility</td>
+                                        <td class="negative">None</td>
+                                        <td class="positive">High</td>
+                                        <td class="neutral">Moderate</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Self-Employment Tax</td>
+                                        <td class="negative">Full</td>
+                                        <td class="negative">Full</td>
+                                        <td class="positive">Reduced</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Business Credit</td>
+                                        <td class="negative">Difficult</td>
+                                        <td class="positive">Good</td>
+                                        <td class="positive">Excellent</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="next-steps-section">
+                        <h3>Next Steps for Your Recommendation</h3>
+                        <div class="next-steps-content" id="next-steps-content">
+                            <!-- Next steps will be loaded here -->
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="licensing-lookup.html" class="btn btn-primary">Continue to Licensing</a>
+                        <button id="retake-tool" class="btn btn-outline">Retake Assessment</button>
+                        <button id="save-recommendation" class="btn btn-secondary">Save Results</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Blue Collar Business School</h3>
+                    <p>Practical business education for contractors who want to succeed.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Module 1.2 Tools</h4>
+                    <ul>
+                        <li><a href="index.html">Main Lesson</a></li>
+                        <li><a href="business-structure.html">Business Structure Tool</a></li>
+                        <li><a href="licensing-lookup.html">Licensing Lookup</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../../assets/js/core.js"></script>
+    <script src="business-structure.js"></script>
+</body>
+</html>

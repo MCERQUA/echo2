@@ -1,0 +1,504 @@
+{
+  "companyProfile": {
+    "legalName": "Noble Insulation Inc",
+    "doingBusinessAs": "Noble Insulation",
+    "founded": 2008,
+    "yearsInBusiness": 17,
+    "businessType": "Family-owned insulation contractor",
+    "owner": {
+      "name": "Rami Odeh Khoury",
+      "role": "Owner/Operator",
+      "involvement": "Hands-on, personally oversees installations"
+    },
+    "employees": "1-10 (small contractor)",
+    "estimatedAnnualRevenue": "$500,000 - $1,000,000",
+    "headquarters": {
+      "address": "1201 Pennsylvania Ave Unit D",
+      "city": "Richmond",
+      "state": "CA",
+      "zipCode": "94801",
+      "county": "Contra Costa County"
+    },
+    "serviceArea": {
+      "primary": "Richmond and Contra Costa County",
+      "secondary": "Oakland, Berkeley, San Francisco",
+      "coverage": "Throughout Bay Area"
+    }
+  },
+  "contactInformation": {
+    "primaryPhone": "+1 510-890-7888",
+    "email": "Info@nobleinsulationinc.com",
+    "website": "https://nobleinsulationinc.com",
+    "alternativeWebsites": [
+      "https://noble-insulation.com",
+      "https://insulatewithnoble.com"
+    ],
+    "businessHours": {
+      "schedule": "Business hours",
+      "closingTime": "6:30 PM",
+      "weekends": "Unknown"
+    }
+  },
+  "servicesOffered": {
+    "primary": [
+      "Spray foam insulation",
+      "Residential insulation",
+      "Commercial insulation"
+    ],
+    "specializations": [
+      "Open-cell spray foam",
+      "Closed-cell spray foam",
+      "Energy efficiency upgrades"
+    ],
+    "uniqueSellingProposition": "Complete projects in half the time of competitors",
+    "serviceApproach": "Speed and efficiency focused",
+    "targetMarkets": [
+      "Homeowners seeking energy efficiency",
+      "Contractors needing insulation subcontractors",
+      "Property managers for rental improvements",
+      "Home renovation projects",
+      "Small commercial applications"
+    ]
+  },
+  "businessCredentials": {
+    "licenses": {
+      "californiaC2License": {
+        "type": "C-2 Insulation and Acoustical Contractor",
+        "status": "Required for operations",
+        "number": "Not verified in research"
+      }
+    },
+    "certifications": {
+      "bpi": "No verified certification",
+      "resnet": "No verified certification",
+      "spfa": "No verified certification",
+      "icaa": "No verified membership"
+    },
+    "insurance": "Presumed active but not prominently displayed",
+    "bbbAccreditation": "Not found",
+    "diamondCertified": "Not certified"
+  },
+  "digitalPresence": {
+    "websites": {
+      "primary": {
+        "url": "https://nobleinsulationinc.com",
+        "status": "Active",
+        "design": "Basic/dated appearance",
+        "mobileOptimization": "Unknown/poor",
+        "seoOptimization": "Limited",
+        "analytics": "No visible tracking"
+      },
+      "secondary": [
+        {
+          "url": "https://insulatewithnoble.com",
+          "status": "Active",
+          "description": "Better design, more comprehensive content"
+        },
+        {
+          "url": "https://noble-insulation.com",
+          "status": "Redirect to primary"
+        }
+      ]
+    },
+    "socialMedia": {
+      "facebook": {
+        "url": "https://www.facebook.com/people/Noble-Insulation-Inc/100089164059832/",
+        "followers": 42,
+        "activity": "Sporadic",
+        "lastPost": "July 2024",
+        "engagement": "387 reactions on recent technical post",
+        "contentType": "Technical discussions about spray foam"
+      },
+      "linkedin": {
+        "status": "No company page found",
+        "impact": "Critical for B2B credibility missing"
+      },
+      "instagram": {
+        "handle": "@nobleinsulation mentioned but not found",
+        "status": "No confirmed presence"
+      },
+      "youtube": {
+        "status": "No channel identified"
+      },
+      "twitter": {
+        "status": "No account found"
+      },
+      "tiktok": {
+        "status": "No presence"
+      },
+      "pinterest": {
+        "status": "No business account"
+      },
+      "nextdoor": {
+        "status": "No business profile"
+      }
+    },
+    "directoryListings": {
+      "googleBusiness": {
+        "name": "Noble Insulation Inc",
+        "rating": 4.9,
+        "reviewCount": "10-13",
+        "photos": "Limited quantity and quality",
+        "posts": "No recent activity",
+        "qaSection": "Minimal engagement",
+        "claimed": true
+      },
+      "yelp": {
+        "url": "https://www.yelp.com/biz/noble-insulation-richmond",
+        "rating": 4.5,
+        "reviewCount": 9,
+        "photos": 10,
+        "claimed": true,
+        "responseRate": "Low"
+      },
+      "procore": {
+        "status": "Basic contractor profile",
+        "purpose": "B2B construction industry visibility"
+      },
+      "buildzoom": {
+        "associatedWith": "Rami Odeh Khoury profile",
+        "status": "Limited activity"
+      },
+      "missingDirectories": [
+        "Better Business Bureau",
+        "Angie's List/Angi",
+        "HomeAdvisor",
+        "Thumbtack",
+        "Nextdoor Business",
+        "Houzz"
+      ]
+    }
+  },
+  "customerReviews": {
+    "summary": {
+      "totalReviews": "20-25 across all platforms",
+      "averageRating": 4.7,
+      "distribution": {
+        "5stars": "85-90%",
+        "4stars": "10-15%",
+        "3stars": "0-5%",
+        "2stars": "0%",
+        "1star": "0%"
+      }
+    },
+    "platformBreakdown": {
+      "google": {
+        "count": "10-13",
+        "rating": 4.9
+      },
+      "yelp": {
+        "count": 9,
+        "rating": 4.5
+      },
+      "facebook": {
+        "count": "Limited formal reviews",
+        "engagement": "High on technical posts"
+      }
+    },
+    "positiveThemes": [
+      "Speed and efficiency (70% of reviews mention)",
+      "Professional service quality (80% mention)",
+      "Fair and competitive pricing (60% mention)",
+      "Technical expertise (50% mention)",
+      "Owner involvement (40% mention)"
+    ],
+    "customerTestimonials": [
+      "They completed the job in half the time quoted by other contractors",
+      "Professional service from start to finish",
+      "Fair pricing and excellent value",
+      "Expert knowledge of insulation systems",
+      "Rami personally oversaw the installation"
+    ],
+    "responseManagement": {
+      "ownerResponseRate": "0%",
+      "avgResponseTime": "No responses found",
+      "strategy": "Passive approach - no systematic response management"
+    }
+  },
+  "competitiveAnalysis": {
+    "marketPosition": {
+      "strengths": [
+        "Superior customer satisfaction (4.9/5 vs 4.0-4.5 average)",
+        "Speed positioning - 'half the time' claims",
+        "Local Richmond presence in underserved market",
+        "Spray foam specialization",
+        "Personal service approach"
+      ],
+      "weaknesses": [
+        "Minimal online visibility",
+        "Limited service portfolio vs competitors",
+        "Low review volume",
+        "No professional certifications displayed",
+        "Weak brand identity"
+      ]
+    },
+    "primaryCompetitors": [
+      {
+        "name": "Atticare Corp",
+        "location": "San Leandro",
+        "yearsInBusiness": 34,
+        "reviews": "345+",
+        "rating": 4.0,
+        "marketPosition": "Premium energy efficiency leader",
+        "advantages": "Established brand, comprehensive services, strong digital presence"
+      },
+      {
+        "name": "SDI Insulation",
+        "location": "Burlingame",
+        "yearsInBusiness": 47,
+        "reviews": "150+",
+        "rating": 4.0,
+        "marketPosition": "Commercial insulation leader",
+        "advantages": "Long history, commercial focus, Diamond Certified"
+      },
+      {
+        "name": "Element Home Solutions",
+        "location": "Oakland",
+        "yearsInBusiness": 15,
+        "reviews": "347+",
+        "rating": 4.2,
+        "marketPosition": "Full-service home performance",
+        "advantages": "Highest review volume, multi-service approach"
+      },
+      {
+        "name": "McHale's Environmental Insulation",
+        "location": "Concord/Martinez",
+        "yearsInBusiness": 25,
+        "reviews": "75+",
+        "rating": 4.5,
+        "marketPosition": "Local environmental specialist",
+        "advantages": "Local presence, environmental focus"
+      }
+    ],
+    "marketShareEstimate": {
+      "richmondContraCostaCounty": "5-8%",
+      "growthPotential": "200-500% with digital optimization"
+    }
+  },
+  "financialEstimates": {
+    "currentPerformance": {
+      "estimatedAnnualRevenue": "$500,000-1,000,000",
+      "marketingBudget": "<1% of revenue",
+      "customerAcquisitionCost": "Unknown - primarily word-of-mouth",
+      "customerLifetimeValue": "Estimated $1,200-3,000"
+    },
+    "industryBenchmarks": {
+      "marketingBudgetRecommended": "3-7% of revenue",
+      "digitalMarketingFocus": "60-80% of marketing budget",
+      "customerAcquisitionCost": "$150-400 per customer (small contractors)"
+    }
+  },
+  "technologyStack": {
+    "current": {
+      "crmSystem": "None identified",
+      "websitePlatform": "Unknown CMS",
+      "emailMarketing": "No automation detected",
+      "scheduling": "Manual phone-based",
+      "paymentProcessing": "Not evident online",
+      "analytics": "No visible tracking"
+    },
+    "gaps": [
+      "Customer relationship management system",
+      "Online scheduling capability",
+      "Email marketing automation",
+      "Advanced website analytics",
+      "Review management tools",
+      "Lead tracking systems"
+    ]
+  },
+  "brandIdentity": {
+    "current": {
+      "logo": "No consistent logo identified",
+      "colorPalette": "No defined brand colors",
+      "typography": "No consistent font usage",
+      "photography": "Limited professional imagery",
+      "marketingMaterials": "No evidence of branded collateral"
+    },
+    "messaging": {
+      "coreMessage": "Speed and efficiency",
+      "uniqueSellingProposition": "Half the time of competitors",
+      "brandVoice": "Professional but minimal development",
+      "valueProposition": "Not clearly articulated beyond speed"
+    },
+    "consistency": {
+      "crossPlatform": "Inconsistent presentation",
+      "informationAccuracy": "Some discrepancies in details",
+      "visualIdentity": "No unified brand appearance"
+    }
+  },
+  "marketOpportunities": {
+    "immediate": [
+      "Richmond market underserved by major competitors",
+      "Superior customer ratings provide strong differentiation",
+      "Spray foam expertise in growing market segment",
+      "Speed positioning unique in market",
+      "Personal service advantage over corporate competitors"
+    ],
+    "mediumTerm": [
+      "Commercial market expansion",
+      "Geographic growth beyond Richmond",
+      "Service portfolio expansion",
+      "Industry certification pursuit",
+      "Partnership development"
+    ],
+    "longTerm": [
+      "Market leadership in Bay Area",
+      "Franchise or licensing opportunities",
+      "Technology innovation in spray foam",
+      "Sustainable competitive advantages",
+      "Regional expansion strategy"
+    ]
+  },
+  "riskFactors": {
+    "immediate": [
+      "Competitor dominance in online lead generation",
+      "Low review volume creates reputation vulnerability",
+      "Search invisibility missing qualified leads",
+      "Brand confusion with multiple domains",
+      "Market share loss to digital-first competitors"
+    ],
+    "strategic": [
+      "Service quality compromise during growth",
+      "Technology adoption resistance",
+      "Economic downturn affecting home improvement",
+      "Competitive response to digital improvements",
+      "Regulatory changes in insulation industry"
+    ]
+  },
+  "strategicRecommendations": {
+    "immediate30Days": {
+      "investment": "$1,500-2,500",
+      "priorities": [
+        "Brand identity development (logo, colors)",
+        "Google Business Profile optimization",
+        "Review generation system implementation",
+        "LinkedIn company page creation",
+        "Basic website improvements"
+      ],
+      "expectedResults": [
+        "Professional brand foundation",
+        "15-25 new reviews",
+        "Improved local search visibility",
+        "B2B credibility establishment"
+      ]
+    },
+    "shortTerm3Months": {
+      "investment": "$5,000-8,000",
+      "priorities": [
+        "Website redesign and SEO optimization",
+        "Social media activation across platforms",
+        "Content marketing blog launch",
+        "Professional photography",
+        "Email marketing system setup"
+      ]
+    },
+    "mediumTerm6Months": {
+      "investment": "$10,000-15,000",
+      "priorities": [
+        "Paid advertising campaigns",
+        "Video content production",
+        "CRM system implementation",
+        "Partnership development",
+        "Service expansion planning"
+      ]
+    },
+    "longTerm12Months": {
+      "investment": "$15,000-25,000 annually",
+      "expectedROI": "300-500%",
+      "goals": [
+        "Market leadership in Richmond area",
+        "75-150% revenue increase",
+        "100-200 new customers",
+        "Sustainable competitive advantage"
+      ]
+    }
+  },
+  "projectDetails": {
+    "clientContact": {
+      "name": "Mike",
+      "relationship": "T-shirt printing client referral",
+      "servicesConsidered": [
+        "Website update",
+        "Brand management",
+        "Social media management"
+      ]
+    },
+    "researchCompleted": {
+      "date": "2025-05-22",
+      "scope": "Comprehensive digital marketing audit",
+      "analyst": "Echo AI Systems",
+      "methodology": "Multi-platform research, competitive analysis, industry benchmarking"
+    },
+    "deliverables": [
+      "Comprehensive digital audit report",
+      "Competitive analysis",
+      "Online presence inventory",
+      "Customer review analysis",
+      "12-month strategic plan",
+      "30-day immediate action plan",
+      "Budget recommendations",
+      "Industry benchmarks"
+    ],
+    "nextSteps": [
+      "Client proposal development",
+      "Service package presentation",
+      "Implementation timeline discussion",
+      "Budget approval process",
+      "Project kickoff planning"
+    ]
+  },
+  "industryContext": {
+    "marketSize": {
+      "usBayArea": "$200-300 million annually",
+      "california": "$2.3-2.8 billion",
+      "nationalMarket": "$18.8 billion"
+    },
+    "growthDrivers": [
+      "Energy efficiency regulations",
+      "Utility rebate programs",
+      "Green building initiatives",
+      "HVAC system upgrades",
+      "Home renovation trends"
+    ],
+    "seasonalPatterns": {
+      "peakSeasons": [
+        "Spring (March-May): 30-35%",
+        "Fall (September-November): 25-30%"
+      ],
+      "slowSeasons": [
+        "Summer (June-August): 20-25%",
+        "Winter (December-February): 15-20%"
+      ]
+    }
+  },
+  "dataSourcesAndValidation": {
+    "primarySources": [
+      "Google Business Profile",
+      "Yelp business listing",
+      "Facebook business page",
+      "Company websites",
+      "Customer reviews across platforms"
+    ],
+    "competitiveIntelligence": [
+      "Competitor websites and profiles",
+      "Industry directory listings",
+      "Review platform analysis",
+      "Social media monitoring",
+      "Search engine results analysis"
+    ],
+    "industryData": [
+      "Trade association reports",
+      "Market research studies",
+      "Government licensing databases",
+      "Professional certification organizations",
+      "Industry benchmark studies"
+    ],
+    "validationMethods": [
+      "Cross-platform data verification",
+      "Multiple source confirmation",
+      "Historical data analysis",
+      "Industry standard comparison",
+      "Competitive benchmarking"
+    ]
+  }
+}

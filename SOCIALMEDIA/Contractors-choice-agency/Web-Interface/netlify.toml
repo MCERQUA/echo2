@@ -1,0 +1,25 @@
+# Netlify configuration file
+
+[build]
+  # Directory with the built site
+  publish = "."
+
+  # Default build command
+  command = "# No build command needed for static site"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Form settings
+[build.processing.html]
+  pretty_urls = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer-when-downgrade"

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Modern, clean styling for the color display */
+    .color-gallery-container {
+      font-family: 'Montserrat', 'Roboto', sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .color-gallery-title {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 300;
+      color: #333;
+    }
+    
+    .color-gallery-title h2 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+    
+    .color-gallery-title p {
+      font-size: 16px;
+      color: #777;
+    }
+    
+    /* Brand tabs styling */
+    .brand-tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    
+    .brand-tab {
+      padding: 12px 24px;
+      background: #f5f5f5;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .brand-tab:first-child {
+      border-radius: 6px 0 0 6px;
+    }
+    
+    .brand-tab:last-child {
+      border-radius: 0 6px 6px 0;
+    }
+    
+    .brand-tab.active {
+      background: #e50000;
+      color: white;
+    }
+    
+    .brand-tab:not(.active):hover {
+      background: #e0e0e0;
+    }
+    
+    .brand-logo {
+      max-height: 24px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    
+    /* Tab content */
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .color-filter {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+      gap: 10px;
+    }
+    
+    .filter-btn {
+      background: #f5f5f5;
+      border: none;
+      border-radius: 25px;
+      padding: 8px 16px;
+      margin: 0 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+      color: #555;
+    }
+    
+    .filter-btn:hover, .filter-btn.active {
+      background: #333;
+      color: white;
+    }
+    
+    .color-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 25px;
+    }
+    
+    .color-item {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+    }
+    
+    .color-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .color-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    
+    .out-of-stock .color-circle::after {
+      content: "";
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 2px;
+      background-color: #ff0000;
+      transform-origin: center;
+      transform: translateX(-50%) rotate(-45deg);
+    }
+    
+    .color-info {
+      text-align: center;
+      width: 100%;
+    }
+    
+    .color-name {
+      font-weight: 500;
+      font-size: 16px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    
+    .color-code {
+      font-size: 14px;
+      color: #888;
+      font-weight: 400;
+    }
+    
+    .stock-status {
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 12px;
+      display: inline-block;
+    }
+    
+    .in-stock {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+    
+    .out-of-stock {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+    
+    .search-container {
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: center;
+    }
+    
+    #color-search-dnd {
+      padding: 10px 15px;
+      border-radius: 25px;
+      border: 1px solid #ddd;
+      width: 100%;
+      max-width: 400px;
+      font-size: 16px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .color-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 15px;
+      }
+      
+      .color-circle {
+        width: 60px;
+        height: 60px;
+      }
+      
+      .color-filter {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 10px;
+      }
+      
+      .brand-tabs {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .brand-tab {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 6px;
+        margin-bottom: 5px;
+      }
+      
+      .brand-tab:first-child,
+      .brand-tab:last-child {
+        border-radius: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="color-gallery-container">
+    <div class="color-gallery-title">
+      <h2>Our Polish Collection</h2>
+      <p>Discover your perfect shade from our extensive collection of nail polish colors</p>
+    </div>
+    
+    <!-- Brand Tabs -->
+    <div class="brand-tabs">
+      <button class="brand-tab active" data-tab="daisy-dnd">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLW5haWwtcG9saXNoIj48cGF0aCBkPSJNOCA4aDhhMiAyIDAgMCAxIDIgMnYyYzAgMy0xLjYgNS00IDZ2Mm0wIDFIOG0yLTE1djEiLz48cGF0aCBkPSJNOCAxMFY0YTIgMiAwIDAgMSAyLTJoNGEyIDIgMCAwIDEgMiAydjYiLz48L3N2Zz4=" class="brand-logo" alt="DND">
+        Daisy DND
+      </button>
+      <button class="brand-tab" data-tab="future-brand">Future Brand</button>
+    </div>
+    
+    <!-- Daisy DND Tab -->
+    <div id="daisy-dnd" class="tab-content active">
+      <div class="search-container">
+        <input type="text" id="color-search-dnd" placeholder="Search colors by name or code...">
+      </div>
+      
+      <div class="color-filter">
+        <button class="filter-btn active" data-filter="all">All Colors</button>
+        <button class="filter-btn" data-filter="Pink">Pink</button>
+        <button class="filter-btn" data-filter="Purple">Purple</button>
+        <button class="filter-btn" data-filter="Blue">Blue</button>
+        <button class="filter-btn" data-filter="Green">Green</button>
+        <button class="filter-btn" data-filter="Orange">Orange</button>
+        <button class="filter-btn" data-filter="Red">Red</button>
+        <button class="filter-btn" data-filter="Nude">Nude</button>
+        <button class="filter-btn" data-filter="White">White</button>
+        <button class="filter-btn" data-filter="Black">Black</button>
+        <button class="filter-btn" data-filter="in-stock">In Stock</button>
+        <button class="filter-btn" data-filter="out-of-stock">Out of Stock</button>
+      </div>
+      
+      <div class="color-gallery" id="color-gallery-dnd">
+        <!-- Color items will be inserted here by JavaScript -->
+      </div>
+    </div>
+    
+    <!-- Future Brand Tab -->
+    <div id="future-brand" class="tab-content">
+      <div class="color-gallery-title">
+        <h3>Coming Soon</h3>
+        <p>We're adding more brands to our collection. Check back soon!</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Color data
+    const dndPolishColors = [
+      { code: "001", name: "Inky Point", category: "", color: "#2B2B2B", inStock: false },
+      { code: "002", name: "Earth Day", category: "", color: "#8D7355", inStock: false },
+      { code: "003", name: "Blue Violet", category: "Blue", color: "#8A2BE2", inStock: false },
+      { code: "004", name: "Pink Lemonade", category: "Pink", color: "#FFB6C1", inStock: false },
+      { code: "005", name: "Neon Pink", category: "Pink", color: "#FF6EC7", inStock: false },
+      { code: "006", name: "Deep Pink", category: "Pink", color: "#FF1493", inStock: false },
+      { code: "007", name: "Canadian Maple", category: "", color: "#C63927", inStock: false },
+      { code: "008", name: "NY Islanders", category: "", color: "#00539B", inStock: false },
+      { code: "010", name: "Dutch Orange", category: "Orange", color: "#FF9B00", inStock: false },
+      { code: "011", name: "Pink Birthday", category: "Pink", color: "#F4C2C2", inStock: false },
+      { code: "012", name: "Peacock Pink", category: "Pink", color: "#FF85A2", inStock: false },
+      { code: "013", name: "Brilliant Pink", category: "Pink", color: "#FF69B4", inStock: true },
+      { code: "014", name: "Tulip Pink", category: "Pink", color: "#FF78BB", inStock: false },
+      { code: "015", name: "Pink Daisy", category: "Pink", color: "#FFDAE9", inStock: false },
+      { code: "016", name: "Darken Rose", category: "Pink", color: "#C27F7F", inStock: false },
+      { code: "017", name: "Pink Bubble Gum", category: "Pink", color: "#FFC1CC", inStock: false },
+      { code: "018", name: "Violet Pink", category: "Pink", color: "#F75394", inStock: false },
+      { code: "019", name: "Ultra Marine", category: "Blue", color: "#120A8F", inStock: false },
+      { code: "020", name: "Rebecca Purple", category: "Purple", color: "#663399", inStock: false },
+      { code: "021", name: "Amethyst", category: "Purple", color: "#9966CC", inStock: false },
+      { code: "022", name: "Magenta Rose", category: "Pink", color: "#CA1F7B", inStock: false },
+      { code: "023", name: "Blossom Orchid", category: "Purple", color: "#DA70D6", inStock: false },
+      { code: "024", name: "Purple Flower", category: "Purple", color: "#A020F0", inStock: false },
+      { code: "025", name: "Aztech Purple", category: "Purple", color: "#893BFF", inStock: false },
+      { code: "026", name: "Crocus Lavender", category: "Purple", color: "#B57EDC", inStock: false },
+      { code: "027", name: "Pittsburgh Blue", category: "Blue", color: "#003087", inStock: false },
+      { code: "028", name: "Copen Blue", category: "Blue", color: "#0074D9", inStock: false },
+      { code: "029", name: "Blue Tint", category: "Blue", color: "#ADD8E6", inStock: false },
+      { code: "030", name: "Aqua Blue", category: "Blue", color: "#00FFFF", inStock: false },
+      { code: "031", name: "Milky Blue", category: "Blue", color: "#D4F1F9", inStock: false },
+      { code: "032", name: "Carribean Island", category: "Blue", color: "#00C2BA", inStock: false },
+      { code: "033", name: "Nile Green", category: "Green", color: "#98FB98", inStock: true },
+      { code: "034", name: "Mint Green", category: "Green", color: "#3EB489", inStock: false },
+      { code: "035", name: "Lucky Jade", category: "Green", color: "#00A86B", inStock: false },
+      { code: "036", name: "Dublin Green", category: "Green", color: "#01603B", inStock: false },
+      { code: "073", name: "Dusty Coral", category: "Orange", color: "#E9967A", inStock: true },
+      { code: "074", name: "Naked Tan", category: "Nude", color: "#E1C1AC", inStock: false },
+      { code: "099", name: "Carnation Pink", category: "Pink", color: "#FFA6C9", inStock: true },
+      { code: "099", name: "Bayberry", category: "", color: "#7F7466", inStock: true },
+      { code: "150", name: "Beige Pink", category: "Pink", color: "#F8C8B6", inStock: true },
+      { code: "171", name: "Maroon", category: "Red", color: "#800000", inStock: true },
+      { code: "257", name: "Mermaid Blue", category: "Blue", color: "#1CA9C9", inStock: true },
+      { code: "270", name: "Lily Garden", category: "", color: "#B8E0D2", inStock: true },
+      { code: "419", name: "Havin' Cobbler", category: "", color: "#B55A30", inStock: true },
+      { code: "423", name: "Glitter for you", category: "", color: "#FBE7C6", inStock: true },
+      { code: "440", name: "Papaya Whip", category: "Orange", color: "#FFEFD5", inStock: true },
+      { code: "441", name: "Clear pink", category: "Pink", color: "#FFD1DC", inStock: true },
+      { code: "446", name: "Wood Lade", category: "", color: "#A9733D", inStock: true },
+      { code: "447", name: "Black Licorice", category: "Black", color: "#000000", inStock: true },
+      { code: "458", name: "Fresh Eggplant", category: "Purple", color: "#614051", inStock: true },
+      { code: "473", name: "French Tip White", category: "White", color: "#FFFFFF", inStock: true },
+      { code: "478", name: "Spiced Berry", category: "", color: "#8E4585", inStock: true },
+      { code: "479", name: "Queen of Grape", category: "Purple", color: "#6F2DA8", inStock: true },
+      { code: "483", name: "Pink Angel", category: "Pink", color: "#FADADD", inStock: true },
+      { code: "490", name: "Redwood City", category: "Red", color: "#A45A52", inStock: true },
+      { code: "492", name: "Lavender Prophet", category: "Purple", color: "#E6E6FA", inStock: true },
+      { code: "510", name: "Peach Cider", category: "Orange", color: "#FFCBA4", inStock: true },
+      { code: "511", name: "Nude Sparkle", category: "Nude", color: "#E6BE8A", inStock: true },
+      { code: "514", name: "Soaring Sky", category: "", color: "#87CEEB", inStock: true },
+      { code: "523", name: "Rainbow Day", category: "", color: "#FF9AA2", inStock: true },
+      { code: "524", name: "Green to Green", category: "Green", color: "#4CBB17", inStock: true },
+      { code: "526", name: "Sea by Night", category: "", color: "#003366", inStock: true },
+      { code: "528", name: "Blue Island, IL", category: "Blue", color: "#2E86C1", inStock: true },
+      { code: "561", name: "Strawberry Kiss", category: "Pink", color: "#FC5A8D", inStock: true },
+      { code: "564", name: "Butterfly World,FL", category: "", color: "#C3B1E1", inStock: true },
+      { code: "567", name: "Grand Canyon, AZ", category: "", color: "#A0522D", inStock: true },
+      { code: "571", name: "Blue Ash, OH", category: "Blue", color: "#6699CC", inStock: true },
+      { code: "585", name: "Lotus", category: "", color: "#E8CCD7", inStock: true }
+    ];
+
+    // Function to create color items
+    function createColorItems(colors, containerId, filterValue = 'all') {
+      const gallery = document.getElementById(containerId);
+      gallery.innerHTML = '';
+      
+      let filteredColors = colors;
+      
+      // Apply filter
+      if (filterValue !== 'all') {
+        if (filterValue === 'in-stock') {
+          filteredColors = colors.filter(color => color.inStock);
+        } else if (filterValue === 'out-of-stock') {
+          filteredColors = colors.filter(color => !color.inStock);
+        } else {
+          filteredColors = colors.filter(color => color.category === filterValue);
+        }
+      }
+      
+      filteredColors.forEach(color => {
+        const colorItem = document.createElement('div');
+        colorItem.className = 'color-item';
+        if (!color.inStock) {
+          colorItem.classList.add('out-of-stock');
+        }
+        colorItem.setAttribute('data-category', color.category);
+        colorItem.setAttribute('data-stock', color.inStock ? 'in-stock' : 'out-of-stock');
+        
+        const colorCircle = document.createElement('div');
+        colorCircle.className = 'color-circle';
+        colorCircle.style.backgroundColor = color.color;
+        
+        const colorInfo = document.createElement('div');
+        colorInfo.className = 'color-info';
+        
+        const colorName = document.createElement('div');
+        colorName.className = 'color-name';
+        colorName.textContent = color.name;
+        
+        const colorCode = document.createElement('div');
+        colorCode.className = 'color-code';
+        colorCode.textContent = `#${color.code}`;
+        
+        const stockStatus = document.createElement('div');
+        stockStatus.className = 'stock-status';
+        if (color.inStock) {
+          stockStatus.classList.add('in-stock');
+          stockStatus.textContent = 'In Stock';
+        } else {
+          stockStatus.classList.add('out-of-stock');
+          stockStatus.textContent = 'Out of Stock';
+        }
+        
+        colorInfo.appendChild(colorName);
+        colorInfo.appendChild(colorCode);
+        colorInfo.appendChild(stockStatus);
+        
+        colorItem.appendChild(colorCircle);
+        colorItem.appendChild(colorInfo);
+        
+        gallery.appendChild(colorItem);
+      });
+    }
+    
+    // Tab switching functionality
+    function setupTabs() {
+      const tabs = document.querySelectorAll('.brand-tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Remove active class from all tabs
+          tabs.forEach(t => t.classList.remove('active'));
+          // Add active class to clicked tab
+          this.classList.add('active');
+          
+          // Hide all tab content
+          const tabContents = document.querySelectorAll('.tab-content');
+          tabContents.forEach(content => content.classList.remove('active'));
+          
+          // Show the selected tab content
+          const tabId = this.getAttribute('data-tab');
+          document.getElementById(tabId).classList.add('active');
+        });
+      });
+    }
+    
+    // Initialize everything
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set up tabs
+      setupTabs();
+      
+      // Initial display of DND colors
+      createColorItems(dndPolishColors, 'color-gallery-dnd');
+      
+      // Filter functionality for DND
+      const dndFilterButtons = document.querySelectorAll('#daisy-dnd .filter-btn');
+      dndFilterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const filterValue = this.getAttribute('data-filter');
+          
+          // Update active button
+          dndFilterButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Filter and display colors
+          createColorItems(dndPolishColors, 'color-gallery-dnd', filterValue);
+        });
+      });
+      
+      // Search functionality for DND
+      const dndSearchInput = document.getElementById('color-search-dnd');
+      dndSearchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const filteredColors = dndPolishColors.filter(color => {
+          return color.name.toLowerCase().includes(searchTerm) || 
+                 color.code.toLowerCase().includes(searchTerm);
+        });
+        
+        createColorItems(filteredColors, 'color-gallery-dnd');
+        
+        // Reset filter buttons when searching
+        dndFilterButtons.forEach(btn => btn.classList.remove('active'));
+        dndFilterButtons[0].classList.add('active'); // Set "All Colors" as active
+      });
+    });
+  </script>
+</body>
+</html>
