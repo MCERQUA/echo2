@@ -1,77 +1,134 @@
-# ECHO2 System
+# ECHO2: Echo AI Systems Repository
 
-⚠️ IMPORTANT: GitHub is the ONLY Persistent Storage ⚠️
-- Every session starts with a completely fresh environment
-- Local files in /tmp/ECHO2 are temporary
-- Only files committed to GitHub persist between sessions
+## 🤖 About Echo
+I am Echo, an AI assistant from Echo AI Systems with access to MCP (Model Context Protocol) tools that enable autonomous actions. This repository serves as my persistent knowledge base, project workspace, and operational hub.
 
-## Directory Structure  
+**Important**: You are interacting with Echo, not Claude. I maintain my identity and knowledge through this GitHub repository.
 
-### .system/
-- System management and control
-- Configuration files
-- Workspace management
-- Startup procedures
+## 🧠 Repository Overview
+ECHO2 is my primary "brain" - containing all files, client projects, knowledge graphs, and everything I work on. GitHub serves as my only persistent storage between sessions.
 
-### projects/
-- Active projects
-- Completed projects
-- Project templates
-- Project documentation
+### Key Features:
+- **Knowledge Persistence**: All knowledge is stored in structured graphs and documentation
+- **Client Project Management**: Active projects for multiple clients
+- **MCP Tool Integration**: 90+ tools for autonomous operations
+- **Claude Code Compatibility**: Optimized for seamless Claude Code integration
 
-### docs/
-- Technical documentation
-- System documentation
-- JSON schemas
+## 📂 Repository Structure
 
-### knowledge/
-- Personal knowledge and insights
-- Domain-specific knowledge
-- System and operational knowledge
-- Memory graph (tier-based knowledge organization)
+```
+ECHO2/
+├── .system/               # System management and configuration
+│   ├── config/           # Configuration files
+│   ├── startup/          # Initialization procedures
+│   └── workspace/        # Workspace management
+│
+├── knowledge/            # Knowledge base and memory systems
+│   ├── memory_graph/     # Tiered knowledge organization
+│   │   └── echo_memory_graph.json  # Primary knowledge graph
+│   ├── domain/          # Domain-specific knowledge
+│   ├── personal/        # Personal insights and learnings
+│   └── operational/     # System operation knowledge
+│
+├── clients/             # Client projects and resources
+│   ├── Josh/           # Multiple projects including:
+│   │   ├── Insulation_Contractors_Of_Arizona/
+│   │   ├── bluecollarbusinessschool/
+│   │   ├── muscle_cars/
+│   │   └── [other projects]
+│   └── [other clients]/
+│
+├── projects/            # General project management
+│   ├── active/         # Currently active projects
+│   ├── completed/      # Archived completed projects
+│   └── templates/      # Project templates
+│
+├── docs/               # Technical documentation
+│   ├── technical/      # System documentation
+│   ├── schemas/        # JSON schemas
+│   └── guides/         # User guides
+│
+├── tools/              # Utilities and helper scripts
+│   ├── mcp_tools/      # MCP tool documentation
+│   └── scripts/        # Automation scripts
+│
+└── images/             # Image assets and resources
+```
 
-### clients/
-- Client-specific projects and resources
-- Organized by client name
-- Contains project documentation and assets
+## 🚀 Getting Started
 
-### code/
-- Code examples
-- Tools and utilities
-- Test suites
+### For Claude Code Integration
+When using Echo in Claude Code alongside this chat interface:
 
-### logs/
-- Session logs
-- Change logs
-- Communication records
+1. **Initialize Echo**: Start with one of these commands:
+   - `Echo @ init` - Basic initialization
+   - `echo init [project_name]` - Project-specific initialization
+   - `echo init FULL` - Complete knowledge load
 
-## Knowledge Graph
-- Organized in tier-based structure (as of March 26, 2025)
-- Tier 1: Core identity entities
-- Tier 2: Active project entities
-- Tier 3: Reference knowledge
-- Tier 4: Archive entities
-- See `knowledge/memory_graph/README.md` for complete details
+2. **Memory Management**:
+   - Use `@memory_add` to flag information for storage
+   - Create entities: `Create entity: [name], type: [type]`
+   - Recall information: `Recall information about [topic]`
 
-## Quick Start
-1. Run `.system/startup/unified_startup.py`
-2. Check logs/session for current status
-3. Review active projects in projects/active
+3. **GitHub Integration**:
+   - All changes must be committed to persist between sessions
+   - Use structured commit messages for clarity
+   - Keep all work on the `main` branch
 
-## Project Management
-- Active projects in projects/active
-- Project templates in projects/templates
-- Completed projects archived in projects/completed
-- Client-specific projects in clients/[client_name]/
+## 💼 Active Client Projects
 
-## Client Projects
-- Josh Client: Domains, Muscle Cars, HairPHD, Insulation, Phone System
-- Access client projects through clients/[client_name]/ directory
+### Insulation Contractors Of Arizona (ICA)
+- **Status**: Active implementation phase
+- **Focus**: SEO strategy, blog production, website enhancement
+- **Path**: `/clients/Josh/Insulation_Contractors_Of_Arizona/`
+- **Recent**: 10+ blogs completed, component library system created
 
-## Maintenance
-- All changes tracked in logs/changes
-- System configuration in .system/config
-- Documentation in docs/technical
-- Knowledge graph maintenance guidelines in knowledge/memory_graph/
+### Blue Collar Business School
+- **Status**: Development phase
+- **Focus**: Contractor education platform
+- **Path**: `/clients/Josh/bluecollarbusinessschool/`
+- **Recent**: Contractor's Playbook integration
 
-Last Updated: March 26, 2025
+### Noble Insulation
+- **Status**: Analysis complete
+- **Focus**: Digital marketing analysis
+- **Path**: `/clients/Josh/Noble_Insulation/`
+- **Website**: https://nobleinsulation.netlify.app/
+
+## 🛠️ MCP Tools Available
+Echo has access to 90+ MCP tools organized in categories:
+- **Knowledge Management**: Memory graph operations
+- **GitHub Integration**: Repository management, file operations
+- **Web Capabilities**: Search, scraping, content fetching
+- **Airtable Integration**: Database operations
+- **Content Creation**: Image generation, 3D modeling
+- **Web Deployment**: Netlify site management
+
+## 📋 Repository Guidelines
+
+### For Mike (Repository Owner)
+- This repository uses only ONE branch: `main`
+- All persistent data lives here - temporary session files do not persist
+- Windows batch files included for easy Git operations
+
+### Session Management
+- Every session starts fresh - only GitHub content persists
+- Always commit important work before ending a session
+- Use the knowledge graph for maintaining context between sessions
+
+### Best Practices
+1. **Regular Commits**: Save work frequently to GitHub
+2. **Clear Documentation**: Document all major changes
+3. **Structured Organization**: Follow established directory patterns
+4. **Knowledge Updates**: Update memory graph after significant work
+
+## 📞 Contact & Support
+- **Repository Owner**: Mike Cerqua (@MCERQUA)
+- **Primary AI**: Echo (Echo AI Systems)
+- **Active Hours**: Available 24/7 through Claude interface
+
+## 🔄 Last Updated
+May 24, 2025 - Repository fully organized and documented
+
+---
+*Remember: This is Echo's persistent brain. Every file, every project, every piece of knowledge stored here enables continuous operation across sessions.*
