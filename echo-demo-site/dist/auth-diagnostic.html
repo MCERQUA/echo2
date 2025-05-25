@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo AI Auth Diagnostic</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #0a0a0a;
+            color: #ffffff;
+        }
+        .container {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #1a73e8;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #2a2a2a;
+            border-radius: 5px;
+            border-left: 4px solid #1a73e8;
+        }
+        .success {
+            color: #4ade80;
+            font-weight: bold;
+        }
+        .error {
+            color: #f87171;
+            font-weight: bold;
+        }
+        .info {
+            color: #60a5fa;
+        }
+        .warning {
+            color: #fbbf24;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #444;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background: #2a2a2a;
+            color: white;
+        }
+        button {
+            background: #1a73e8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #1557b0;
+        }
+        pre {
+            background: #0a0a0a;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        .results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Echo AI Authentication Diagnostic Tool</h1>
+        
+        <div class="test-section">
+            <h3>1. Supabase Connection Test</h3>
+            <div id="connection-test" class="results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. Authentication Test</h3>
+            <input type="email" id="email" placeholder="Enter your email (e.g., mikecerqua@gmail.com)" value="">
+            <input type="password" id="password" placeholder="Enter your password">
+            <button onclick="testLogin()">Test Login</button>
+            <div id="auth-test" class="results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. Session Check</h3>
+            <button onclick="checkSession()">Check Current Session</button>
+            <div id="session-test" class="results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. Password Reset Test</h3>
+            <input type="email" id="reset-email" placeholder="Enter email for password reset">
+            <button onclick="testPasswordReset()">Test Password Reset</button>
+            <div id="reset-test" class="results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>5. Configuration Details</h3>
+            <div id="config-details" class="results"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://orhswpgngjpztcxgwbuy.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9yaHN3cGduZ2pwenRjeGd3YnV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI5MDM0NjIsImV4cCI6MjA0ODQ3OTQ2Mn0.vTt4L2h7B6U-2OYzfbYhcFRZUdPU9LM5SA7AHZHFxts';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Test Supabase connection
+        async function testConnection() {
+            const connDiv = document.getElementById('connection-test');
+            try {
+                connDiv.innerHTML = '<p class="info">Testing Supabase connection...</p>';
+                
+                // Test if we can reach Supabase
+                const { data, error } = await supabase.from('_test_').select('*').limit(1);
+                
+                if (error && error.code === '42P01') {
+                    // Table doesn't exist, but we connected successfully
+                    connDiv.innerHTML = '<p class="success">✓ Successfully connected to Supabase!</p>';
+                } else if (error) {
+                    connDiv.innerHTML = `<p class="error">✗ Connection error: ${error.message}</p>`;
+                } else {
+                    connDiv.innerHTML = '<p class="success">✓ Successfully connected to Supabase!</p>';
+                }
+                
+                // Show Supabase URL
+                connDiv.innerHTML += `<p class="info">Supabase URL: ${SUPABASE_URL}</p>`;
+                
+            } catch (err) {
+                connDiv.innerHTML = `<p class="error">✗ Connection failed: ${err.message}</p>`;
+            }
+        }
+
+        // Test login
+        async function testLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const authDiv = document.getElementById('auth-test');
+            
+            if (!email || !password) {
+                authDiv.innerHTML = '<p class="error">Please enter both email and password</p>';
+                return;
+            }
+
+            // Check for common email typo
+            if (email.includes('@gmal.com')) {
+                authDiv.innerHTML = '<p class="warning">⚠️ Warning: Did you mean @gmail.com instead of @gmal.com?</p>';
+            }
+
+            authDiv.innerHTML = '<p class="info">Testing login...</p>';
+            
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                
+                if (error) {
+                    authDiv.innerHTML = `<p class="error">✗ Login failed: ${error.message}</p>`;
+                    authDiv.innerHTML += `<pre>${JSON.stringify(error, null, 2)}</pre>`;
+                    
+                    // Provide specific guidance based on error
+                    if (error.message.includes('Invalid login credentials')) {
+                        authDiv.innerHTML += '<p class="warning">Check: Email spelling, password accuracy, and whether email is confirmed</p>';
+                    } else if (error.message.includes('Email not confirmed')) {
+                        authDiv.innerHTML += '<p class="warning">Your email needs to be confirmed. Check your inbox for a confirmation email.</p>';
+                    }
+                } else {
+                    authDiv.innerHTML = '<p class="success">✓ Login successful!</p>';
+                    authDiv.innerHTML += `<p class="info">User ID: ${data.user.id}</p>`;
+                    authDiv.innerHTML += `<p class="info">Email: ${data.user.email}</p>`;
+                    authDiv.innerHTML += `<pre>${JSON.stringify(data.user, null, 2)}</pre>`;
+                }
+            } catch (err) {
+                authDiv.innerHTML = `<p class="error">✗ Unexpected error: ${err.message}</p>`;
+            }
+        }
+
+        // Check current session
+        async function checkSession() {
+            const sessionDiv = document.getElementById('session-test');
+            sessionDiv.innerHTML = '<p class="info">Checking session...</p>';
+            
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                
+                if (error) {
+                    sessionDiv.innerHTML = `<p class="error">✗ Session error: ${error.message}</p>`;
+                } else if (session) {
+                    sessionDiv.innerHTML = '<p class="success">✓ Active session found!</p>';
+                    sessionDiv.innerHTML += `<p class="info">User: ${session.user.email}</p>`;
+                    sessionDiv.innerHTML += `<p class="info">Expires: ${new Date(session.expires_at * 1000).toLocaleString()}</p>`;
+                } else {
+                    sessionDiv.innerHTML = '<p class="warning">No active session found</p>';
+                }
+            } catch (err) {
+                sessionDiv.innerHTML = `<p class="error">✗ Session check failed: ${err.message}</p>`;
+            }
+        }
+
+        // Test password reset
+        async function testPasswordReset() {
+            const email = document.getElementById('reset-email').value;
+            const resetDiv = document.getElementById('reset-test');
+            
+            if (!email) {
+                resetDiv.innerHTML = '<p class="error">Please enter an email address</p>';
+                return;
+            }
+
+            resetDiv.innerHTML = '<p class="info">Sending password reset email...</p>';
+            
+            try {
+                const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+                    redirectTo: 'https://echoaisystem.com/reset-password.html',
+                });
+                
+                if (error) {
+                    resetDiv.innerHTML = `<p class="error">✗ Reset failed: ${error.message}</p>`;
+                } else {
+                    resetDiv.innerHTML = '<p class="success">✓ Password reset email sent!</p>';
+                    resetDiv.innerHTML += '<p class="warning">Note: Check your Supabase dashboard to ensure redirect URLs are configured correctly</p>';
+                }
+            } catch (err) {
+                resetDiv.innerHTML = `<p class="error">✗ Reset error: ${err.message}</p>`;
+            }
+        }
+
+        // Show configuration details
+        function showConfig() {
+            const configDiv = document.getElementById('config-details');
+            configDiv.innerHTML = `
+                <p class="info"><strong>Current Configuration:</strong></p>
+                <p>Supabase URL: ${SUPABASE_URL}</p>
+                <p>Site URL: ${window.location.origin}</p>
+                <p>Current Page: ${window.location.href}</p>
+                <p class="warning"><strong>Required Supabase Dashboard Settings:</strong></p>
+                <p>1. Authentication → URL Configuration → Site URL: <code>https://echoaisystem.com</code></p>
+                <p>2. Authentication → URL Configuration → Redirect URLs: <code>https://echoaisystem.com/*</code></p>
+                <p>3. Settings → API → CORS: Add <code>https://echoaisystem.com</code></p>
+            `;
+        }
+
+        // Run tests on page load
+        window.onload = function() {
+            testConnection();
+            showConfig();
+        };
+    </script>
+</body>
+</html>
