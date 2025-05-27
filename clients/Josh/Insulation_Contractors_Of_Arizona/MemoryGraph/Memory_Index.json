@@ -1,0 +1,25 @@
+{
+  "project": "Insulation_Contractors_Of_Arizona",
+  "last_updated": "2025-05-27T06:00:00Z",
+  "version": "2.0",
+  "description": "Modular memory system for ICA project - split due to 1500 line limit",
+  "memory_files": {
+    "blogs": "Memory_Blog_Production.json",
+    "website": "Memory_Website_Development.json",
+    "status": "Memory_Project_Status.json",
+    "session": "Memory_Current_Session.json"
+  },
+  "client_info": {
+    "name": "Insulation Contractors of Arizona LLC",
+    "owner": "Christopher Kuhn",
+    "website": "https://insulationcontractorsofarizona.com",
+    "phone": "623-241-1939",
+    "email": "insulationcontractorsofaz@gmail.com"
+  },
+  "statistics": {
+    "total_blogs_completed": 10,
+    "website_pages_planned": 18,
+    "project_start": "March 2025",
+    "monthly_budget": "$500"
+  }
+}
