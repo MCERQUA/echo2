@@ -1,0 +1,415 @@
+<!-- Insulation Applications Section Component -->
+<!-- Usage: Include in homepage or service pages to showcase primary insulation applications -->
+<!-- Variables:
+     - sectionTitle: Main section heading (default: "Our Insulation Applications")
+     - sectionSubtitle: Section description (default provided)
+     - showSection: Boolean to show/hide section (default: true)
+-->
+
+{% set defaultTitle = sectionTitle or "Our Insulation Applications" %}
+{% set defaultSubtitle = sectionSubtitle or "From residential homes to commercial buildings and agricultural facilities, we provide comprehensive insulation solutions for every application. Choose the right insulation type for your specific needs." %}
+{% set displaySection = showSection !== false %}
+
+{% if displaySection %}
+<section class="insulation-applications-section">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="section-header text-center">
+            <h2 class="section-title">{{ defaultTitle }}</h2>
+            <p class="section-subtitle">{{ defaultSubtitle }}</p>
+        </div>
+
+        <!-- Applications Grid -->
+        <div class="applications-grid">
+            <!-- Open Cell Spray Foam -->
+            <div class="application-card">
+                <div class="card-image">
+                    <img src="/Images/rsw_388h_194cg_true.webp" alt="Open Cell Spray Foam Insulation Installation" loading="lazy">
+                    <div class="card-overlay">
+                        <div class="overlay-content">
+                            <h3>Perfect for Arizona Homes</h3>
+                            <p>Excellent thermal performance for residential applications</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Open Cell Spray Foam</h3>
+                    <p class="card-description">This type of spray foam is perfect for homes in Arizona! We love installing open cell spray foam. We have installed open cell for over 20 years! Open cell spray foam is great for Phoenix.</p>
+                    <a href="#contact" class="card-cta">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Closed Cell Spray Foam -->
+            <div class="application-card">
+                <div class="card-image">
+                    <img src="/Images/crw_388h_194.webp" alt="Closed Cell Spray Foam Insulation" loading="lazy">
+                    <div class="card-overlay">
+                        <div class="overlay-content">
+                            <h3>High-Performance Solution</h3>
+                            <p>Superior R-value and moisture barrier properties</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Closed Cell Spray Foam</h3>
+                    <p class="card-description">This is a low expanding type of foam. There isn't really anything that compares to its value. In terms of R-value and per inch cost, it's worth every penny. In our humble opinion, this the king of insulation!</p>
+                    <a href="#contact" class="card-cta">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Fiberglass Insulation -->
+            <div class="application-card">
+                <div class="card-image">
+                    <img src="/Images/rsw_388h_194cg_true-1.webp" alt="Fiberglass Insulation Installation" loading="lazy">
+                    <div class="card-overlay">
+                        <div class="overlay-content">
+                            <h3>Quick & Easy Installation</h3>
+                            <p>Cost-effective choice for many homeowners</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Fiberglass Insulation</h3>
+                    <p class="card-description">Fiberglass is quick and easy to install. This has been the "go-to" choice for many homeowners for decades. It is virtually moisture resistant. This is the best option for lower budgets.</p>
+                    <a href="#contact" class="card-cta">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Blown-In/Cellulose Insulation -->
+            <div class="application-card">
+                <div class="card-image">
+                    <img src="/Images/CelluloseInsulation-e1684287319486.jpg" alt="Blown-In Cellulose Insulation" loading="lazy">
+                    <div class="card-overlay">
+                        <div class="overlay-content">
+                            <h3>Attic Specialist</h3>
+                            <p>Prevents air leaking and saves energy</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Blown-In/Cellulose</h3>
+                    <p class="card-description">This option is used for attics. It prevents air from leaking. It saves energy. It helps with noise reduction. It does a great job of keeping the heat out and keeping the air condition inside your home.</p>
+                    <a href="#contact" class="card-cta">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Drill & Fill Spray Foam -->
+            <div class="application-card">
+                <div class="card-image">
+                    <img src="/Images/rsw_388h_194cg_true-3.webp" alt="Drill and Fill Spray Foam Insulation" loading="lazy">
+                    <div class="card-overlay">
+                        <div class="overlay-content">
+                            <h3>Existing Home Solution</h3>
+                            <p>Perfect for retrofitting existing structures</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Drill & Fill Spray Foam</h3>
+                    <p class="card-description">Drill and fill insulation is very common on existing "tract" homes. Brothers learned to install any insulation on the interior walls of most tract homes. We can drill some holes around your home to add insulation.</p>
+                    <a href="#contact" class="card-cta">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Insulation Removal -->
+            <div class="application-card">
+                <div class="card-image">
+                    <img src="/Images/rsw_388h_194cg_true-4.webp" alt="Professional Insulation Removal Service" loading="lazy">
+                    <div class="card-overlay">
+                        <div class="overlay-content">
+                            <h3>Professional Removal</h3>
+                            <p>Safe disposal and replacement services</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Insulation Removal</h3>
+                    <p class="card-description">If you need insulation removal we can do it. We have industrial vacuums to suck out the insulation and dispose of it. Click here to learn more about our removal services.</p>
+                    <a href="#contact" class="card-cta">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom CTA -->
+        <div class="section-cta text-center">
+            <h3>Ready to Choose the Right Insulation for Your Project?</h3>
+            <p>Contact us today for a free consultation and professional recommendations</p>
+            <a href="#contact" class="btn btn-large btn-primary">Get Free Quote <i class="fas fa-phone"></i></a>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Insulation Applications Section Styles */
+.insulation-applications-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.insulation-applications-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    pointer-events: none;
+}
+
+.section-header {
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 2;
+}
+
+.section-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: #6c757d;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.applications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 2;
+}
+
+.application-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.application-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-image {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.application-card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(52, 73, 94, 0.8));
+    opacity: 0;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.application-card:hover .card-overlay {
+    opacity: 1;
+}
+
+.overlay-content h3 {
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.overlay-content p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.card-content {
+    padding: 25px;
+}
+
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 12px;
+}
+
+.card-description {
+    color: #6c757d;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 6px;
+    background: rgba(0, 123, 255, 0.05);
+}
+
+.card-cta:hover {
+    color: #0056b3;
+    background: rgba(0, 123, 255, 0.1);
+    transform: translateX(4px);
+    text-decoration: none;
+}
+
+.card-cta i {
+    transition: transform 0.3s ease;
+}
+
+.card-cta:hover i {
+    transform: translateX(4px);
+}
+
+.section-cta {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    position: relative;
+    z-index: 2;
+}
+
+.section-cta h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 12px;
+}
+
+.section-cta p {
+    color: #6c757d;
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-large {
+    padding: 16px 36px;
+    font-size: 1.1rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0056b3, #004085);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+    text-decoration: none;
+    color: white;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .insulation-applications-section {
+        padding: 60px 0;
+    }
+    
+    .applications-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .section-header {
+        margin-bottom: 40px;
+    }
+    
+    .card-content {
+        padding: 20px;
+    }
+    
+    .section-cta {
+        padding: 30px 20px;
+    }
+    
+    .section-cta h3 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .applications-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .application-card {
+        margin: 0 10px;
+    }
+    
+    .section-title {
+        font-size: 1.9rem;
+    }
+    
+    .card-image {
+        height: 180px;
+    }
+}
+</style>
+{% endif %}
