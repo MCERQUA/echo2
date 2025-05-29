@@ -58,7 +58,14 @@
         "Fixed contact.njk with data-netlify='true', netlify-honeypot, and form-name hidden field",
         "Added id='contact-form' to contact section for proper anchor link navigation",
         "Both contact forms now properly configured: contact.njk page and contact-form.njk component",
-        "Forms will now submit to Netlify and trigger email notifications"
+        "Forms will now submit to Netlify and trigger email notifications",
+        "INTERACTION BLOCKING ISSUE RESOLVED May 29, 2025 - Multiple components had non-clickable elements",
+        "Root cause: CSS pseudo-elements (::before and ::after) blocking mouse events without pointer-events: none",
+        "Fixed contact-form.njk component: Added pointer-events: none to background pseudo-elements",
+        "Fixed additional-cta.njk component: Added pointer-events: none to background pseudo-elements",
+        "Enhanced z-index hierarchy across all interactive components for better layering",
+        "All CTA buttons, form elements, and interactive components now fully functional",
+        "Added :active states to buttons for better user feedback"
       ]
     },
     "ICA_Image_Directory_Issue": {
@@ -91,6 +98,24 @@
         "Added id='contact-form' to contact section for anchor link navigation",
         "Both forms now working: contact.njk page and contact-form.njk component",
         "Forms will submit to Netlify and send email notifications to site owner"
+      ]
+    },
+    "ICA_Interaction_Blocking_Issue": {
+      "name": "ICA_Interaction_Blocking_Issue",
+      "entityType": "Issue",
+      "observations": [
+        "Issue discovered May 29, 2025 - multiple components had non-clickable elements",
+        "Affected components: contact-form.njk and additional-cta.njk sections",
+        "Symptoms: No mouse hover effects, no clickable buttons, completely non-interactive sections",
+        "Root cause: CSS pseudo-elements (::before and ::after) blocking mouse events",
+        "Problem: Decorative background elements capturing pointer events without pointer-events: none",
+        "Solution: Added pointer-events: none to all decorative pseudo-elements",
+        "Enhanced z-index hierarchy: background elements z-index 1, content z-index 10+, interactive elements z-index 12+",
+        "Fixed contact-form.njk: All form inputs, dropdowns, and submit button now clickable",
+        "Fixed additional-cta.njk: Both CTA buttons now clickable with proper hover effects",
+        "Added :active states to all buttons for better user feedback",
+        "Issue affects any component using similar decorative background patterns",
+        "Future components should include pointer-events: none on decorative pseudo-elements"
       ]
     }
   }
