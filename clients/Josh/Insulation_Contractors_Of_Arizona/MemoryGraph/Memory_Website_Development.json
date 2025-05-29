@@ -15,7 +15,7 @@
         "Critical constraint: Maximum 1500 lines per file due to message length limits",
         "Tracking system established with checkboxes for progress monitoring",
         "Phase 1: Setup & Structure - PLANNING COMPLETE",
-        "Phase 2: Site Configuration - 85% COMPLETE (May 28, 2025)",
+        "Phase 2: Site Configuration - 90% COMPLETE (May 29, 2025)",
         "Phase 3: Core Pages - NOT STARTED",
         "Phase 4: Service Pages - NOT STARTED",
         "Phase 5: Blog Implementation - NOT STARTED",
@@ -37,7 +37,9 @@
         "6 reusable components extracted from monolithic homepage file",
         "Hero section enhanced with Arizona sunset background image (May 28, 2025)",
         "Hero section simplified to title, subtitle, and single CTA button",
-        "Responsive background positioning implemented for mobile devices"
+        "Responsive background positioning implemented for mobile devices",
+        "Air Duct Cleaning section added to homepage May 29, 2025",
+        "7th homepage component created: air-duct-cleaning.njk"
       ]
     },
     "ICA_SEO_Strategy": {
@@ -77,7 +79,8 @@
         "Component-based architecture enables rapid A/B testing",
         "Modular structure supports future enhancements and variations",
         "Hero section enhanced with Arizona sunset background image featuring ICA truck",
-        "Hero simplified to focus on single conversion action"
+        "Hero simplified to focus on single conversion action",
+        "Air Duct Cleaning section added May 29, 2025 as new service offering"
       ]
     },
     "ICA_Component_Library_System": {
@@ -99,7 +102,9 @@
         "Variable system implemented for all components",
         "Component documentation created with usage examples",
         "Homepage file size reduced by 97% through componentization",
-        "Hero component enhanced with background image support"
+        "Hero component enhanced with background image support",
+        "7th component added May 29, 2025: air-duct-cleaning.njk",
+        "Component library now includes 7 homepage sections"
       ]
     },
     "ICA_Additional_Pages_Pipeline": {
@@ -115,7 +120,8 @@
         "Template system enables 60-70% time savings",
         "Expected impact: 100-150% traffic increase",
         "Agricultural tank insulation identified as unique advantage",
-        "Development leverages 35,000+ words of existing content"
+        "Development leverages 35,000+ words of existing content",
+        "Air duct cleaning added as new service offering to expand market"
       ]
     },
     "ICA_Testimonials_Collection": {
@@ -149,7 +155,8 @@
         "Template includes existing blog system at /src/blog/",
         "4 generic contractor blog posts discovered that must be preserved",
         "Navigation hardcoded in base.njk template file",
-        "Arizona sunset hero image added: insulation_contractors_of_arizona_spray_foam_Arizona_Sunset.webp"
+        "Arizona sunset hero image added: insulation_contractors_of_arizona_spray_foam_Arizona_Sunset.webp",
+        "Air duct cleaning image available: vent-cleaning_arizona.webp"
       ]
     },
     "ICA_Website_Pages": {
@@ -165,7 +172,8 @@
         "Template repository pages: index, about, services, projects, contact, blog",
         "Existing blog posts: choosing-right-contractor, home-renovation-trends, construction-safety-tips, testarticle",
         "NEW ICA blog posts added: beat-arizona-heat-guide, arizona-insulation-timeline",
-        "Pages updated May 27: index, about, services, contact"
+        "Pages updated May 27: index, about, services, contact",
+        "Air Duct Cleaning now offered as service but page not yet created"
       ]
     },
     "ICA_Website_Migration": {
@@ -175,7 +183,7 @@
         "Migration plan created May 27, 2025 to preserve blog functionality",
         "8-phase migration approach defined",
         "Phase 1: Assessment & Planning - COMPLETE",
-        "Phase 2: Site Configuration - 85% COMPLETE (May 28, 2025)",
+        "Phase 2: Site Configuration - 90% COMPLETE (May 29, 2025)",
         "Phase 3: Blog Migration (preserving existing)",
         "Phase 4: Homepage Transformation - COMPLETE",
         "Phase 5: Service Pages Implementation",
@@ -207,7 +215,9 @@
         "Benefits: 60-80% faster edits, component reusability across pages",
         "Maintains 100% visual and functional parity with original homepage",
         "Sets foundation for rapid development of 17 remaining service pages",
-        "Component approach enables A/B testing and variant creation"
+        "Component approach enables A/B testing and variant creation",
+        "7th component added May 29, 2025: air-duct-cleaning.njk (3,570 bytes)",
+        "Homepage now includes 325 bytes with 7 component includes"
       ]
     },
     "ICA_Hero_Section_Enhancement": {
@@ -226,6 +236,25 @@
         "Enhanced CSS animations and hover effects",
         "Professional gradient text effect on hero title",
         "Simplified design expected to improve conversion rates"
+      ]
+    },
+    "ICA_Air_Duct_Cleaning_Section": {
+      "name": "ICA_Air_Duct_Cleaning_Section",
+      "entityType": "Component",
+      "observations": [
+        "Air Duct Cleaning section added to homepage May 29, 2025",
+        "Created as 7th homepage component: air-duct-cleaning.njk",
+        "Component size: 3,570 bytes with embedded styles",
+        "Uses existing image: /Images/vent-cleaning_arizona.webp",
+        "Two-column layout on desktop, single column on mobile",
+        "Mobile-optimized with object-position: left center to keep character visible",
+        "Light blue gradient background for visual distinction",
+        "Default messaging: 'Now Offering Professional Air Duct Cleaning!'",
+        "Customizable variables: sectionTitle, sectionSubtitle, ctaText, ctaUrl, showSection",
+        "Positioned on homepage before final CTA section",
+        "Expands ICA's visible service offerings",
+        "Component documented in /src/_includes/sections/README.md",
+        "Ready for reuse on service pages with custom messaging"
       ]
     }
   }
