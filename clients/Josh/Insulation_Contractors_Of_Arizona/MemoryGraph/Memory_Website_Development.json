@@ -39,7 +39,11 @@
         "Hero section simplified to title, subtitle, and single CTA button",
         "Responsive background positioning implemented for mobile devices",
         "Air Duct Cleaning section added to homepage May 29, 2025",
-        "7th homepage component created: air-duct-cleaning.njk"
+        "7th homepage component created: air-duct-cleaning.njk",
+        "Insulation applications component created May 28, 2025 and fixed May 29, 2025",
+        "Component image paths corrected from /images/ to /Images/ directory",
+        "Component styling updated to match website's futuristic theme",
+        "8th homepage component created: insulation-applications.njk (9.3KB)"
       ]
     },
     "ICA_SEO_Strategy": {
@@ -104,7 +108,11 @@
         "Homepage file size reduced by 97% through componentization",
         "Hero component enhanced with background image support",
         "7th component added May 29, 2025: air-duct-cleaning.njk",
-        "Component library now includes 7 homepage sections"
+        "Component library now includes 7 homepage sections",
+        "Insulation applications component added May 28, 2025, fixed May 29, 2025",
+        "Component library now includes 8 homepage sections",
+        "Insulation applications component fixed to use service-card styling",
+        "Component demonstrates successful integration with existing CSS patterns"
       ]
     },
     "ICA_Additional_Pages_Pipeline": {
@@ -195,7 +203,10 @@
         "ICA posts will use May 2025 dates to appear newest",
         "Phase 2 accomplishments: site.json updated, homepage transformed, about page complete, services page complete, contact page complete",
         "2 ICA blog posts added: Beat Arizona Heat (May 1) and Insulation Timeline (May 8)",
-        "Ready to continue with remaining blog posts and additional pages"
+        "Ready to continue with remaining blog posts and additional pages",
+        "Insulation applications component issue identified and fixed May 29, 2025",
+        "Image path correction demonstrates importance of verifying asset locations",
+        "Component styling standardization enforces design consistency"
       ]
     },
     "ICA_Homepage_Component_Migration": {
@@ -255,6 +266,26 @@
         "Expands ICA's visible service offerings",
         "Component documented in /src/_includes/sections/README.md",
         "Ready for reuse on service pages with custom messaging"
+      ]
+    },
+    "ICA_Insulation_Applications_Component": {
+      "name": "ICA_Insulation_Applications_Component",
+      "entityType": "Component",
+      "observations": [
+        "Insulation applications section created May 28, 2025 as homepage component",
+        "Initial version had styling issues and incorrect image paths",
+        "Component fixed May 29, 2025 - corrected image paths from /images/ to /Images/",
+        "Styling updated to match website's futuristic theme using existing service-card classes",
+        "Component size reduced from 13.3KB to 9.3KB through CSS optimization",
+        "All 6 insulation application images now display correctly",
+        "Applications featured: Open Cell, Closed Cell, Fiberglass, Blown-In, Drill & Fill, Removal",
+        "Responsive grid layout maintained (3-column to 2-column to 1-column)",
+        "Component now inherits styling from components.css for consistency",
+        "Uses existing service-card styling pattern from services-preview component",
+        "Mobile-responsive with proper breakpoints at 1200px, 768px, and 480px",
+        "Variables supported: sectionTitle, sectionSubtitle, showSection",
+        "Component documented in /src/_includes/sections/README.md",
+        "Ready for reuse across service pages with customizable content"
       ]
     }
   }
