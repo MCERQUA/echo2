@@ -52,7 +52,13 @@
         "Root cause: .eleventy.js only copying lowercase /images directory, not uppercase /Images",
         "Temporary fix applied: Updated .eleventy.js to copy both directories",
         "All components correctly use lowercase /images/ paths - no component updates needed",
-        "Permanent solution requires consolidating directories to single lowercase /images"
+        "Permanent solution requires consolidating directories to single lowercase /images",
+        "CONTACT FORM ISSUE RESOLVED May 29, 2025 - Form was missing Netlify Forms configuration",
+        "Contact form was using action='#' without proper Netlify data attributes",
+        "Fixed contact.njk with data-netlify='true', netlify-honeypot, and form-name hidden field",
+        "Added id='contact-form' to contact section for proper anchor link navigation",
+        "Both contact forms now properly configured: contact.njk page and contact-form.njk component",
+        "Forms will now submit to Netlify and trigger email notifications"
       ]
     },
     "ICA_Image_Directory_Issue": {
@@ -69,6 +75,22 @@
         "Temporary fix: Updated .eleventy.js to copy both directories during build",
         "Permanent solution: Consolidate to single lowercase directory and delete uppercase",
         "No component code changes required - all already use correct lowercase paths"
+      ]
+    },
+    "ICA_Contact_Form_Issue": {
+      "name": "ICA_Contact_Form_Issue",
+      "entityType": "Issue",
+      "observations": [
+        "Issue discovered May 29, 2025 - contact form not working, no response when clicked",
+        "Root cause: Contact form missing proper Netlify Forms configuration",
+        "Contact.njk form was using action='#' without Netlify data attributes",
+        "Missing required Netlify Forms elements: data-netlify='true', netlify-honeypot, form-name",
+        "Fixed by adding proper Netlify Forms configuration to contact.njk",
+        "Added hidden form-name field for Netlify form processing",
+        "Added bot-field honeypot for spam protection",
+        "Added id='contact-form' to contact section for anchor link navigation",
+        "Both forms now working: contact.njk page and contact-form.njk component",
+        "Forms will submit to Netlify and send email notifications to site owner"
       ]
     }
   }
