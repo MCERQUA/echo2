@@ -1,48 +1,49 @@
 {
-  "session_date": "2025-05-29",
-  "session_type": "Component Reference Guide Creation",
-  "tasks_completed": [
+  "session_id": "2025-05-29-openai-boot",
+  "date": "2025-05-29",
+  "activities": [
     {
-      "task": "Created ICA Website Component Reference Guide",
-      "details": [
-        "Built comprehensive visual reference guide for non-technical use",
-        "Documented all 12 homepage components with exact file names",
-        "Listed all CSS variables, classes, and design system elements",
-        "Created usage examples showing proper terminology",
-        "Included complete component library table",
-        "Added CSS file structure reference"
+      "timestamp": "2025-05-29T17:35:00Z",
+      "task": "Created OPENAI_ECHO_AZ_BOOT.md",
+      "description": "Developed comprehensive boot prompt document for OpenAI to initialize ECHO-AZ assistant with full ICA project knowledge",
+      "outcome": "Success - Created initialization instructions with all raw GitHub URLs and role definitions",
+      "files_created": [
+        "OPENAI_ECHO_AZ_BOOT.md"
       ],
-      "outcome": "User now has complete reference guide to properly request website changes using actual file names and CSS classes instead of visual descriptions"
+      "files_updated": [
+        "Memory_Index.json"
+      ]
     }
   ],
-  "key_references": {
-    "homepage_components": [
-      "hero.njk",
-      "contact-form.njk", 
-      "services-preview.njk",
-      "additional-cta.njk",
-      "insulation-applications.njk",
-      "air-duct-cleaning.njk",
-      "why-choose-ica.njk",
-      "licensing-credentials.njk",
-      "accreditations-banner.njk",
-      "testimonials.njk",
-      "recent-posts.njk",
-      "cta.njk"
-    ],
-    "css_variables": {
-      "primary_dark": "#0a1a1a",
-      "accent_primary": "#00ffff",
-      "warning": "#ff6b35",
-      "gradient_text": "#006666 to #00ffff"
+  "key_decisions": [
+    {
+      "decision": "Structured boot prompt with clear initialization steps",
+      "rationale": "OpenAI needs explicit instructions to load and process GitHub files correctly"
     },
-    "key_classes": [
-      ".hero-title",
-      ".glow-text",
-      ".service-card",
-      ".cta-button",
-      ".testimonial-card"
-    ]
-  },
-  "next_session_context": "User has visual reference guide for making precise component and style requests"
+    {
+      "decision": "Included all raw GitHub URLs for direct access",
+      "rationale": "OpenAI can read raw URLs but needs them explicitly provided"
+    },
+    {
+      "decision": "Added owner-focused reporting structure",
+      "rationale": "Christopher Kuhn needs business-level insights, not technical details"
+    }
+  ],
+  "next_actions": [
+    {
+      "priority": "high",
+      "action": "Test boot prompt in OpenAI",
+      "timeline": "immediate"
+    },
+    {
+      "priority": "medium",
+      "action": "Update boot prompt based on testing feedback",
+      "timeline": "as needed"
+    }
+  ],
+  "notes": [
+    "Boot prompt URL: https://raw.githubusercontent.com/MCERQUA/ECHO2/main/clients/Josh/Insulation_Contractors_Of_Arizona/MemoryGraph/OPENAI_ECHO_AZ_BOOT.md",
+    "Client can now share this single URL with OpenAI to initialize ECHO-AZ",
+    "Document includes all knowledge file URLs, role definitions, and interaction guidelines"
+  ]
 }
