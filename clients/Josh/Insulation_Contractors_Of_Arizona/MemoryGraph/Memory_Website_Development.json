@@ -47,258 +47,28 @@
         "Phase 7: Styling & Responsive Design - ACTIVE (May 29, 2025)",
         "Fixed mobile overflow issue caused by hero button text length",
         "Enhanced accreditations banner with transparent backgrounds and glow effects",
-        "Continued UI/UX improvements for mobile responsiveness"
+        "Continued UI/UX improvements for mobile responsiveness",
+        "CRITICAL IMAGE ISSUE RESOLVED May 29, 2025 - Duplicate image directories causing display problems",
+        "Root cause: .eleventy.js only copying lowercase /images directory, not uppercase /Images",
+        "Temporary fix applied: Updated .eleventy.js to copy both directories",
+        "All components correctly use lowercase /images/ paths - no component updates needed",
+        "Permanent solution requires consolidating directories to single lowercase /images"
       ]
     },
-    "ICA_SEO_Strategy": {
-      "name": "ICA_SEO_Strategy",
-      "entityType": "Strategy",
+    "ICA_Image_Directory_Issue": {
+      "name": "ICA_Image_Directory_Issue",
+      "entityType": "Issue",
       "observations": [
-        "Technical SEO improvements: implement proper heading structure, add schema markup, expand homepage content",
-        "Content expansion: create detailed service pages, develop location-specific landing pages",
-        "Local SEO enhancements: optimize Google Business Profile, build high-quality local citations",
-        "Conversion optimization: create linkable content assets, focus on mobile optimization, improve call-to-action elements",
-        "200 Citations package ordered as first major SEO implementation",
-        "Keyword tracking and monitoring set up in SEMrush",
-        "Blog production workflow enhanced with HTML deliverables and sitemap integration",
-        "14 deliverable files per blog including complete styled HTML version",
-        "Dynamic internal linking through sitemap analysis",
-        "ICA styling system ensures consistent visual presentation",
-        "Mobile-responsive design elements built into all deliverables",
-        "Professional quality standards matching published blog examples"
-      ]
-    },
-    "ICA_Homepage_Improvement": {
-      "name": "ICA_Homepage_Improvement",
-      "entityType": "Project",
-      "observations": [
-        "Comprehensive homepage analysis completed May 25, 2025",
-        "Research conducted on 20+ spray foam company websites",
-        "Key findings: missing testimonials, before/after gallery, financing options",
-        "Phase 1 implementation targeting 25-40% increase in lead generation",
-        "Customer testimonials collection completed with 15+ reviews",
-        "HTML testimonials template with animations and ICA branding created",
-        "WordPress/Divi integration guide completed",
-        "Trust indicators, financing options, FAQ components planned",
-        "3-phase implementation roadmap created",
-        "ROI projections: Phase 1 (300-500% within 60 days)",
-        "Homepage updated May 27, 2025 with ICA branding and services",
-        "Homepage componentized May 28, 2025 for improved maintainability",
-        "Component-based architecture enables rapid A/B testing",
-        "Modular structure supports future enhancements and variations",
-        "Hero section enhanced with Arizona sunset background image featuring ICA truck",
-        "Hero simplified to focus on single conversion action",
-        "Air Duct Cleaning section added May 29, 2025 as new service offering"
-      ]
-    },
-    "ICA_Component_Library_System": {
-      "name": "ICA_Component_Library_System",
-      "entityType": "System",
-      "observations": [
-        "3-tier component system created May 24, 2025",
-        "Tier 1: Universal components (header, footer, CTAs)",
-        "Tier 2: Service-specific templates with variables",
-        "Tier 3: Specialty components for differentiation",
-        "16 professional components with 88% reusability",
-        "Component approach enables 5x faster page creation",
-        "Template framework with variable system for customization",
-        "85% time savings vs traditional development",
-        "Ready for mass deployment of 17 service pages",
-        "Complete documentation with assembly formulas",
-        "Homepage components implemented May 28, 2025",
-        "6 homepage sections converted to reusable components",
-        "Variable system implemented for all components",
-        "Component documentation created with usage examples",
-        "Homepage file size reduced by 97% through componentization",
-        "Hero component enhanced with background image support",
-        "7th component added May 29, 2025: air-duct-cleaning.njk",
-        "Component library now includes 7 homepage sections",
-        "Insulation applications component added May 28, 2025, fixed May 29, 2025",
-        "Component library now includes 8 homepage sections",
-        "Insulation applications component fixed to use service-card styling",
-        "Component demonstrates successful integration with existing CSS patterns",
-        "Accreditations banner component updated May 29, 2025 with transparent backgrounds",
-        "Logo glow effect implemented to match header logo styling",
-        "Drop-shadow filter applied: 0 0 10px rgba(0, 255, 255, 0.5) with hover enhancement",
-        "Removed white background boxes from logo containers for cleaner aesthetic",
-        "Component maintains scrolling animation with pause-on-hover functionality",
-        "9th component enhanced: accreditations-banner.njk with improved visual effects"
-      ]
-    },
-    "ICA_Additional_Pages_Pipeline": {
-      "name": "ICA_Additional_Pages_Pipeline",
-      "entityType": "Project",
-      "observations": [
-        "18-page development pipeline completed",
-        "3-phase implementation plan created",
-        "Phase 1: Foundation pages (Weeks 1-4)",
-        "Phase 2: Market Expansion (Weeks 5-8)",
-        "Phase 3: Competitive Advantage (Weeks 9-12)",
-        "Spray foam page fully developed with 4,500+ words",
-        "Template system enables 60-70% time savings",
-        "Expected impact: 100-150% traffic increase",
-        "Agricultural tank insulation identified as unique advantage",
-        "Development leverages 35,000+ words of existing content",
-        "Air duct cleaning added as new service offering to expand market"
-      ]
-    },
-    "ICA_Testimonials_Collection": {
-      "name": "ICA_Testimonials_Collection",
-      "entityType": "Content",
-      "observations": [
-        "15+ authentic customer testimonials gathered",
-        "Sources: Google Reviews, Yelp, BBB",
-        "4.8/5 star average rating across platforms",
-        "A+ BBB accreditation verified",
-        "Key pain points addressed: speed, professionalism, cleanliness, pricing",
-        "Unique advantages: agricultural expertise, commercial scale, safety focus",
-        "HTML template created with animations and responsive design",
-        "WordPress/Divi integration methods documented",
-        "Ready for immediate implementation",
-        "Testimonials integrated into homepage May 27, 2025"
-      ]
-    },
-    "ICA_Websites": {
-      "name": "ICA_Websites",
-      "entityType": "WebAsset",
-      "observations": [
-        "Current website: https://insulationcontractorsofarizona.com/",
-        "Basic structure with limited navigation and content depth",
-        "Limited service descriptions and educational content",
-        "Mobile responsive but not fully optimized",
-        "Simple contact forms without optimization for lead generation",
-        "Limited imagery and before/after demonstrations",
-        "Significant opportunities for improvement in technical SEO elements",
-        "New 11ty template site: https://github.com/MCERQUA/ICA-Website",
-        "Template includes existing blog system at /src/blog/",
-        "4 generic contractor blog posts discovered that must be preserved",
-        "Navigation hardcoded in base.njk template file",
-        "Arizona sunset hero image added: insulation_contractors_of_arizona_spray_foam_Arizona_Sunset.webp",
-        "Air duct cleaning image available: vent-cleaning_arizona.webp"
-      ]
-    },
-    "ICA_Website_Pages": {
-      "name": "ICA_Website_Pages",
-      "entityType": "WebAsset",
-      "observations": [
-        "Current pages: Home page, Contact page, 10+ blog posts",
-        "Planned service pages: 18 total including spray foam, attic, fiberglass, commercial",
-        "Location pages planned: Phoenix, Glendale, Gilbert, Chandler, Scottsdale",
-        "Specialty pages: Agricultural tank, closed-cell, open-cell, duct cleaning",
-        "IMPORTANT: Never link to pages that don't exist yet in content",
-        "All internal links must point to valid, existing pages",
-        "Template repository pages: index, about, services, projects, contact, blog",
-        "Existing blog posts: choosing-right-contractor, home-renovation-trends, construction-safety-tips, testarticle",
-        "NEW ICA blog posts added: beat-arizona-heat-guide, arizona-insulation-timeline",
-        "Pages updated May 27: index, about, services, contact",
-        "Air Duct Cleaning now offered as service but page not yet created"
-      ]
-    },
-    "ICA_Website_Migration": {
-      "name": "ICA_Website_Migration",
-      "entityType": "Project",
-      "observations": [
-        "Migration plan created May 27, 2025 to preserve blog functionality",
-        "8-phase migration approach defined",
-        "Phase 1: Assessment & Planning - COMPLETE",
-        "Phase 2: Site Configuration - 90% COMPLETE (May 29, 2025)",
-        "Phase 3: Blog Migration (preserving existing)",
-        "Phase 4: Homepage Transformation - COMPLETE",
-        "Phase 5: Service Pages Implementation",
-        "Phase 6: Styling Updates - IN PROGRESS",
-        "Phase 7: SEO Optimization",
-        "Phase 8: Deployment Preparation",
-        "Critical requirement: DO NOT delete existing blog posts",
-        "Blog naming convention: YYYY-MM-DD-ica-[slug].md",
-        "ICA posts will use May 2025 dates to appear newest",
-        "Phase 2 accomplishments: site.json updated, homepage transformed, about page complete, services page complete, contact page complete",
-        "2 ICA blog posts added: Beat Arizona Heat (May 1) and Insulation Timeline (May 8)",
-        "Ready to continue with remaining blog posts and additional pages",
-        "Insulation applications component issue identified and fixed May 29, 2025",
-        "Image path correction demonstrates importance of verifying asset locations",
-        "Component styling standardization enforces design consistency"
-      ]
-    },
-    "ICA_Homepage_Component_Migration": {
-      "name": "ICA_Homepage_Component_Migration",
-      "entityType": "Project",
-      "observations": [
-        "Homepage Component Migration completed May 28, 2025",
-        "Transformed monolithic 8,530-byte homepage into modular component architecture",
-        "Created 6 individual components in /src/_includes/sections/",
-        "Components created: hero.njk (1,889 bytes), services-preview.njk (2,467 bytes)",
-        "Components created: why-choose-ica.njk (1,855 bytes), testimonials.njk (2,279 bytes)",
-        "Components created: recent-posts.njk (1,344 bytes), cta.njk (1,815 bytes)",
-        "Homepage reduced from 8,530 bytes to 278 bytes (97% reduction)",
-        "Implemented variable system for component customization",
-        "All components have sensible defaults and work without custom variables",
-        "Created comprehensive documentation in /src/_includes/sections/README.md",
-        "Benefits: 60-80% faster edits, component reusability across pages",
-        "Maintains 100% visual and functional parity with original homepage",
-        "Sets foundation for rapid development of 17 remaining service pages",
-        "Component approach enables A/B testing and variant creation",
-        "7th component added May 29, 2025: air-duct-cleaning.njk (3,570 bytes)",
-        "Homepage now includes 325 bytes with 7 component includes"
-      ]
-    },
-    "ICA_Hero_Section_Enhancement": {
-      "name": "ICA_Hero_Section_Enhancement",
-      "entityType": "Enhancement",
-      "observations": [
-        "Hero section updated May 28, 2025 with Arizona sunset background image",
-        "Background image path: /Images/insulation_contractors_of_arizona_spray_foam_Arizona_Sunset.webp",
-        "Hero section simplified to include only title, subtitle text, and single CTA button",
-        "Removed hero benefits grid for cleaner, more focused design",
-        "Implemented responsive background positioning for mobile devices",
-        "Mobile background position set to 75-80% center to focus on ICA truck",
-        "Dark overlay gradient applied for text readability",
-        "Hero content box uses backdrop blur and dark background for contrast",
-        "Single primary CTA 'Get Free Quote' with arrow icon",
-        "Enhanced CSS animations and hover effects",
-        "Professional gradient text effect on hero title",
-        "Simplified design expected to improve conversion rates",
-        "Hero button text shortened May 29, 2025 to prevent overflow on mobile devices",
-        "CTA button text changed from 'GET FREE ESTIMATE' to 'FREE ESTIMATE'",
-        "Mobile-responsive design improvement to fix horizontal scrolling issue"
-      ]
-    },
-    "ICA_Air_Duct_Cleaning_Section": {
-      "name": "ICA_Air_Duct_Cleaning_Section",
-      "entityType": "Component",
-      "observations": [
-        "Air Duct Cleaning section added to homepage May 29, 2025",
-        "Created as 7th homepage component: air-duct-cleaning.njk",
-        "Component size: 3,570 bytes with embedded styles",
-        "Uses existing image: /Images/vent-cleaning_arizona.webp",
-        "Two-column layout on desktop, single column on mobile",
-        "Mobile-optimized with object-position: left center to keep character visible",
-        "Light blue gradient background for visual distinction",
-        "Default messaging: 'Now Offering Professional Air Duct Cleaning!'",
-        "Customizable variables: sectionTitle, sectionSubtitle, ctaText, ctaUrl, showSection",
-        "Positioned on homepage before final CTA section",
-        "Expands ICA's visible service offerings",
-        "Component documented in /src/_includes/sections/README.md",
-        "Ready for reuse on service pages with custom messaging"
-      ]
-    },
-    "ICA_Insulation_Applications_Component": {
-      "name": "ICA_Insulation_Applications_Component",
-      "entityType": "Component",
-      "observations": [
-        "Insulation applications section created May 28, 2025 as homepage component",
-        "Initial version had styling issues and incorrect image paths",
-        "Component fixed May 29, 2025 - corrected image paths from /images/ to /Images/",
-        "Styling updated to match website's futuristic theme using existing service-card classes",
-        "Component size reduced from 13.3KB to 9.3KB through CSS optimization",
-        "All 6 insulation application images now display correctly",
-        "Applications featured: Open Cell, Closed Cell, Fiberglass, Blown-In, Drill & Fill, Removal",
-        "Responsive grid layout maintained (3-column to 2-column to 1-column)",
-        "Component now inherits styling from components.css for consistency",
-        "Uses existing service-card styling pattern from services-preview component",
-        "Mobile-responsive with proper breakpoints at 1200px, 768px, and 480px",
-        "Variables supported: sectionTitle, sectionSubtitle, showSection",
-        "Component documented in /src/_includes/sections/README.md",
-        "Ready for reuse across service pages with customizable content"
+        "Issue discovered May 29, 2025 - images not displaying in Insulation Applications and Accreditations components",
+        "Problem persisted through 10+ attempts over 2 days and 10+ hours of troubleshooting",
+        "Root cause: Two image directories exist - src/Images (uppercase) and src/images (lowercase)",
+        "Both directories contain identical files but Git tracks them separately",
+        ".eleventy.js configuration only included lowercase directory in build process",
+        "All components correctly reference lowercase /images/ path",
+        "Issue common when developing on case-insensitive systems (Windows/Mac) and deploying to case-sensitive (Linux)",
+        "Temporary fix: Updated .eleventy.js to copy both directories during build",
+        "Permanent solution: Consolidate to single lowercase directory and delete uppercase",
+        "No component code changes required - all already use correct lowercase paths"
       ]
     }
   }
