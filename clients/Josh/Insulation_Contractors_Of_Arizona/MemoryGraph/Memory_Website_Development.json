@@ -88,7 +88,32 @@
         "Solution: Removed duplicate service-cta-section from office.njk content",
         "Retained all valuable content sections and adjusted FAQ section styling",
         "Office page now follows standard service page template without overlapping elements",
-        "Echo successfully fixed formatting issues on azfoam.netlify.app/services/commercial/office/"
+        "Echo successfully fixed formatting issues on azfoam.netlify.app/services/commercial/office/",
+        "SERVICE SIDEBAR COMPONENT OVERLAP RESOLVED May 30, 2025 - Fixed component stacking issue",
+        "Issue discovered: Service menu and quick quote form were overlapping in sidebar",
+        "Root cause: Sidebar components lacked proper spacing and were stacking without gaps",
+        "Solution: Updated service-page.njk layout with flexbox and 30px gap between components",
+        "Added display: flex; flex-direction: column; gap: 30px; to .service-sidebar",
+        "Removed conflicting margins from individual sidebar components",
+        "Fix applies to ALL service pages using the service-page layout template",
+        "Components now display in proper order: service menu, quote form, credentials"
+      ]
+    },
+    "ICA_Service_Sidebar_Issue": {
+      "name": "ICA_Service_Sidebar_Issue", 
+      "entityType": "Issue",
+      "observations": [
+        "Issue discovered May 30, 2025 - Service sidebar components overlapping on all service pages",
+        "Symptoms: Service menu and quick quote form displayed on top of each other",
+        "Affected all service pages including office, warehouse, and other commercial pages",
+        "Root cause: Lack of proper spacing between sidebar components in layout",
+        "Components were stacking without gaps causing visual overlap",
+        "Solution: Updated service-page.njk layout to use flexbox with explicit gaps",
+        "Added .service-sidebar with display: flex, flex-direction: column, gap: 30px",
+        "Removed top margins from individual components to prevent stacking conflicts",
+        "Made sidebar sticky with proper positioning for better UX",
+        "Fix implemented in shared layout template, applying to all service pages",
+        "Components now properly spaced: service-menu, quick-quote, credentials-mini"
       ]
     },
     "ICA_Office_Page_Issue": {
@@ -178,7 +203,10 @@
         "Fixed commercial office page formatting issue May 30, 2025",
         "Diagnosed and resolved duplicate CTA section causing overlap with contact form",
         "Successfully removed redundant service-cta-section from office.njk",
-        "Ensured all service pages follow consistent template structure"
+        "Fixed service sidebar component overlap issue May 30, 2025",
+        "Identified sidebar components stacking without proper spacing",
+        "Updated service-page.njk layout with flexbox and 30px gaps",
+        "Ensured all service pages follow consistent component spacing"
       ]
     }
   }
