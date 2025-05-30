@@ -17,7 +17,7 @@
         "Phase 1: Setup & Structure - PLANNING COMPLETE",
         "Phase 2: Site Configuration - 90% COMPLETE (May 29, 2025)",
         "Phase 3: Core Pages - NOT STARTED",
-        "Phase 4: Service Pages - NOT STARTED",
+        "Phase 4: Service Pages - IN PROGRESS (May 30, 2025)",
         "Phase 5: Blog Implementation - NOT STARTED",
         "Phase 6: SEO & Performance - NOT STARTED",
         "Phase 7: Styling & Responsive Design - ACTIVE (May 29, 2025)",
@@ -96,7 +96,31 @@
         "Added display: flex; flex-direction: column; gap: 30px; to .service-sidebar",
         "Removed conflicting margins from individual sidebar components",
         "Fix applies to ALL service pages using the service-page layout template",
-        "Components now display in proper order: service menu, quote form, credentials"
+        "Components now display in proper order: service menu, quote form, credentials",
+        "COMMERCIAL PAGE STRUCTURE ISSUES IDENTIFIED May 30, 2025",
+        "Office page was using incorrect layout structure (service-page.njk instead of base.njk)",
+        "Most commercial pages (warehouse, retail, new-construction) already use correct structure",
+        "Correct structure: layout: base.njk with service-hero.njk include and service-content section",
+        "Fixed office.njk to match proper commercial page structure",
+        "Agricultural tank page also found using incorrect layout structure",
+        "All service pages should use consistent structure for proper hero display and sidebar formatting"
+      ]
+    },
+    "ICA_Commercial_Page_Structure_Issue": {
+      "name": "ICA_Commercial_Page_Structure_Issue",
+      "entityType": "Issue",
+      "observations": [
+        "Issue discovered May 30, 2025 - Some commercial pages using wrong layout structure",
+        "Symptoms: Missing sunset hero image, broken sidebar formatting, component overlap",
+        "Office.njk was using layout: layouts/service-page.njk instead of layout: base.njk",
+        "Correct structure requires base layout with service-hero include",
+        "Most commercial pages (warehouse, retail, new-construction) already had correct structure",
+        "Agricultural tank.njk page also found using incorrect layout structure",
+        "Solution: Updated office.njk to use base layout with proper includes",
+        "Added proper hero configuration with heroImage and heroStats",
+        "Restructured content within service-content section with proper sidebar",
+        "Added CSS styling for office-specific components within page",
+        "Fix ensures consistent display across all service pages"
       ]
     },
     "ICA_Service_Sidebar_Issue": {
@@ -206,7 +230,10 @@
         "Fixed service sidebar component overlap issue May 30, 2025",
         "Identified sidebar components stacking without proper spacing",
         "Updated service-page.njk layout with flexbox and 30px gaps",
-        "Ensured all service pages follow consistent component spacing"
+        "Ensured all service pages follow consistent component spacing",
+        "Identified and fixed commercial page structure issues May 30, 2025",
+        "Updated office.njk to use correct base layout with service-hero",
+        "Discovered agricultural tank page also needs structure fix"
       ]
     }
   }
