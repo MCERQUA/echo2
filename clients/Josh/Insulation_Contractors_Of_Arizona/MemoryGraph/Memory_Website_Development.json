@@ -81,7 +81,16 @@
         "Eleventy requires layout names without file extensions in front matter",
         "Deployment should now succeed on Netlify",
         "Service category pages now properly reference the layout template",
-        "Echo successfully diagnosed and fixed deployment blocking issue"
+        "Echo successfully diagnosed and fixed deployment blocking issue",
+        "OFFICE PAGE FORMATTING ISSUE RESOLVED May 30, 2025 - Fixed duplicate hero section on commercial office page",
+        "Issue: /services/commercial/office/ page had duplicate hero sections causing layout problems",
+        "Root cause: Page content included an office-hero section that duplicated the hero from the service-page layout",
+        "Solution: Removed duplicate hero section and reorganized content structure",
+        "Cleaned up CSS to ensure proper styling throughout the page",
+        "All sections now flow properly from hero through to contact form",
+        "Service CTA section properly styled above contact form with gradient background",
+        "Office page now follows standard service page template structure",
+        "Echo successfully fixed formatting issues on azfoam.netlify.app/services/commercial/office/"
       ]
     },
     "ICA_Image_Directory_Issue": {
