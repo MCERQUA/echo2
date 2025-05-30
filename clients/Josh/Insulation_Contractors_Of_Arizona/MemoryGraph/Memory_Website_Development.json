@@ -74,7 +74,14 @@
         "Removed blurry text-shadow effects and replaced with crisp -webkit-background-clip text rendering",
         "Added separate glow overlay (::after pseudo-element) for controlled glow effect without text blur",
         "Enhanced animations: hero-gradient-flow, hero-glow-pulse, enhanced-glow-sweep for better visual definition",
-        "Improved filter effects with contrast(1.2) brightness(1.1) for enhanced text sharpness"
+        "Improved filter effects with contrast(1.2) brightness(1.1) for enhanced text sharpness",
+        "DEPLOYMENT ERROR RESOLVED May 29, 2025 - Layout reference issue in service category pages",
+        "Root cause: Service pages were using 'layout: service-category.njk' instead of 'layout: service-category'",
+        "Fixed layout references in residential, commercial, and agricultural index.njk files",
+        "Eleventy requires layout names without file extensions in front matter",
+        "Deployment should now succeed on Netlify",
+        "Service category pages now properly reference the layout template",
+        "Echo successfully diagnosed and fixed deployment blocking issue"
       ]
     },
     "ICA_Image_Directory_Issue": {
