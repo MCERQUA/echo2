@@ -82,15 +82,30 @@
         "Deployment should now succeed on Netlify",
         "Service category pages now properly reference the layout template",
         "Echo successfully diagnosed and fixed deployment blocking issue",
-        "OFFICE PAGE FORMATTING ISSUE RESOLVED May 30, 2025 - Fixed duplicate hero section on commercial office page",
-        "Issue: /services/commercial/office/ page had duplicate hero sections causing layout problems",
-        "Root cause: Page content included an office-hero section that duplicated the hero from the service-page layout",
-        "Solution: Removed duplicate hero section and reorganized content structure",
-        "Cleaned up CSS to ensure proper styling throughout the page",
-        "All sections now flow properly from hero through to contact form",
-        "Service CTA section properly styled above contact form with gradient background",
-        "Office page now follows standard service page template structure",
+        "OFFICE PAGE FORMATTING ISSUE RESOLVED May 30, 2025 - Fixed duplicate CTA section overlap",
+        "Issue: /services/commercial/office/ page had redundant service-cta-section causing overlap with contact form",
+        "Root cause: Page included its own CTA section while service-page layout already adds contact form",
+        "Solution: Removed duplicate service-cta-section from office.njk content",
+        "Retained all valuable content sections and adjusted FAQ section styling",
+        "Office page now follows standard service page template without overlapping elements",
         "Echo successfully fixed formatting issues on azfoam.netlify.app/services/commercial/office/"
+      ]
+    },
+    "ICA_Office_Page_Issue": {
+      "name": "ICA_Office_Page_Issue",
+      "entityType": "Issue",
+      "observations": [
+        "Issue discovered May 30, 2025 - Commercial office page had formatting problems",
+        "Symptoms: Bottom of page content overlapped with contact form section",
+        "Page URL: https://azfoam.netlify.app/services/commercial/office/",
+        "Root cause: Duplicate CTA sections - one in page content, one from layout template",
+        "Office.njk included service-cta-section div at bottom of content",
+        "Service-page.njk layout automatically adds contact-form.njk section",
+        "Both sections were rendering, causing visual overlap and poor UX",
+        "Solution: Removed service-cta-section from office.njk page content",
+        "Adjusted FAQ section bottom margin to ensure smooth flow into contact form",
+        "All page content preserved - only removed redundant CTA wrapper",
+        "Fix committed to ICA-Website repository main branch May 30, 2025"
       ]
     },
     "ICA_Image_Directory_Issue": {
@@ -159,7 +174,11 @@
         "Removed blurry text-shadow effects and replaced with crisp gradient text rendering",
         "Hero title now uses proper -webkit-background-clip for better text definition",
         "New gradient uses progression: #006666 → #008888 → #00aaaa → #00cccc → #00ffff → #40ffff",
-        "All changes committed to ICA-Website repository main branch"
+        "All changes committed to ICA-Website repository main branch",
+        "Fixed commercial office page formatting issue May 30, 2025",
+        "Diagnosed and resolved duplicate CTA section causing overlap with contact form",
+        "Successfully removed redundant service-cta-section from office.njk",
+        "Ensured all service pages follow consistent template structure"
       ]
     }
   }
