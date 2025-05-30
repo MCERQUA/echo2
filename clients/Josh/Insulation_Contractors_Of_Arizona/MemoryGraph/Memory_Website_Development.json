@@ -103,7 +103,19 @@
         "Correct structure: layout: base.njk with service-hero.njk include and service-content section",
         "Fixed office.njk to match proper commercial page structure",
         "Agricultural tank page also found using incorrect layout structure",
-        "All service pages should use consistent structure for proper hero display and sidebar formatting"
+        "All service pages should use consistent structure for proper hero display and sidebar formatting",
+        "IMAGE OPTIMIZATION ISSUES RESOLVED May 30, 2025 - Multiple broken images after optimization script",
+        "Root cause 1: base.njk was using icaa-Logo instead of Insulation_Contractors_of_arizona_logo",
+        "Root cause 2: Components referencing non-existent image sizes (400w, 600w when only -original exists)",
+        "Root cause 3: Accreditations banner had wrong image references",
+        "Fixed base.njk to use correct company logo with proper srcset for responsive images",
+        "Fixed insulation-applications.njk to use -original.webp versions that exist",
+        "Fixed accreditations-banner.njk to include all 5 certification logos: SFWW, BBB, ICAA, ROC, SPFA",
+        "Created comprehensive IMAGE_OPTIMIZATION_GUIDE.md documenting all fixes and best practices",
+        "ICAA logo clarification: ICAA is Insulation Contractors Association of America (membership org)",
+        "Company logo is Insulation_Contractors_of_arizona_logo (not ICAA)",
+        "Loading flash issue identified - likely CSS/animation loading delay",
+        "Added preload directives for critical resources to improve loading experience"
       ]
     },
     "ICA_Commercial_Page_Structure_Issue": {
@@ -233,7 +245,14 @@
         "Ensured all service pages follow consistent component spacing",
         "Identified and fixed commercial page structure issues May 30, 2025",
         "Updated office.njk to use correct base layout with service-hero",
-        "Discovered agricultural tank page also needs structure fix"
+        "Discovered agricultural tank page also needs structure fix",
+        "Resolved comprehensive image optimization issues May 30, 2025",
+        "Diagnosed multiple root causes for broken images across the website",
+        "Fixed logo confusion between company logo and ICAA membership logo",
+        "Updated all components to use existing optimized image files",
+        "Created detailed troubleshooting guide for future reference",
+        "Identified website loading flash issue and recommended solutions",
+        "Ensured all certification/membership logos display properly in accreditations banner"
       ]
     }
   }
