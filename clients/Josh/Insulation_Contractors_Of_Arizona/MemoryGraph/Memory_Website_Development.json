@@ -127,7 +127,14 @@
         "Mobile menu styles included in critical CSS to prevent layout shift on mobile",
         "CSS optimization strategy implemented - combined 6 CSS files into single minified file",
         "Basic CSS minification added to .eleventy.js build process",
-        "Next priorities: Image optimization (52KB savings) and reducing DOM complexity"
+        "Next priorities: Image optimization (52KB savings) and reducing DOM complexity",
+        "Image optimization issues RESOLVED May 30, 2025 - all components now using optimized images",
+        "Fixed Spray Foam Insurance logo to use optimized versions with proper srcset attributes",
+        "Fixed air duct cleaning background image to use -original.webp version",
+        "Confirmed insulation applications component already correctly using optimized images",
+        "Confirmed accreditations banner working with all 5 certification logos scrolling",
+        "Updated PAGESPEED_OPTIMIZATION_PLAN.md to track Phase 1 completion",
+        "Next priority: Complete CSS optimization by using combined/minified CSS file"
       ]
     },
     "ICA_Commercial_Page_Structure_Issue": {
@@ -269,7 +276,11 @@
         "Successfully resolved critical FOUC issue with multi-layered approach",
         "Implemented CSS combining and minification strategy in build process",
         "Created detailed optimization plan with phased implementation approach",
-        "Identified render-blocking resources as next critical optimization target"
+        "Identified render-blocking resources as next critical optimization target",
+        "Successfully resolved all image display issues on ICA website May 30, 2025",
+        "Fixed components: licensing-credentials and air-duct-cleaning",
+        "Verified accreditations banner and insulation applications working correctly",
+        "Phase 1 of PageSpeed optimization nearly complete - FOUC fixed, images optimized"
       ]
     }
   }
