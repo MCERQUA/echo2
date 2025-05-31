@@ -1,6 +1,20 @@
 {
   "session_start": "2025-05-31T18:00:00Z",
   "session_summary": "Echo Init - Created comprehensive website cleanup task management system",
+  "critical_workflow_update": {
+    "dual_documentation_system": true,
+    "primary_tracking": "ECHO2/clients/Josh/Insulation_Contractors_Of_Arizona/TaskManagement/",
+    "secondary_documentation": "ICA-Website/docs/WEBSITE_CLEANUP_TASK_PLAN.md",
+    "synchronization_required": true,
+    "client_request": "Keep ICA-Website GitHub docs updated as tasks are completed"
+  },
+  "workflow_requirements": [
+    "1. Complete task work",
+    "2. Create completion marker in ECHO2/TaskManagement/Completed/",
+    "3. Update main task JSON in ECHO2 repository", 
+    "4. Update progress documentation in ICA-Website repository",
+    "5. Ensure both systems remain synchronized"
+  ],
   "tasks_completed": [
     {
       "task": "Initialize Echo with memory graph loading",
@@ -31,6 +45,12 @@
       "status": "COMPLETED",
       "timestamp": "2025-05-31T18:15:47Z",
       "details": "Created WEBSITE_CLEANUP_TASK_PLAN.md in ICA-Website/docs/ with complete implementation strategy"
+    },
+    {
+      "task": "Update memory with dual documentation workflow",
+      "status": "COMPLETED",
+      "timestamp": "2025-05-31T18:18:00Z",
+      "details": "Added critical workflow requirement to maintain synchronization between ECHO2 tracking and ICA-Website client documentation"
     }
   ],
   "key_discoveries": [
@@ -39,14 +59,16 @@
     "FAQ overlapping problem affects 3 pages - z-index/positioning issue", 
     "Crawl space page has BEST components on entire site - use as templates",
     "Wall page heat transfer component is excellent visual example",
-    "Full page rebuilds needed for most industrial, commercial, and agricultural pages"
+    "Full page rebuilds needed for most industrial, commercial, and agricultural pages",
+    "CLIENT REQUIREMENT: Must keep ICA-Website docs updated throughout implementation"
   ],
   "next_actions": [
     "Begin with high-impact common issues (Our Process component)",
     "Address pricing transparency across affected pages",
     "Fix FAQ overlapping problems",
     "Standardize hero components with sunset background",
-    "Use excellent crawl space components as templates for rebuilds"
+    "Use excellent crawl space components as templates for rebuilds",
+    "REMEMBER: Update both ECHO2 tracking AND ICA-Website docs for each completed task"
   ],
   "files_created": [
     "ECHO2/clients/Josh/Insulation_Contractors_Of_Arizona/TaskManagement/Website_Cleanup_Tasks.json",
