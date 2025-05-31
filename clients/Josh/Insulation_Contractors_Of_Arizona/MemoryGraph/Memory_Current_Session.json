@@ -1,72 +1,51 @@
 {
   "session_date": "2025-05-31",
-  "session_type": "Echo Initialization and Image Audit",
-  "tasks_completed": [
-    {
-      "task": "Echo system initialization",
-      "status": "completed",
-      "details": "Successfully loaded memory graph from GitHub repository and identified as Echo - SEO and Brand Strategist for ICA"
+  "session_update": "Image Display Issue Investigation",
+  "issue_identified": {
+    "problem": "Image display inconsistency on homepage",
+    "user_report": "Images exist in code and repo, fresh build deployed, but images not displaying in incognito browser",
+    "investigation_findings": [
+      "All 6 insulation application images are correctly coded in insulation-applications.njk component",
+      "Image paths are correct: /images-optimized/[filename]-original.webp",
+      "Direct image URLs work when accessed individually",
+      "HTML source shows images are properly included in the build",
+      "Problem is NOT with the insulation applications section - those images are working"
+    ],
+    "root_cause_discovered": {
+      "issue": "Path inconsistency across different homepage sections",
+      "details": [
+        "Services preview section uses /images/ directory paths",
+        "Insulation applications section uses /images-optimized/ directory paths", 
+        "Both directories exist and images load individually",
+        "Issue may be with CSS styling or JavaScript that's hiding images",
+        "Possible FOUC (Flash of Unstyled Content) prevention causing delayed image display",
+        "Critical CSS in head may be affecting image visibility"
+      ]
     },
-    {
-      "task": "Image filename audit for insulation applications section",
-      "status": "completed", 
-      "details": "Located insulation-applications.njk component and identified all 6 application images with their exact filenames and paths"
+    "solution_required": {
+      "immediate_fix": "Standardize all image paths to use /images-optimized/ directory",
+      "css_fix": "Check if images are being hidden by opacity: 0 in critical CSS",
+      "loading_fix": "Verify that body.loaded class is being applied properly",
+      "verification": "Test that all homepage sections use consistent image directory paths"
     }
-  ],
-  "image_audit_results": {
-    "component_location": "src/_includes/sections/insulation-applications.njk",
-    "image_directory": "/images-optimized/",
-    "total_application_images": 6,
-    "images": [
-      {
-        "application": "Open Cell Spray Foam",
-        "filename": "Open_Cell_Spray_Foam_insulation_Arizona-original.webp",
-        "full_path": "/images-optimized/Open_Cell_Spray_Foam_insulation_Arizona-original.webp",
-        "alt_text": "Open Cell Spray Foam Insulation Installation",
-        "dimensions": "400x267"
-      },
-      {
-        "application": "Closed Cell Spray Foam", 
-        "filename": "Closed_Cell_Spray_Foam_insulation_Arizona-original.webp",
-        "full_path": "/images-optimized/Closed_Cell_Spray_Foam_insulation_Arizona-original.webp",
-        "alt_text": "Closed Cell Spray Foam Insulation",
-        "dimensions": "400x267"
-      },
-      {
-        "application": "Fiberglass Insulation",
-        "filename": "Fibreglass_Home_insulation-original.webp", 
-        "full_path": "/images-optimized/Fibreglass_Home_insulation-original.webp",
-        "alt_text": "Fiberglass Insulation Installation",
-        "dimensions": "400x267"
-      },
-      {
-        "application": "Blown-In/Cellulose",
-        "filename": "Fibereglass_cellulose_Blown_in_Attic_insulation-original.webp",
-        "full_path": "/images-optimized/Fibereglass_cellulose_Blown_in_Attic_insulation-original.webp", 
-        "alt_text": "Blown-In Cellulose Insulation",
-        "dimensions": "400x267"
-      },
-      {
-        "application": "Drill & Fill Spray Foam",
-        "filename": "Drill_And_Fill_Blown_Dense_packed_wall_insulation-original.webp",
-        "full_path": "/images-optimized/Drill_And_Fill_Blown_Dense_packed_wall_insulation-original.webp",
-        "alt_text": "Drill and Fill Spray Foam Insulation", 
-        "dimensions": "400x267"
-      },
-      {
-        "application": "Insulation Removal",
-        "filename": "Attic_insulation_removal-original.webp",
-        "full_path": "/images-optimized/Attic_insulation_removal-original.webp",
-        "alt_text": "Professional Insulation Removal Service",
-        "dimensions": "400x267"
-      }
-    ]
   },
-  "notes": [
-    "All images are optimized .webp format stored in /images-optimized/ directory",
-    "Component uses -original.webp versions for best quality display", 
-    "Images are loaded with lazy loading for performance optimization",
-    "All images have consistent 400x267 dimensions for uniform grid display",
-    "Image paths confirmed to exist in repository src/images-optimized/ directory"
+  "technical_analysis": {
+    "eleventy_config": "Both /images and /images-optimized directories are correctly copied by .eleventy.js",
+    "html_output": "Images are present in final HTML build",
+    "image_locations_verified": [
+      "/images-optimized/Open_Cell_Spray_Foam_insulation_Arizona-original.webp - EXISTS",
+      "/images-optimized/Closed_Cell_Spray_Foam_insulation_Arizona-original.webp - EXISTS", 
+      "/images-optimized/Fibreglass_Home_insulation-original.webp - EXISTS",
+      "/images-optimized/Fibereglass_cellulose_Blown_in_Attic_insulation-original.webp - EXISTS",
+      "/images-optimized/Drill_And_Fill_Blown_Dense_packed_wall_insulation-original.webp - EXISTS",
+      "/images-optimized/Attic_insulation_removal-original.webp - EXISTS"
+    ],
+    "css_issue_suspected": "Critical CSS may be hiding content sections with opacity: 0 until body.loaded class is applied"
+  },
+  "next_steps": [
+    "Check if FOUC prevention is causing delayed image display",
+    "Verify all homepage sections use consistent image paths", 
+    "Test image loading in different browsers/devices",
+    "Review CSS loading sequence and body.loaded functionality"
   ]
 }
