@@ -134,7 +134,35 @@
         "Confirmed insulation applications component already correctly using optimized images",
         "Confirmed accreditations banner working with all 5 certification logos scrolling",
         "Updated PAGESPEED_OPTIMIZATION_PLAN.md to track Phase 1 completion",
-        "Next priority: Complete CSS optimization by using combined/minified CSS file"
+        "Next priority: Complete CSS optimization by using combined/minified CSS file",
+        "MOBILE MENU ALWAYS OPEN ISSUE RESOLVED May 31, 2025 - Fixed CSS conflict",
+        "Root cause: Conflicting CSS approaches between critical CSS (display none/flex) and components.css (sliding animation)",
+        "Critical CSS in base.njk was using display: none/flex while components.css used right: -100%/0",
+        "This CSS conflict caused the mobile menu to be always visible instead of hidden",
+        "Solution: Updated critical CSS in base.njk to match sliding animation approach",
+        "Mobile menu now properly slides in from right: -100% to right: 0 when activated",
+        "Menu correctly hidden off-screen by default and only appears when hamburger icon is clicked",
+        "Fix ensures consistent behavior between critical CSS and component CSS"
+      ]
+    },
+    "ICA_Mobile_Menu_Issue": {
+      "name": "ICA_Mobile_Menu_Issue",
+      "entityType": "Issue",
+      "observations": [
+        "Issue reported May 31, 2025 - Mobile menu always open and blocking website view",
+        "Symptoms: Navigation menu permanently visible without clicking hamburger icon",
+        "Discovered CSS conflict between two different menu implementations",
+        "Critical CSS in base.njk using display: none and display: flex approach",
+        "Components.css using sliding animation with right: -100% to right: 0",
+        "Conflicting approaches caused menu to always be visible",
+        "Solution: Aligned critical CSS with sliding animation approach",
+        "Updated mobile nav-list CSS to use position fixed with right: -100%",
+        "Changed mobile-active class to set right: 0 for slide-in effect",
+        "Added proper transition for smooth sliding animation",
+        "Menu now hidden off-screen by default as intended",
+        "Only appears when hamburger menu button is clicked",
+        "Properly slides back out when closed or clicking outside",
+        "Fix committed to ICA-Website repository main branch"
       ]
     },
     "ICA_Commercial_Page_Structure_Issue": {
@@ -280,7 +308,13 @@
         "Successfully resolved all image display issues on ICA website May 30, 2025",
         "Fixed components: licensing-credentials and air-duct-cleaning",
         "Verified accreditations banner and insulation applications working correctly",
-        "Phase 1 of PageSpeed optimization nearly complete - FOUC fixed, images optimized"
+        "Phase 1 of PageSpeed optimization nearly complete - FOUC fixed, images optimized",
+        "Diagnosed and fixed mobile menu always open issue May 31, 2025",
+        "Identified CSS conflict between critical CSS and components.css approaches",
+        "Critical CSS using display none/flex while components.css using sliding animation",
+        "Updated base.njk critical CSS to align with sliding animation approach",
+        "Mobile menu now properly hidden off-screen and slides in when activated",
+        "Fix ensures consistent behavior and resolves user-reported navigation blocking issue"
       ]
     }
   }
