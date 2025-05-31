@@ -1,0 +1,252 @@
+{
+  "project": "ICA Website Cleanup & Optimization",
+  "created": "2025-05-31",
+  "total_tasks": 16,
+  "status": "IN_PROGRESS",
+  "tasks": [
+    {
+      "id": "T001",
+      "page": "/services/residential/spray-foam/",
+      "priority": "HIGH",
+      "issues": [
+        "FAQ article title overlaying animated green titles",
+        "Call to action not centered on desktop"
+      ],
+      "estimated_time": "30min",
+      "category": "styling_fix"
+    },
+    {
+      "id": "T002", 
+      "page": "/services/residential/blown-in/",
+      "priority": "HIGH",
+      "issues": [
+        "Big block of unformatted text at top of page",
+        "Pricing containers - price not visible (transparent, only shows when highlighted)",
+        "Our process section has poor formatting on desktop with numbered items beside big column"
+      ],
+      "estimated_time": "45min",
+      "category": "layout_content"
+    },
+    {
+      "id": "T003",
+      "page": "/services/residential/dense-pack/",
+      "priority": "HIGH", 
+      "issues": [
+        "Hero not formatted well",
+        "Our process section poor formatting",
+        "Second pricing section poor formatting with transparent price",
+        "Dense pack FAQs have overlaying article over animated text title",
+        "Call to action formatting to center on desktop"
+      ],
+      "estimated_time": "60min",
+      "category": "layout_content"
+    },
+    {
+      "id": "T004",
+      "page": "/services/residential/attic/",
+      "priority": "MEDIUM",
+      "issues": [
+        "Top section has no styling and formatting",
+        "FAQ style inconsistency (good FAQ exists but also bad overlapping one)",
+        "Our process bad formatting",
+        "Double FAQ sections causing confusion"
+      ],
+      "estimated_time": "45min",
+      "category": "layout_content",
+      "notes": "Good FAQ style should be standardized across all pages"
+    },
+    {
+      "id": "T005",
+      "page": "/services/residential/wall/",
+      "priority": "MEDIUM",
+      "issues": [
+        "Understanding heat transfer component looks great - use as template!",
+        "Content below heat transfer needs better formatting/layout/styling", 
+        "Our process section same problems",
+        "Pricing sections have transparent price"
+      ],
+      "estimated_time": "40min",
+      "category": "layout_content",
+      "notes": "Heat transfer component is excellent - replicate this style"
+    },
+    {
+      "id": "T006",
+      "page": "/services/residential/crawl-space/",
+      "priority": "LOW",
+      "issues": [
+        "Our installation process section bad formatting",
+        "Our processes same problems", 
+        "Pricing has transparent text issues"
+      ],
+      "estimated_time": "30min",
+      "category": "styling_fix",
+      "notes": "First 3/4 components are EXCELLENT - Science of Crawl Space, Solutions Comparison, Why Attention Needed are best on site"
+    },
+    {
+      "id": "T007",
+      "page": "/services/residential/removal/",
+      "priority": "MEDIUM",
+      "issues": [
+        "Transformation Through Professional Removal has overlapping text/title",
+        "Professional Equipment Makes the Difference section needs better styling/layout",
+        "Why DIY Removal is Dangerous needs better layout",
+        "Our process same problem",
+        "Pricing same problem"
+      ],
+      "estimated_time": "45min",
+      "category": "layout_content"
+    },
+    {
+      "id": "T008",
+      "page": "/services/industrial/manufacturing/",
+      "priority": "HIGH",
+      "issues": [
+        "Full page review needed",
+        "Only key benefits, related services, and reviews work well",
+        "Most other components need complete overhaul"
+      ],
+      "estimated_time": "90min",
+      "category": "full_page_rebuild"
+    },
+    {
+      "id": "T009",
+      "page": "/services/industrial/cold-storage/",
+      "priority": "HIGH",
+      "issues": [
+        "Full page review needed",
+        "Only key benefits, related services, reviews working well",
+        "All other sections need styling/layout improvements"
+      ],
+      "estimated_time": "90min",
+      "category": "full_page_rebuild"
+    },
+    {
+      "id": "T010",
+      "page": "/services/industrial/equipment/",
+      "priority": "HIGH", 
+      "issues": [
+        "Full page review needed",
+        "Only site-wide working sections are acceptable",
+        "All other sections need complete rebuild"
+      ],
+      "estimated_time": "90min",
+      "category": "full_page_rebuild"
+    },
+    {
+      "id": "T011",
+      "page": "/services/commercial/office/",
+      "priority": "MEDIUM",
+      "issues": [
+        "Hero formatting needed - use sunset image from homepage instead of blue background",
+        "Our Commercial Installation Approach could be improved",
+        "Pricing options have transparency problems",
+        "FAQ has overlapping problems", 
+        "CTA alignment and styling ugly compared to other CTAs"
+      ],
+      "estimated_time": "60min",
+      "category": "layout_content"
+    },
+    {
+      "id": "T012",
+      "page": "/services/commercial/retail/",
+      "priority": "HIGH",
+      "issues": [
+        "Hero layout needed",
+        "Full page review - nothing looks good for format/style/layout"
+      ],
+      "estimated_time": "90min",
+      "category": "full_page_rebuild"
+    },
+    {
+      "id": "T013",
+      "page": "/services/commercial/warehouse/",
+      "priority": "HIGH",
+      "issues": [
+        "Full page review needed like retail"
+      ],
+      "estimated_time": "90min",
+      "category": "full_page_rebuild"
+    },
+    {
+      "id": "T014",
+      "page": "/services/commercial/new-construction/",
+      "priority": "HIGH",
+      "issues": [
+        "Full page review needed like retail and warehouse"
+      ],
+      "estimated_time": "90min", 
+      "category": "full_page_rebuild"
+    },
+    {
+      "id": "T015_ABC",
+      "pages": [
+        "/services/agricultural/tank/",
+        "/services/agricultural/barn/", 
+        "/services/agricultural/storage/"
+      ],
+      "priority": "HIGH",
+      "issues": [
+        "All three pages need full review - no layout or styling"
+      ],
+      "estimated_time": "120min",
+      "category": "full_page_rebuild"
+    },
+    {
+      "id": "T016",
+      "page": "/products/open-cell-spray-foam/",
+      "priority": "LOW",
+      "issues": [
+        "Only hero background image needed",
+        "Reduce height of hero area - too large and empty"
+      ],
+      "estimated_time": "15min",
+      "category": "quick_fix"
+    }
+  ],
+  "common_issues": {
+    "our_process_section": {
+      "description": "Recurring formatting problem across multiple pages",
+      "affected_pages": ["T001", "T002", "T003", "T004", "T005", "T006", "T007"],
+      "solution": "Create/fix shared component file",
+      "priority": "CRITICAL"
+    },
+    "pricing_transparency": {
+      "description": "Price text transparent unless highlighted", 
+      "affected_pages": ["T002", "T003", "T005", "T006", "T007"],
+      "solution": "Fix CSS opacity/color values",
+      "priority": "HIGH"
+    },
+    "faq_overlapping": {
+      "description": "Article titles overlaying animated text",
+      "affected_pages": ["T001", "T003", "T007"],
+      "solution": "Fix z-index and positioning",
+      "priority": "HIGH"
+    },
+    "hero_styling": {
+      "description": "Heroes need sunset background instead of blue/empty",
+      "affected_pages": ["T003", "T011", "T012", "T013", "T014", "T015_ABC"],
+      "solution": "Standardize hero component with sunset image", 
+      "priority": "MEDIUM"
+    },
+    "cta_alignment": {
+      "description": "Call-to-action buttons not centered on desktop",
+      "affected_pages": ["T001", "T003", "T011"],
+      "solution": "Fix CSS centering",
+      "priority": "LOW"
+    }
+  },
+  "success_examples": {
+    "excellent_components": [
+      "Crawl space: Science of Crawl Space Encapsulation",
+      "Crawl space: Crawl Space Solutions Comparison", 
+      "Crawl space: Why Your Crawl Space Needs Attention",
+      "Wall: Understanding Heat Transfer component",
+      "Attic: Good FAQ style (not the overlapping one)"
+    ],
+    "site_wide_working": [
+      "Key Benefits sections",
+      "Related Services sections", 
+      "Customer Reviews/Testimonials sections"
+    ]
+  }
+}
