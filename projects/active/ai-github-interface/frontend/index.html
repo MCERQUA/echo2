@@ -89,9 +89,9 @@
                     <div class="bg-yellow-800 rounded p-3 text-sm">
                         <p class="text-yellow-100 mb-2"><strong>Next Steps:</strong></p>
                         <ol class="list-decimal list-inside space-y-1 text-yellow-200">
-                            <li>Deploy the backend to Railway, Render, or Heroku</li>
-                            <li>Update the API_BASE_URL below</li>
-                            <li>Ensure your MCP server access token is configured</li>
+                            <li>Deploy the backend to Railway: <a href="https://railway.app" class="underline" target="_blank">railway.app</a></li>
+                            <li>Set environment variables: MCP_SERVER_URL and MCP_ACCESS_TOKEN</li>
+                            <li>Update PRODUCTION_API_URL in this file with your Railway URL</li>
                         </ol>
                     </div>
                 </div>
@@ -151,13 +151,13 @@
     </main>
 
     <script>
-        // Configuration - Update this with your deployed backend URL
+        // Configuration - UPDATE THIS WITH YOUR RAILWAY URL
         const CONFIG = {
             // For local development
             LOCAL_API_URL: 'http://localhost:3001/api',
             
-            // For production - UPDATE THIS with your deployed backend URL
-            PRODUCTION_API_URL: 'https://your-backend-app.railway.app/api',
+            // For production - REPLACE WITH YOUR RAILWAY URL
+            PRODUCTION_API_URL: 'https://ai-github-interface-production.up.railway.app/api',
             
             // Auto-detect environment
             get API_BASE_URL() {
