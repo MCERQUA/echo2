@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI GitHub Interface - Echo AI Systems</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .message-user {
+            background: linear-gradient(135deg, #1a73e8, #34a853);
+        }
+        .message-ai {
+            background: linear-gradient(135deg, #1f2937, #374151);
+        }
+        .glassmorphism {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Header -->
+    <header class="glassmorphism border-b border-gray-700">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold">E</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold">AI GitHub Interface</h1>
+                        <p class="text-sm text-gray-400">by Echo AI Systems</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div id="connectionStatus" class="flex items-center space-x-2">
+                        <div class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                        <span class="text-sm">Connecting...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8 max-w-4xl">
+        <!-- Welcome Section -->
+        <div class="glassmorphism rounded-xl p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
+                Welcome to AI GitHub Interface
+            </h2>
+            <p class="text-gray-300 mb-4">
+                Interact with your GitHub repositories using natural language. I can help you:
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <h3 class="font-semibold text-blue-400 mb-2">📂 Repository Management</h3>
+                    <p class="text-sm text-gray-400">List, create, and manage repositories</p>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <h3 class="font-semibold text-green-400 mb-2">📝 File Operations</h3>
+                    <p class="text-sm text-gray-400">Create, update, and delete files</p>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <h3 class="font-semibold text-purple-400 mb-2">🐛 Issue Management</h3>
+                    <p class="text-sm text-gray-400">Create and manage GitHub issues</p>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <h3 class="font-semibold text-yellow-400 mb-2">🔍 Code Search</h3>
+                    <p class="text-sm text-gray-400">Search across repositories and code</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Interface -->
+        <div class="glassmorphism rounded-xl overflow-hidden">
+            <!-- Messages Container -->
+            <div id="messagesContainer" class="h-96 overflow-y-auto p-6 space-y-4">
+                <div class="message-ai rounded-xl p-4 max-w-3xl">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white text-sm font-bold">AI</span>
+                        </div>
+                        <div>
+                            <p class="text-white">Hello! I'm your AI assistant for GitHub operations. What would you like me to help you with today?</p>
+                            <div class="mt-3 flex flex-wrap gap-2">
+                                <button onclick="sendSuggestion('List my repositories')" class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-full text-sm transition-colors">
+                                    List my repositories
+                                </button>
+                                <button onclick="sendSuggestion('Create a new file')" class="bg-green-600 hover:bg-green-700 px-3 py-1 rounded-full text-sm transition-colors">
+                                    Create a new file
+                                </button>
+                                <button onclick="sendSuggestion('Show recent commits')" class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded-full text-sm transition-colors">
+                                    Show recent commits
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="border-t border-gray-700 p-6">
+                <div class="flex space-x-4">
+                    <input 
+                        type="text" 
+                        id="messageInput" 
+                        placeholder="Ask me to do something with GitHub..."
+                        class="flex-1 bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                        onkeypress="handleKeyPress(event)"
+                    >
+                    <button 
+                        onclick="sendMessage()" 
+                        id="sendButton"
+                        class="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2"
+                    >
+                        <span>Send</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = 'http://localhost:3001/api';
+        let isConnected = false;
+
+        // DOM Elements
+        const messagesContainer = document.getElementById('messagesContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const connectionStatus = document.getElementById('connectionStatus');
+
+        // Initialize the application
+        async function init() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const data = await response.json();
+                
+                if (data.status === 'healthy') {
+                    updateConnectionStatus(true, data.mcpConnected);
+                    isConnected = true;
+                } else {
+                    updateConnectionStatus(false, false);
+                }
+            } catch (error) {
+                console.error('Failed to connect to backend:', error);
+                updateConnectionStatus(false, false);
+            }
+        }
+
+        // Update connection status indicator
+        function updateConnectionStatus(backendConnected, mcpConnected) {
+            const statusIndicator = connectionStatus.querySelector('div');
+            const statusText = connectionStatus.querySelector('span');
+
+            if (backendConnected && mcpConnected) {
+                statusIndicator.className = 'w-3 h-3 bg-green-500 rounded-full';
+                statusText.textContent = 'Connected';
+            } else if (backendConnected) {
+                statusIndicator.className = 'w-3 h-3 bg-yellow-500 rounded-full animate-pulse';
+                statusText.textContent = 'Backend Connected';
+            } else {
+                statusIndicator.className = 'w-3 h-3 bg-red-500 rounded-full animate-pulse';
+                statusText.textContent = 'Disconnected';
+            }
+        }
+
+        // Add message to chat
+        function addMessage(content, isUser = false, isLoading = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `${isUser ? 'message-user' : 'message-ai'} rounded-xl p-4 max-w-3xl ${isUser ? 'ml-auto' : ''}`;
+
+            const avatar = isUser ? 
+                '<div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-white text-sm font-bold">U</span></div>' :
+                '<div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-white text-sm font-bold">AI</span></div>';
+
+            messageDiv.innerHTML = `
+                <div class="flex items-start space-x-3 ${isUser ? 'flex-row-reverse space-x-reverse' : ''}">
+                    ${avatar}
+                    <div class="flex-1">
+                        <div class="text-white">
+                            ${isLoading ? '<div class="flex space-x-1"><div class="w-2 h-2 bg-white rounded-full animate-bounce"></div><div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.1s"></div><div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.2s"></div></div>' : content}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            return messageDiv;
+        }
+
+        // Send message to AI
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message || !isConnected) return;
+
+            // Add user message
+            addMessage(message, true);
+            messageInput.value = '';
+            sendButton.disabled = true;
+
+            // Add loading message
+            const loadingMessage = addMessage('', false, true);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message })
+                });
+
+                const data = await response.json();
+
+                // Remove loading message
+                loadingMessage.remove();
+
+                // Add AI response
+                let responseContent = data.reply;
+                if (data.result && typeof data.result === 'object') {
+                    responseContent += `<br><br><pre class="bg-gray-800 p-3 rounded mt-2 text-sm overflow-x-auto">${JSON.stringify(data.result, null, 2)}</pre>`;
+                }
+
+                addMessage(responseContent, false);
+
+                // Add suggestions if provided
+                if (data.suggestions) {
+                    const suggestionsDiv = document.createElement('div');
+                    suggestionsDiv.className = 'mt-3 flex flex-wrap gap-2';
+                    data.suggestions.forEach(suggestion => {
+                        const button = document.createElement('button');
+                        button.className = 'bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-full text-sm transition-colors';
+                        button.textContent = suggestion;
+                        button.onclick = () => sendSuggestion(suggestion);
+                        suggestionsDiv.appendChild(button);
+                    });
+                    messagesContainer.lastChild.querySelector('div > div').appendChild(suggestionsDiv);
+                }
+
+            } catch (error) {
+                loadingMessage.remove();
+                addMessage(`Sorry, I encountered an error: ${error.message}`, false);
+            }
+
+            sendButton.disabled = false;
+        }
+
+        // Send suggested message
+        function sendSuggestion(text) {
+            messageInput.value = text;
+            sendMessage();
+        }
+
+        // Handle Enter key press
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        // Initialize the app when page loads
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
