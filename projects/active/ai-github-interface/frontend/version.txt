@@ -1,1 +1,1 @@
-2025-06-04T01:14:00Z - Testing with hello function
+2025-06-04T01:19:00Z - Fixed functions path to ../netlify/functions
