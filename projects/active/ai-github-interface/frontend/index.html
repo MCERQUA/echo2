@@ -39,8 +39,8 @@
                         <span class="text-sm">Connecting...</span>
                     </div>
                     <div class="text-xs text-gray-400">
-                        <div>Backend: <span id="backendUrl">-</span></div>
-                        <div>Environment: <span id="environment">-</span></div>
+                        <div>Backend: <span id="backendType">Serverless</span></div>
+                        <div>MCP: <span id="mcpStatus">Checking...</span></div>
                     </div>
                 </div>
             </div>
@@ -82,16 +82,17 @@
             <div class="flex items-start space-x-3">
                 <div class="text-yellow-400 text-xl">⚠️</div>
                 <div>
-                    <h3 class="font-semibold text-yellow-200 mb-2">Backend Configuration Required</h3>
+                    <h3 class="font-semibold text-yellow-200 mb-2">MCP Configuration Required</h3>
                     <p class="text-yellow-100 text-sm mb-3">
-                        To use this interface, you need to deploy the backend server first.
+                        The serverless functions are working, but need your MCP access token.
                     </p>
                     <div class="bg-yellow-800 rounded p-3 text-sm">
                         <p class="text-yellow-100 mb-2"><strong>Next Steps:</strong></p>
                         <ol class="list-decimal list-inside space-y-1 text-yellow-200">
-                            <li>Deploy the backend to Railway: <a href="https://railway.app" class="underline" target="_blank">railway.app</a></li>
-                            <li>Set environment variables: MCP_SERVER_URL and MCP_ACCESS_TOKEN</li>
-                            <li>Update PRODUCTION_API_URL in this file with your Railway URL</li>
+                            <li>Go to Netlify Site Settings → Environment Variables</li>
+                            <li>Add: MCP_ACCESS_TOKEN with your OAuth token</li>
+                            <li>Add: MCP_SERVER_URL = https://github-mcp-remote.metamike.workers.dev/sse</li>
+                            <li>Redeploy the site</li>
                         </ol>
                     </div>
                 </div>
@@ -151,21 +152,11 @@
     </main>
 
     <script>
-        // Configuration - UPDATE THIS WITH YOUR RAILWAY URL
+        // Configuration - Uses Netlify Functions (serverless)
         const CONFIG = {
-            // For local development
-            LOCAL_API_URL: 'http://localhost:3001/api',
-            
-            // For production - REPLACE WITH YOUR RAILWAY URL
-            PRODUCTION_API_URL: 'https://ai-github-interface-production.up.railway.app/api',
-            
-            // Auto-detect environment
+            // Netlify functions are at /.netlify/functions/
             get API_BASE_URL() {
-                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                    return this.LOCAL_API_URL;
-                } else {
-                    return this.PRODUCTION_API_URL;
-                }
+                return `${window.location.origin}/.netlify/functions`;
             }
         };
 
@@ -178,32 +169,37 @@
         const sendButton = document.getElementById('sendButton');
         const connectionStatus = document.getElementById('connectionStatus');
         const configNotice = document.getElementById('configNotice');
-        const backendUrl = document.getElementById('backendUrl');
-        const environment = document.getElementById('environment');
+        const backendType = document.getElementById('backendType');
+        const mcpStatus = document.getElementById('mcpStatus');
 
         // Initialize the application
         async function init() {
-            // Update UI with current configuration
-            backendUrl.textContent = CONFIG.API_BASE_URL;
-            environment.textContent = window.location.hostname === 'localhost' ? 'Development' : 'Production';
-
             try {
-                console.log('Connecting to:', CONFIG.API_BASE_URL);
+                console.log('Connecting to:', `${CONFIG.API_BASE_URL}/health`);
                 const response = await fetch(`${CONFIG.API_BASE_URL}/health`);
                 const data = await response.json();
                 
                 if (data.status === 'healthy') {
                     updateConnectionStatus(true, data.mcpConnected);
                     isConnected = true;
-                    configNotice.classList.add('hidden');
+                    
+                    if (data.mcpConnected) {
+                        configNotice.classList.add('hidden');
+                        mcpStatus.textContent = 'Connected';
+                    } else {
+                        showConfigurationNotice();
+                        mcpStatus.textContent = 'Disconnected';
+                    }
                 } else {
                     updateConnectionStatus(false, false);
                     showConfigurationNotice();
+                    mcpStatus.textContent = 'Error';
                 }
             } catch (error) {
                 console.error('Failed to connect to backend:', error);
                 updateConnectionStatus(false, false);
                 showConfigurationNotice();
+                mcpStatus.textContent = 'Error';
             }
         }
 
@@ -222,7 +218,7 @@
                 statusText.textContent = 'Connected';
             } else if (backendConnected) {
                 statusIndicator.className = 'w-3 h-3 bg-yellow-500 rounded-full animate-pulse';
-                statusText.textContent = 'Backend Connected';
+                statusText.textContent = 'Functions OK';
             } else {
                 statusIndicator.className = 'w-3 h-3 bg-red-500 rounded-full animate-pulse';
                 statusText.textContent = 'Disconnected';
@@ -259,11 +255,6 @@
         async function sendMessage() {
             const message = messageInput.value.trim();
             if (!message) return;
-
-            if (!isConnected) {
-                addMessage('Please check your backend connection. The AI service is currently unavailable.', false);
-                return;
-            }
 
             // Add user message
             addMessage(message, true);
