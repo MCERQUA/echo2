@@ -33,7 +33,8 @@ exports.handler = async (event, context) => {
     
     console.log('Environment check:', {
       hasMcpUrl: !!MCP_SERVER_URL,
-      hasMcpToken: !!MCP_ACCESS_TOKEN
+      hasMcpToken: !!MCP_ACCESS_TOKEN,
+      mcpUrl: MCP_SERVER_URL
     });
 
     if (!MCP_SERVER_URL || !MCP_ACCESS_TOKEN) {
@@ -106,26 +107,44 @@ exports.handler = async (event, context) => {
         params
       };
 
-      console.log('Sending MCP request:', JSON.stringify(request, null, 2));
+      // Use the correct MCP endpoint - remove /sse for JSON-RPC calls
+      const mcpEndpoint = MCP_SERVER_URL.includes('/sse') 
+        ? MCP_SERVER_URL.replace('/sse', '') 
+        : MCP_SERVER_URL;
+
+      console.log('Sending MCP request to:', mcpEndpoint);
+      console.log('Request:', JSON.stringify(request, null, 2));
+      console.log('Token (first 20 chars):', MCP_ACCESS_TOKEN.substring(0, 20) + '...');
 
       try {
-        const response = await fetch(MCP_SERVER_URL.replace('/sse', ''), {
+        const response = await fetch(mcpEndpoint, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${MCP_ACCESS_TOKEN}`
+            'Authorization': `Bearer ${MCP_ACCESS_TOKEN}`,
+            'Accept': 'application/json'
           },
           body: JSON.stringify(request)
         });
 
         console.log('MCP response status:', response.status);
+        console.log('MCP response headers:', Object.fromEntries(response.headers.entries()));
 
         if (!response.ok) {
-          throw new Error(`MCP request failed: ${response.status} ${response.statusText}`);
+          const errorText = await response.text();
+          console.log('MCP error response:', errorText);
+          throw new Error(`MCP request failed: ${response.status} ${response.statusText}. Response: ${errorText}`);
         }
 
-        const responseData = await response.json();
-        console.log('MCP response data:', JSON.stringify(responseData, null, 2));
+        const responseText = await response.text();
+        console.log('MCP raw response:', responseText);
+
+        if (!responseText) {
+          throw new Error('Empty response from MCP server');
+        }
+
+        const responseData = JSON.parse(responseText);
+        console.log('MCP parsed response:', JSON.stringify(responseData, null, 2));
         return responseData;
 
       } catch (error) {
