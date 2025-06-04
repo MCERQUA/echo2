@@ -372,6 +372,35 @@
         "15 domains are already active and forwarded to live websites",
         "Main domain is thecontractorschoiceagency.com"
       ]
+    },
+    {
+      "name": "1st_Choice_Industrial_Coatings_Client",
+      "entityType": "Client",
+      "observations": [
+        "Company: 1st Choice Industrial Coatings, LLC",
+        "Location: Itasca, TX",
+        "Industry: Conklin Roofing Contractor",
+        "In business since 2012 (part-time)",
+        "Website: www.1stchoiceindustrialcoatings.com",
+        "BBB A+ rating with clean record",
+        "Current marketing: Low-level Facebook ads",
+        "Failed marketing: Direct mail (3 attempts unsuccessful)",
+        "Services needed: Liability insurance quote, website redesign, marketing strategy",
+        "SEO Score: 38/100 (Poor)",
+        "Critical issues: No SSL, No Google Business Profile, No mobile optimization",
+        "Only 4-5 pages indexed on website",
+        "Missing 95%+ of potential organic traffic",
+        "No local SEO presence",
+        "GitHub repository created: joshs-clients-1st-choice-industrial-coatings",
+        "Comprehensive SEO report completed June 4, 2025",
+        "90-day action plan developed",
+        "Potential monthly revenue lost: $345,000",
+        "Created comprehensive client folder for 1st Choice Industrial Coatings on June 4, 2025",
+        "Conducted extensive SEO audit revealing 38/100 score with critical issues",
+        "Developed 90-day digital transformation plan for roofing contractor",
+        "Repository: MCERQUA/joshs-clients-1st-choice-industrial-coatings (private)",
+        "Client missing 95%+ of organic traffic due to poor SEO"
+      ]
     }
   ],
   "relations": [
@@ -415,6 +444,8 @@
     {"from": "Echo_AI_Systems", "to": "AI_GitHub_Interface_Project", "relationType": "developed"},
     {"from": "AI_GitHub_Interface_Project", "to": "Remote_MCP_Server_Implementation", "relationType": "demonstrates"},
     {"from": "Remote_MCP_Server_Implementation", "to": "Cloudflare_Pages_Architecture", "relationType": "uses"},
-    {"from": "Remote_MCP_Server_Implementation", "to": "GitHub_Integration", "relationType": "implements"}
+    {"from": "Remote_MCP_Server_Implementation", "to": "GitHub_Integration", "relationType": "implements"},
+    {"from": "Echo_Systems_Business", "to": "1st_Choice_Industrial_Coatings_Client", "relationType": "serves"},
+    {"from": "1st_Choice_Industrial_Coatings_Client", "to": "Josh_Client", "relationType": "referred_by"}
   ]
 }
