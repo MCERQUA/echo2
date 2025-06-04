@@ -1,6 +1,7 @@
 // Health check function for Netlify
+// Build timestamp: 2025-06-03T20:36:00Z - Force rebuild with env vars
 exports.handler = async (event, context) => {
-  console.log('Health check called');
+  console.log('Health check called - v2');
   
   // Handle CORS
   const headers = {
@@ -50,6 +51,7 @@ exports.handler = async (event, context) => {
             MCP_SERVER_URL: !MCP_SERVER_URL,
             MCP_ACCESS_TOKEN: !MCP_ACCESS_TOKEN
           },
+          version: 'v2',
           timestamp: new Date().toISOString()
         })
       };
@@ -102,6 +104,7 @@ exports.handler = async (event, context) => {
           hasToken: !!MCP_ACCESS_TOKEN,
           url: MCP_SERVER_URL
         },
+        version: 'v2',
         timestamp: new Date().toISOString()
       })
     };
@@ -115,7 +118,8 @@ exports.handler = async (event, context) => {
         status: 'error',
         mcpConnected: false,
         error: error.message,
-        stack: error.stack
+        stack: error.stack,
+        version: 'v2'
       })
     };
   }
