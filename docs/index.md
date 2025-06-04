@@ -11,6 +11,9 @@ This index provides a comprehensive guide to all documentation in the ECHO2 syst
 
 ### Development References
 - [MCP Trigger Words](/docs/technical/MCP-Trigger-Words.md) - Guidelines for MCP tool selection
+- [MCP Integration Patterns](/docs/mcp-integration-patterns.md) - Patterns for integrating GitHub with Knowledge Graph
+- **[Remote MCP Server Implementation Guide](/docs/remote-mcp-server-implementation-guide.md)** - Complete guide for implementing remote MCP servers
+- **[Remote MCP Quick Reference](/docs/remote-mcp-cheat-sheet.md)** - Quick setup guide for remote MCP implementation
 
 ## Client Projects
 
@@ -26,6 +29,8 @@ This index provides a comprehensive guide to all documentation in the ECHO2 syst
 
 ## Technical Resources
 - [Spatial SDK Documentation](/docs/technical/Spatial/) - SDK documentation and verification
+- [Startup Procedure](/docs/startup_procedure.md) - Echo initialization procedures
+- [Email Best Practices](/docs/email_best_practices.md) - Guidelines for email communication
 
 ## Project Templates
 - [New Project Template](/projects/templates/new_project_template.md) - Template for new project setup
@@ -42,4 +47,8 @@ This index provides a comprehensive guide to all documentation in the ECHO2 syst
 - [Repository Structure](/README.md) - Overall repository organization
 - [Knowledge Graph Maintenance](/knowledge/memory_graph/README.md#usage-guidelines) - Guidelines for knowledge management
 
-Last Updated: March 26, 2025
+## Recent Additions (June 2025)
+- Remote MCP Server documentation suite for implementing GitHub operations in websites
+- Proven solution deployed at https://echo2.pages.dev using Cloudflare Pages
+
+Last Updated: June 4, 2025
