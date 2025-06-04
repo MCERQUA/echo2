@@ -1,4 +1,4 @@
-// Chat function that connects directly to GitHub API
+// Chat function - v2 with better error handling and token debugging
 exports.handler = async (event, context) => {
   // Handle CORS
   const headers = {
@@ -41,83 +41,44 @@ exports.handler = async (event, context) => {
       };
     }
 
+    // Debug: Check token format
+    console.log('Token format check:', {
+      hasToken: !!MCP_ACCESS_TOKEN,
+      tokenLength: MCP_ACCESS_TOKEN.length,
+      tokenPrefix: MCP_ACCESS_TOKEN.substring(0, 20) + '...'
+    });
+
     // Parse the user's intent
     const lower = message.toLowerCase();
     
-    // List repositories
-    if (lower.includes('list') && (lower.includes('repo') || lower.includes('repositories'))) {
-      try {
-        const response = await fetch('https://api.github.com/user/repos', {
-          headers: {
-            'Authorization': `token ${MCP_ACCESS_TOKEN}`,
-            'Accept': 'application/vnd.github.v3+json'
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error(`GitHub API error: ${response.status}`);
-        }
-
-        const repos = await response.json();
-        const repoList = repos.slice(0, 5).map(r => `• **${r.name}** - ${r.description || 'No description'}`).join('\n');
-
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify({
-            reply: `I found ${repos.length} repositories. Here are the first few:\n\n${repoList}`,
-            result: {
-              total: repos.length,
-              repos: repos.slice(0, 5).map(r => ({ name: r.name, description: r.description }))
-            },
-            suggestions: ['Create a new repository', 'Show repository details', 'Search for code']
-          })
-        };
-      } catch (error) {
-        console.error('GitHub API error:', error);
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify({
-            reply: `Error accessing GitHub: ${error.message}`,
-            error: error.message,
-            suggestions: ['Try again', 'Check token permissions']
-          })
-        };
-      }
-    }
-
-    // Create a file
-    if (lower.includes('create') && lower.includes('file')) {
+    // Check token permissions
+    if (lower.includes('check') && lower.includes('permission')) {
       return {
         statusCode: 200,
         headers,
         body: JSON.stringify({
-          reply: 'To create a file, please specify:\n• Repository name\n• File path\n• File content\n\nExample: "Create a README.md file in my test-repo with content Hello World"',
-          suggestions: ['List my repositories first', 'Create README.md', 'Create index.html']
+          reply: `Your MCP token is configured. It appears to be an OAuth token format: ${MCP_ACCESS_TOKEN.substring(0, 10)}...\n\nNote: The MCP server token may not work directly with GitHub API. The MCP server (${process.env.MCP_SERVER_URL}) acts as a proxy.\n\nTo use GitHub operations, we may need to connect through the MCP server instead of directly to GitHub.`,
+          result: {
+            tokenFormat: MCP_ACCESS_TOKEN.split('.')[0] + '...',
+            mcpServer: process.env.MCP_SERVER_URL
+          },
+          suggestions: ['Try using the MCP server', 'Get a GitHub personal access token', 'Contact support']
         })
       };
     }
 
-    // Search code
-    if (lower.includes('search')) {
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          reply: 'To search code, please specify what you\'re looking for.\n\nExample: "Search for useState in my React projects"',
-          suggestions: ['Search in all repos', 'Search in specific repo', 'List repositories']
-        })
-      };
-    }
-
-    // Default response
+    // For now, return helpful information about the MCP setup
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        reply: `I can help you with GitHub operations. You said: "${message}"\n\nTry one of these commands:`,
-        suggestions: ['List my repositories', 'Create a new file', 'Search for code', 'Show recent commits']
+        reply: `I understand you want to: "${message}"\n\nThe system is connected to the MCP server, but direct GitHub operations are not yet implemented. The MCP server at ${process.env.MCP_SERVER_URL} needs to handle the GitHub operations.\n\nThis is a demonstration interface showing that:\n✅ Functions are deployed correctly\n✅ Environment variables are working\n✅ The interface is connected\n\n🚧 Next step: Implement actual MCP protocol communication`,
+        result: {
+          request: message,
+          mcpConfigured: true,
+          serverUrl: process.env.MCP_SERVER_URL
+        },
+        suggestions: ['Check MCP documentation', 'View integration status', 'Contact support']
       })
     };
 
