@@ -1,7 +1,8 @@
 [build]
-  base = "projects/active/ai-github-interface"
-  publish = "frontend"
-  functions = "../netlify/functions"
+  # Base directory is set in Netlify UI as: projects/active/ai-github-interface/frontend
+  # So we don't override it here
+  publish = "."  # Current directory since base is already frontend
+  functions = "../netlify/functions"  # Go up from frontend, then into netlify/functions
   command = ""
 
 [build.environment]
