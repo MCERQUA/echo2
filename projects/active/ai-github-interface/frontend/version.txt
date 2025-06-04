@@ -1,1 +1,1 @@
-2025-06-04T01:19:00Z - Fixed functions path to ../netlify/functions
+2025-06-04T01:28:00Z - Fixed netlify.toml to work with UI base directory
