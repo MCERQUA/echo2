@@ -1,7 +1,7 @@
-const MCP_SERVER_URL = process.env.MCP_SERVER_URL || 'https://github-mcp-remote.metamike.workers.dev/sse';
-const MCP_ACCESS_TOKEN = process.env.MCP_ACCESS_TOKEN;
-
+// Health check function for Netlify
 exports.handler = async (event, context) => {
+  console.log('Health check called');
+  
   // Handle CORS
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -28,9 +28,40 @@ exports.handler = async (event, context) => {
   }
 
   try {
+    const MCP_SERVER_URL = process.env.MCP_SERVER_URL;
+    const MCP_ACCESS_TOKEN = process.env.MCP_ACCESS_TOKEN;
+    
+    console.log('Environment check:', {
+      hasMcpUrl: !!MCP_SERVER_URL,
+      hasMcpToken: !!MCP_ACCESS_TOKEN,
+      tokenPrefix: MCP_ACCESS_TOKEN ? MCP_ACCESS_TOKEN.substring(0, 10) + '...' : 'none'
+    });
+
+    if (!MCP_SERVER_URL || !MCP_ACCESS_TOKEN) {
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          status: 'healthy',
+          mcpConnected: false,
+          serverless: true,
+          error: 'Missing environment variables',
+          missing: {
+            MCP_SERVER_URL: !MCP_SERVER_URL,
+            MCP_ACCESS_TOKEN: !MCP_ACCESS_TOKEN
+          },
+          timestamp: new Date().toISOString()
+        })
+      };
+    }
+
     // Test MCP connection
     let mcpConnected = false;
+    let mcpError = null;
+    
     try {
+      console.log('Testing MCP connection to:', MCP_SERVER_URL);
+      
       const testResponse = await fetch(MCP_SERVER_URL.replace('/sse', ''), {
         method: 'POST',
         headers: {
@@ -45,10 +76,17 @@ exports.handler = async (event, context) => {
         })
       });
       
+      console.log('MCP response status:', testResponse.status);
       mcpConnected = testResponse.ok;
+      
+      if (!testResponse.ok) {
+        mcpError = `HTTP ${testResponse.status}: ${testResponse.statusText}`;
+      }
+      
     } catch (error) {
       console.error('MCP health check failed:', error);
       mcpConnected = false;
+      mcpError = error.message;
     }
 
     return {
@@ -57,7 +95,13 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({
         status: 'healthy',
         mcpConnected,
+        mcpError,
         serverless: true,
+        environment: {
+          hasUrl: !!MCP_SERVER_URL,
+          hasToken: !!MCP_ACCESS_TOKEN,
+          url: MCP_SERVER_URL
+        },
         timestamp: new Date().toISOString()
       })
     };
@@ -70,7 +114,8 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({ 
         status: 'error',
         mcpConnected: false,
-        error: error.message 
+        error: error.message,
+        stack: error.stack
       })
     };
   }
