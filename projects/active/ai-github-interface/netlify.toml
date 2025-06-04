@@ -1,7 +1,7 @@
 [build]
   base = "projects/active/ai-github-interface"
   publish = "frontend"
-  functions = "netlify/functions"
+  functions = "../netlify/functions"
   command = ""
 
 [build.environment]
