@@ -24,8 +24,8 @@ GitHub API
 
 ## 🚀 Deployment
 
-- **Frontend**: Netlify/Vercel
-- **Backend**: Railway/Render
+- **Frontend**: Netlify (https://ai-github-interface.netlify.app/)
+- **Backend**: Netlify Functions (Serverless)
 - **MCP Server**: Already deployed to Cloudflare Workers
 
 ## 📁 Project Structure
@@ -56,7 +56,9 @@ ai-github-interface/
 ## 📝 Development Status
 
 - [x] Project structure created
-- [ ] Frontend UI development
-- [ ] Backend MCP integration
-- [ ] Authentication flow
-- [ ] Deployment setup
+- [x] Frontend UI development
+- [x] Backend MCP integration via Netlify Functions
+- [x] Authentication flow (OAuth via MCP server)
+- [x] Deployment setup (Live at https://ai-github-interface.netlify.app/)
+- [x] Environment variables configured (MCP_ACCESS_TOKEN, MCP_SERVER_URL)
+- [ ] Awaiting deployment trigger for environment variables to take effect
