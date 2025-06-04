@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI GitHub Interface - Echo AI Systems</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .message {
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .loader {
+            border-top-color: #3b82f6;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+    <div class="max-w-4xl mx-auto p-4">
+        <!-- Header -->
+        <header class="mb-8 text-center">
+            <div class="flex items-center justify-center mb-4">
+                <div class="bg-blue-600 rounded-lg p-3 mr-3">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold">AI GitHub Interface</h1>
+            </div>
+            <p class="text-gray-400">by Echo AI Systems</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="bg-gray-800 rounded-lg shadow-xl p-6 mb-4">
+            <h2 class="text-xl font-semibold mb-4 text-blue-400">Welcome to AI GitHub Interface</h2>
+            <p class="text-gray-300 mb-6">Interact with your GitHub repositories using natural language.</p>
+            
+            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-gray-700 p-4 rounded-lg">
+                    <h3 class="font-semibold text-yellow-400 mb-2">📁 Repository Management</h3>
+                    <p class="text-sm text-gray-300">List, create, and manage repositories</p>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg">
+                    <h3 class="font-semibold text-green-400 mb-2">🔧 Issue Management</h3>
+                    <p class="text-sm text-gray-300">Create and manage GitHub issues</p>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-3">Quick Actions:</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="sendMessage('List my repositories')" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition-colors">
+                        List my repositories
+                    </button>
+                    <button onclick="sendMessage('Show my recent commits')" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg text-sm transition-colors">
+                        Recent commits
+                    </button>
+                    <button onclick="sendMessage('Check my open issues')" class="bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded-lg text-sm transition-colors">
+                        Open issues
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Interface -->
+        <div class="bg-gray-800 rounded-lg shadow-xl p-6">
+            <div id="chat-messages" class="h-96 overflow-y-auto mb-4 p-4 bg-gray-900 rounded-lg">
+                <div class="message text-gray-400 text-center">Start a conversation...</div>
+            </div>
+            
+            <div class="flex gap-2">
+                <input 
+                    type="text" 
+                    id="message-input" 
+                    placeholder="Ask me to do something with GitHub..." 
+                    class="flex-1 bg-gray-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    onkeypress="if(event.key === 'Enter') sendMessage()"
+                >
+                <button 
+                    onclick="sendMessage()" 
+                    class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-semibold transition-colors"
+                >
+                    Send
+                </button>
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div id="status" class="mt-4 text-center text-sm text-gray-500"></div>
+    </div>
+
+    <script src="chat.js"></script>
+</body>
+</html>
