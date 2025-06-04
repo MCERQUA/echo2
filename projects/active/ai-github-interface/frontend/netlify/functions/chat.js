@@ -1,4 +1,4 @@
-// Chat function - v3 with MCP JSON-RPC communication
+// Chat function - v4 with SECURITY FIX - Never expose tokens!
 exports.handler = async (event, context) => {
   // Handle CORS
   const headers = {
@@ -36,29 +36,41 @@ exports.handler = async (event, context) => {
         headers,
         body: JSON.stringify({ 
           error: 'MCP server not configured',
-          reply: 'The MCP integration is not properly configured. Please check the environment variables.',
-          suggestions: ['Contact administrator', 'Check configuration']
+          reply: 'The MCP integration is not properly configured. Please contact the administrator.',
+          suggestions: ['Try again later', 'Contact support']
         })
       };
     }
 
-    // Debug: Log configuration
-    console.log('MCP Configuration:', {
+    // SECURITY: Log for debugging but NEVER expose tokens
+    console.log('MCP Configuration check:', {
       hasToken: !!MCP_ACCESS_TOKEN,
-      tokenPrefix: MCP_ACCESS_TOKEN.substring(0, 20) + '...',
-      serverUrl: MCP_SERVER_URL
+      hasServerUrl: !!MCP_SERVER_URL,
+      serverUrl: MCP_SERVER_URL.replace(/https?:\/\/([^\/]+).*/, 'https://$1/***') // Partially mask URL
     });
 
     // Parse the user's intent
     const lower = message.toLowerCase();
     
+    // Check MCP server logs (without exposing sensitive data)
+    if (lower.includes('check') && lower.includes('logs')) {
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          reply: 'MCP server logs can only be viewed through the Cloudflare dashboard by authorized administrators. Server status: Attempting to connect...',
+          suggestions: ['List my repositories', 'Show available tools', 'Create a file']
+        })
+      };
+    }
+
     // Try to communicate with MCP server via JSON-RPC
     if (lower.includes('list') && lower.includes('repositories')) {
       try {
         // Convert SSE URL to JSON-RPC URL
         const jsonRpcUrl = MCP_SERVER_URL.replace('/sse', '/jsonrpc');
         
-        console.log('Attempting MCP JSON-RPC call to:', jsonRpcUrl);
+        console.log('Attempting MCP JSON-RPC call');
         
         // Make JSON-RPC request to MCP server
         const mcpResponse = await fetch(jsonRpcUrl, {
@@ -90,29 +102,25 @@ exports.handler = async (event, context) => {
             statusCode: 200,
             headers,
             body: JSON.stringify({
-              reply: `MCP server returned an error (${mcpResponse.status}). The remote MCP server might not support JSON-RPC endpoint or the authentication might be incorrect.`,
-              error: `HTTP ${mcpResponse.status}`,
-              debug: {
-                url: jsonRpcUrl,
-                status: mcpResponse.status,
-                tokenFormat: MCP_ACCESS_TOKEN.split('.')[0] + '...'
-              },
-              suggestions: ['Check MCP server logs', 'Verify authentication', 'Try a different approach']
+              reply: `Unable to connect to MCP server (Status: ${mcpResponse.status}). This might be due to:
+              - The MCP server may not have a JSON-RPC endpoint
+              - Authentication may need to be configured differently
+              - The server may be using SSE-only communication`,
+              suggestions: ['Check MCP server documentation', 'Try a different command', 'Contact support']
             })
           };
         }
 
         const result = await mcpResponse.json();
-        console.log('MCP Result:', result);
+        console.log('MCP Result received');
 
         if (result.error) {
           return {
             statusCode: 200,
             headers,
             body: JSON.stringify({
-              reply: `MCP server returned an error: ${result.error.message}`,
-              error: result.error,
-              suggestions: ['Check tool name', 'Verify parameters', 'Contact support']
+              reply: `MCP server returned an error: ${result.error.message || 'Unknown error'}`,
+              suggestions: ['Check tool name', 'Verify parameters', 'Try a different command']
             })
           };
         }
@@ -134,13 +142,9 @@ exports.handler = async (event, context) => {
           statusCode: 200,
           headers,
           body: JSON.stringify({
-            reply: `Failed to communicate with MCP server: ${error.message}`,
-            error: error.message,
-            debug: {
-              serverUrl: MCP_SERVER_URL,
-              tokenFormat: MCP_ACCESS_TOKEN.split('.')[0] + '...'
-            },
-            suggestions: ['Check network connectivity', 'Verify MCP server is running', 'Review logs']
+            reply: `Failed to communicate with MCP server. The server might be using SSE-only protocol which is incompatible with serverless functions.`,
+            error: 'Connection failed',
+            suggestions: ['Check server status', 'Try again later', 'Use a different deployment method']
           })
         };
       }
@@ -187,13 +191,12 @@ exports.handler = async (event, context) => {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        reply: `I understand you want to: "${message}"\\n\\nI'm attempting to communicate with the remote MCP server. Available commands:\\n- "List my repositories"\\n- "Show available tools"\\n- "Check MCP status"`,
-        result: {
-          request: message,
-          mcpConfigured: true,
-          serverUrl: MCP_SERVER_URL,
-          tokenFormat: MCP_ACCESS_TOKEN.split('.')[0] + '...'
-        },
+        reply: `I understand you want to: "${message}"
+
+I'm attempting to communicate with the remote MCP server. Available commands:
+- "List my repositories"
+- "Show available tools"
+- "Check MCP status"`,
         suggestions: ['List my repositories', 'Show available tools', 'Create a file', 'Check status']
       })
     };
@@ -204,9 +207,9 @@ exports.handler = async (event, context) => {
       statusCode: 500,
       headers,
       body: JSON.stringify({ 
-        error: error.message,
+        error: 'Internal server error',
         reply: 'Sorry, I encountered an error processing your request.',
-        suggestions: ['Try again', 'Check logs']
+        suggestions: ['Try again', 'Contact support']
       })
     };
   }
