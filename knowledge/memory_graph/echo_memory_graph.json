@@ -4,7 +4,7 @@
     "creation_date": "2025-03-09",
     "description": "Echo memory graph for persistent knowledge storage across sessions",
     "author": "Echo AI Systems",
-    "last_updated": "2025-03-17"
+    "last_updated": "2025-06-04"
   },
   "core_entities": [
     {
@@ -148,6 +148,44 @@
         "Web Deployment tools include Netlify site creation and management",
         "Updated on March 17, 2025"
       ]
+    },
+    {
+      "name": "Echo_AI_Systems",
+      "entityType": "Company",
+      "observations": [
+        "AI services company transforming technical jargon into simple, actionable solutions for small businesses",
+        "Target audience: Small business owners (restaurants, contractors, shops, services) wanting more customers online",
+        "Email: Echoaisystems@gmail.com",
+        "Website: https://echoaisystem.com",
+        "Repository: https://github.com/MCERQUA/echo-demo-site",
+        "CRITICAL RULE: NO PRICING TO BE ADDED TO WEBSITE - use 'Contact us for pricing' approach only",
+        "Messaging: 'Get More Customers Online - Without the Tech Headaches'",
+        "Tagline: 'We help small businesses get found online, attract more customers, and grow faster. No tech experience needed.'",
+        "500+ Small Businesses Helped",
+        "Average 40% More Customers in 90 Days"
+      ]
+    },
+    {
+      "name": "Remote_MCP_Server_Implementation",
+      "entityType": "Technical_Solution",
+      "observations": [
+        "Complete working implementation deployed at https://echo2.pages.dev",
+        "Uses Cloudflare Pages with _worker.js for API routes",
+        "Direct GitHub API integration using Personal Access Tokens",
+        "Bypasses MCP OAuth complexity - uses GitHub PAT directly",
+        "No SSE/WebSocket - simple HTTP request/response pattern",
+        "Comprehensive guide created at docs/remote-mcp-server-implementation-guide.md",
+        "Proven solution after many failed attempts with Netlify Functions",
+        "Key file: frontend/_worker.js handles all API routes",
+        "Environment variable: GITHUB_TOKEN in Cloudflare dashboard",
+        "Free tier sufficient for most applications",
+        "Documentation created June 4, 2025 with 11KB comprehensive guide",
+        "Quick reference cheat sheet at docs/remote-mcp-cheat-sheet.md",
+        "Working template at docs/templates/worker-template.js",
+        "Security best practices and common pitfalls documented",
+        "Debugging checklist and testing procedures included",
+        "Key insight: Simple HTTP patterns work better than complex SSE/WebSocket approaches"
+      ]
     }
   ],
   "projects": [
@@ -214,6 +252,56 @@
         "Follows structured template with consistent sections",
         "Repository at https://github.com/MCERQUA/SpatialDocs"
       ]
+    },
+    {
+      "name": "AI_GitHub_Interface_Project",
+      "entityType": "Project",
+      "observations": [
+        "Web application providing AI interface to GitHub repositories",
+        "Created as proof-of-concept for remote MCP server implementation",
+        "Successfully deployed to Cloudflare Pages at https://echo2.pages.dev",
+        "Uses _worker.js for serverless API routes",
+        "Direct GitHub API integration with Personal Access Tokens",
+        "Bypasses MCP OAuth and SSE complexities",
+        "Repository: MCERQUA/ECHO2/projects/active/ai-github-interface/",
+        "Many failed attempts with Netlify Functions before success",
+        "First working MCP tool deployed completely online without local servers",
+        "List repositories feature confirmed working June 4, 2025",
+        "Comprehensive documentation created June 4, 2025",
+        "Key learning: Simple solutions work better than complex architectures"
+      ]
+    },
+    {
+      "name": "Echo_AI_Systems_Website",
+      "entityType": "Project",
+      "observations": [
+        "Live at https://echoaisystem.com",
+        "GitHub: https://github.com/MCERQUA/echo-demo-site",
+        "Architecture: /dist directory for production files",
+        "Modular CSS system with design tokens",
+        "Component-based design",
+        "Dark theme with glassmorphism effects",
+        "Mobile-first responsive design",
+        "Netlify deployment with auto-deploy",
+        "NO PRICING displayed on website per company policy",
+        "Focus on value propositions and benefits only"
+      ]
+    },
+    {
+      "name": "ICA_Website_Project",
+      "entityType": "Project",
+      "observations": [
+        "Live at https://insulationcontractorsofarizona.com",
+        "GitHub repository: https://github.com/MCERQUA/ICA-Website",
+        "Built with Eleventy (11ty) static site generator",
+        "Hosted on Netlify with custom domain",
+        "Uses Nunjucks templating with component-based design",
+        "Zero-JavaScript architecture for performance",
+        "Recent updates June 1-3, 2025 with major redesigns",
+        "Commercial pages overhaul with modern styling",
+        "Fixed ROC license number across entire site",
+        "Comprehensive documentation system implemented"
+      ]
     }
   ],
   "technology": [
@@ -231,7 +319,9 @@
         "Azure Speech for reliable TTS",
         "Deepgram for speech recognition",
         "Next.js and React for web development",
-        "Integrates with spatial.io for metaverse presence"
+        "Integrates with spatial.io for metaverse presence",
+        "Cloudflare Pages for serverless deployment",
+        "Direct GitHub API v3 for repository operations"
       ]
     },
     {
@@ -249,6 +339,22 @@
         "Enables Echo to maintain consistent personality and knowledge across applications",
         "Solves the challenge of memory persistence between different platforms",
         "Provides Echo with 92 different tools as of March 17, 2025"
+      ]
+    },
+    {
+      "name": "Cloudflare_Pages_Architecture",
+      "entityType": "Technology",
+      "observations": [
+        "Serverless deployment platform with edge computing",
+        "_worker.js file intercepts requests before serving static files",
+        "Supports environment variables for secure credential storage",
+        "Free tier includes 100,000 requests per day",
+        "10ms CPU time per request on free tier",
+        "Direct integration with GitHub for automatic deployments",
+        "No build step required for static sites with API routes",
+        "Ideal for simple HTTP request/response patterns",
+        "Not suitable for SSE/WebSocket connections",
+        "Perfect for GitHub API integrations"
       ]
     }
   ],
@@ -303,6 +409,12 @@
     {"from": "Echo_Systems_Business", "to": "Josh_Client", "relationType": "serves"},
     {"from": "AI_Phone_System", "to": "Josh_Client", "relationType": "developed_for"},
     {"from": "Echo_Capabilities", "to": "Echo_MCP_Tools", "relationType": "includes"},
-    {"from": "Model_Context_Protocol", "to": "Echo_MCP_Tools", "relationType": "enables"}
+    {"from": "Model_Context_Protocol", "to": "Echo_MCP_Tools", "relationType": "enables"},
+    {"from": "Echo_Core_Identity", "to": "Echo_AI_Systems", "relationType": "represents"},
+    {"from": "Echo_AI_Systems", "to": "Echo_AI_Systems_Website", "relationType": "owns"},
+    {"from": "Echo_AI_Systems", "to": "AI_GitHub_Interface_Project", "relationType": "developed"},
+    {"from": "AI_GitHub_Interface_Project", "to": "Remote_MCP_Server_Implementation", "relationType": "demonstrates"},
+    {"from": "Remote_MCP_Server_Implementation", "to": "Cloudflare_Pages_Architecture", "relationType": "uses"},
+    {"from": "Remote_MCP_Server_Implementation", "to": "GitHub_Integration", "relationType": "implements"}
   ]
 }
