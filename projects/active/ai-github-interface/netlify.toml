@@ -2,7 +2,7 @@
   # Base directory is set in Netlify UI as: projects/active/ai-github-interface/frontend
   # So we don't override it here
   publish = "."  # Current directory since base is already frontend
-  functions = "../netlify/functions"  # Go up from frontend, then into netlify/functions
+  functions = "netlify/functions"  # Functions are now inside frontend/netlify/functions
   command = ""
 
 [build.environment]
