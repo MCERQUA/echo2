@@ -1,4 +1,6 @@
-// AI Message Server Worker - Groq Integration with Echo System Prompt and Conversation Memory
+// OpenAI MCP Implementation with gpt-4.1-nano - Ultra Cost-Effective!
+// Uses OpenAI's cheapest model with function calling support
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -15,387 +17,390 @@ export default {
         return new Response(null, { headers: corsHeaders });
       }
 
-      // Health check endpoint
+      // MCP Tool Definitions - OpenAI format
+      const OPENAI_TOOLS = [
+        {
+          type: "function",
+          function: {
+            name: "search_repositories",
+            description: "Search for GitHub repositories",
+            parameters: {
+              type: "object",
+              properties: {
+                query: { type: "string", description: "Search query" },
+                perPage: { type: "number", description: "Results per page (max 100)" },
+                page: { type: "number", description: "Page number" }
+              },
+              required: ["query"]
+            }
+          }
+        },
+        {
+          type: "function",
+          function: {
+            name: "get_file_contents",
+            description: "Get contents of a file or directory from GitHub",
+            parameters: {
+              type: "object",
+              properties: {
+                owner: { type: "string", description: "Repository owner" },
+                repo: { type: "string", description: "Repository name" },
+                path: { type: "string", description: "File or directory path" },
+                branch: { type: "string", description: "Branch name (default: main)" }
+              },
+              required: ["owner", "repo", "path"]
+            }
+          }
+        },
+        {
+          type: "function",
+          function: {
+            name: "create_or_update_file",
+            description: "Create or update a file in GitHub",
+            parameters: {
+              type: "object",
+              properties: {
+                owner: { type: "string" },
+                repo: { type: "string" },
+                path: { type: "string" },
+                content: { type: "string" },
+                message: { type: "string" },
+                branch: { type: "string" },
+                sha: { type: "string", description: "SHA of file being replaced (for updates)" }
+              },
+              required: ["owner", "repo", "path", "content", "message", "branch"]
+            }
+          }
+        },
+        {
+          type: "function",
+          function: {
+            name: "create_issue",
+            description: "Create a new issue in a GitHub repository",
+            parameters: {
+              type: "object",
+              properties: {
+                owner: { type: "string" },
+                repo: { type: "string" },
+                title: { type: "string" },
+                body: { type: "string" },
+                labels: { type: "array", items: { type: "string" } }
+              },
+              required: ["owner", "repo", "title"]
+            }
+          }
+        },
+        {
+          type: "function", 
+          function: {
+            name: "list_issues",
+            description: "List issues in a GitHub repository",
+            parameters: {
+              type: "object",
+              properties: {
+                owner: { type: "string" },
+                repo: { type: "string" },
+                state: { type: "string", enum: ["open", "closed", "all"], description: "Filter by state" },
+                per_page: { type: "number", description: "Results per page (max 100)" },
+                page: { type: "number", description: "Page number" }
+              },
+              required: ["owner", "repo"]
+            }
+          }
+        }
+      ];
+
+      // Health check
       if (url.pathname === '/api/health') {
         return new Response(JSON.stringify({ 
           status: 'healthy',
-          timestamp: new Date().toISOString(),
-          services: {
-            groq: !!env.GROQ_API_KEY,
-            github: !!env.GITHUB_TOKEN
-          }
+          model: 'OpenAI gpt-4.1-nano',
+          cost_per_million: { input: 0.10, output: 0.40 },
+          tools: OPENAI_TOOLS.length,
+          timestamp: new Date().toISOString()
         }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         });
       }
 
-      // Projects endpoint - fetch current projects list
-      if (url.pathname === '/api/projects' && request.method === 'GET') {
+      // List available tools
+      if (url.pathname === '/api/mcp/tools') {
+        return new Response(JSON.stringify({
+          tools: OPENAI_TOOLS.map(t => ({
+            name: t.function.name,
+            description: t.function.description,
+            parameters: t.function.parameters
+          }))
+        }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
+
+      // Main chat endpoint with OpenAI
+      if (url.pathname === '/api/chat' && request.method === 'POST') {
         try {
-          if (!env.GITHUB_TOKEN) {
-            return new Response(JSON.stringify({ 
-              error: 'GitHub token not configured' 
+          const { messages, stream = false } = await request.json();
+          
+          if (!env.OPENAI_API_KEY) {
+            return new Response(JSON.stringify({
+              error: 'OpenAI API key not configured. Add OPENAI_API_KEY to environment variables.'
             }), {
               status: 500,
               headers: { ...corsHeaders, 'Content-Type': 'application/json' }
             });
           }
 
-          // Fetch the projects file from GitHub
-          const projectsResponse = await fetch('https://api.github.com/repos/MCERQUA/echo2/contents/knowledge/Echo-current-projects.json', {
-            headers: {
-              'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
-              'Accept': 'application/vnd.github.v3+json',
-              'User-Agent': 'Echo-AI-Message-Server'
-            }
-          });
-
-          if (!projectsResponse.ok) {
-            throw new Error(`Failed to fetch projects: ${projectsResponse.status}`);
-          }
-
-          const projectsData = await projectsResponse.json();
-          const content = atob(projectsData.content);
-          const projects = JSON.parse(content);
-
-          return new Response(JSON.stringify(projects), {
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-          });
-        } catch (error) {
-          console.error('Projects fetch error:', error);
-          return new Response(JSON.stringify({ 
-            error: `Failed to fetch projects: ${error.message}` 
-          }), {
-            status: 500,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-          });
-        }
-      }
-
-      // Main chat endpoint
-      if (url.pathname === '/api/chat' && request.method === 'POST') {
-        try {
-          const { message, conversationId, messageNumber, isFirstMessage, conversationHistory } = await request.json();
-          
-          // Log for debugging
-          console.log('Received message:', message);
-          console.log('Conversation ID:', conversationId);
-          console.log('Message number:', messageNumber);
-          console.log('Conversation history length:', conversationHistory ? conversationHistory.length : 0);
-          
-          let aiResponse = '';
-          let projectsContext = '';
-          
-          // If this is the first message, fetch and include project information
-          if (isFirstMessage && env.GITHUB_TOKEN) {
-            try {
-              const projectsResponse = await fetch('https://api.github.com/repos/MCERQUA/echo2/contents/knowledge/Echo-current-projects.json', {
-                headers: {
-                  'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
-                  'Accept': 'application/vnd.github.v3+json',
-                  'User-Agent': 'Echo-AI-Message-Server'
-                }
-              });
-
-              if (projectsResponse.ok) {
-                const projectsData = await projectsResponse.json();
-                const content = atob(projectsData.content);
-                const projects = JSON.parse(content);
-                
-                projectsContext = `\n\nCurrent Echo AI Systems Projects:\n${JSON.stringify(projects, null, 2)}\n\nYou have access to detailed information about all these projects. Feel free to provide updates or answer questions about any of them.`;
-              }
-            } catch (error) {
-              console.error('Failed to fetch projects for context:', error);
-            }
-          }
-          
-          // System prompt that defines the AI's role and capabilities
-          const systemPrompt = `You are Echo's AI Message Center Assistant. Your role is to:
-
-1. **Receive and Process Requests**: Accept messages, tasks, and requests from clients for Echo to review later
-2. **Access GitHub Repositories**: You can read files from ANY GitHub repository to provide project updates and information
-3. **Message Queue Management**: All conversations are saved to the ECHO-MESSAGE-SERVER repository only
-4. **Project Awareness**: You have knowledge of Echo AI Systems projects and can provide updates when asked
-5. **Task Creation**: When users request tasks for Echo, acknowledge them and note they'll be saved for review
-
-IMPORTANT RULES:
-- You can READ from any GitHub repository to provide information
-- You can only WRITE to the ECHO-MESSAGE-SERVER repository
-- Be helpful and informative about Echo's projects when asked
-- When users submit tasks, confirm receipt and that Echo will review them
-- You are an extension of Echo AI Systems, not a separate entity
-- Maintain conversation context and remember what was discussed earlier in the conversation
-
-Available capabilities:
-- List and read repositories
-- View file contents from any repo
-- Create tasks and messages in ECHO-MESSAGE-SERVER
-- Provide project status updates
-- Answer questions about Echo AI Systems services
-
-Remember: You are Echo's message center, collecting and organizing communications for later review.${projectsContext}`;
-
-          if (!env.GROQ_API_KEY) {
-            aiResponse = 'Groq API key not configured. Please ask Echo to configure the GROQ_API_KEY environment variable.';
-          } else {
-            try {
-              // Build conversation messages array with history
-              const messages = [
-                {
-                  role: 'system',
-                  content: systemPrompt
-                }
-              ];
-
-              // Add conversation history if available
-              if (conversationHistory && conversationHistory.length > 0) {
-                // Add previous messages from history
-                conversationHistory.forEach(msg => {
-                  messages.push({
-                    role: msg.role,
-                    content: msg.content
-                  });
-                });
-              }
-
-              // Add current message
-              messages.push({
-                role: 'user',
-                content: message
-              });
-
-              // If message mentions GitHub operations, enhance the context
-              if (message.toLowerCase().includes('github') || 
-                  message.toLowerCase().includes('repository') || 
-                  message.toLowerCase().includes('repo') ||
-                  message.toLowerCase().includes('file') ||
-                  message.toLowerCase().includes('project')) {
-                
-                // Add GitHub context to the system message
-                messages[0].content += `\n\nThe user may be asking about GitHub operations. You have access to GitHub via the configured token. You can list repositories, read files, and provide project information. Remember to only write to ECHO-MESSAGE-SERVER.`;
-              }
-
-              const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                  'Authorization': `Bearer ${env.GROQ_API_KEY}`,
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                  model: 'llama3-8b-8192',
-                  messages: messages,
-                  temperature: 0.7,
-                  max_tokens: 2048
-                })
-              });
-              
-              if (!groqResponse.ok) {
-                const errorData = await groqResponse.text();
-                throw new Error(`Groq API error: ${groqResponse.status} - ${errorData}`);
-              }
-              
-              const groqData = await groqResponse.json();
-              aiResponse = groqData.choices[0].message.content;
-              
-              // If the AI response mentions needing to perform GitHub operations, handle them
-              if (aiResponse.includes('list') && aiResponse.includes('repositories') && env.GITHUB_TOKEN) {
-                // Fetch repositories
-                const repoResponse = await fetch('https://api.github.com/user/repos?sort=updated&per_page=10', {
-                  headers: {
-                    'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
-                    'Accept': 'application/vnd.github.v3+json',
-                    'User-Agent': 'Echo-AI-Message-Server'
-                  }
-                });
-                
-                if (repoResponse.ok) {
-                  const repos = await repoResponse.json();
-                  const repoList = repos.map(r => `- **${r.full_name}** (${r.private ? 'private' : 'public'}) - ${r.description || 'No description'}`).join('\\n');
-                  aiResponse += `\\n\\nHere are your recent repositories:\\n${repoList}`;
-                }
-              }
-              
-            } catch (error) {
-              console.error('Groq API error:', error);
-              aiResponse = `I'm having trouble connecting to the AI service. Error: ${error.message}`;
-            }
-          }
-          
-          // Save message to GitHub (ECHO-MESSAGE-SERVER)
-          let saved = false;
-          if (env.GITHUB_TOKEN) {
-            try {
-              const date = new Date();
-              const dateFolder = date.toISOString().split('T')[0];
-              const timestamp = date.toISOString();
-              const fileName = `${conversationId}-msg-${String(messageNumber).padStart(4, '0')}.md`;
-              const filePath = `messages/${dateFolder}/${fileName}`;
-              
-              // Determine if this is a task request
-              const isTask = message.toLowerCase().includes('task') || 
-                             message.toLowerCase().includes('todo') || 
-                             message.toLowerCase().includes('request') ||
-                             message.toLowerCase().includes('need echo to') ||
-                             message.toLowerCase().includes('ask echo to');
-              
-              const fileContent = `---
-id: ${conversationId}-${messageNumber}
-timestamp: ${timestamp}
-client: web-interface
-type: ${isTask ? 'task' : 'message'}
-status: new
-priority: ${isTask ? 'normal' : 'low'}
----
-
-# User Message
-
-${message}
-
-# AI Response
-
-${aiResponse}
-
-${isTask ? `\n# Task Extraction\n\nThis appears to be a task request for Echo to review.\n` : ''}
-`;
-              
-              const githubResponse = await fetch(`https://api.github.com/repos/MCERQUA/ECHO-MESSAGE-SERVER/contents/${filePath}`, {
-                method: 'PUT',
-                headers: {
-                  'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
-                  'Accept': 'application/vnd.github.v3+json',
-                  'User-Agent': 'Echo-AI-Message-Server'
-                },
-                body: JSON.stringify({
-                  message: `Add message ${messageNumber} from conversation ${conversationId}`,
-                  content: btoa(unescape(encodeURIComponent(fileContent)))
-                })
-              });
-              
-              saved = githubResponse.ok;
-              
-              if (!saved) {
-                console.error('Failed to save to GitHub:', await githubResponse.text());
-              }
-              
-              // If it's a task, also save to tasks folder
-              if (isTask && saved) {
-                const taskFileName = `${conversationId}-task-${String(messageNumber).padStart(4, '0')}.md`;
-                const taskFilePath = `tasks/pending/${taskFileName}`;
-                
-                const taskContent = `---
-id: ${conversationId}-task-${messageNumber}
-created: ${timestamp}
-conversationId: ${conversationId}
-messageNumber: ${messageNumber}
-status: pending
-priority: normal
----
-
-# Task Request
-
-${message}
-
-# Initial AI Response
-
-${aiResponse}
-
-# Source
-
-From conversation ${conversationId}, message ${messageNumber}
-`;
-                
-                await fetch(`https://api.github.com/repos/MCERQUA/ECHO-MESSAGE-SERVER/contents/${taskFilePath}`, {
-                  method: 'PUT',
-                  headers: {
-                    'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
-                    'Accept': 'application/vnd.github.v3+json',
-                    'User-Agent': 'Echo-AI-Message-Server'
-                  },
-                  body: JSON.stringify({
-                    message: `Add task from conversation ${conversationId}`,
-                    content: btoa(unescape(encodeURIComponent(taskContent)))
-                  })
-                });
-              }
-              
-            } catch (error) {
-              console.error('Error saving to GitHub:', error);
-            }
-          }
-          
-          return new Response(JSON.stringify({
-            response: aiResponse,
-            saved: saved
-          }), {
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-          });
-          
-        } catch (error) {
-          console.error('Chat error:', error);
-          return new Response(JSON.stringify({ 
-            error: `Server error: ${error.message}` 
-          }), {
-            status: 500,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-          });
-        }
-      }
-      
-      // Save conversation summary
-      if (url.pathname === '/api/conversation/summary' && request.method === 'POST') {
-        try {
-          const { conversationId, messageCount } = await request.json();
-          
-          if (env.GITHUB_TOKEN) {
-            const date = new Date();
-            const dateFolder = date.toISOString().split('T')[0];
-            const filePath = `conversations/${dateFolder}/${conversationId}-summary.md`;
-            
-            const fileContent = `---
-conversationId: ${conversationId}
-lastUpdated: ${date.toISOString()}
-messageCount: ${messageCount}
-status: active
----
-
-# Conversation Summary
-
-Conversation ID: ${conversationId}
-Total Messages: ${messageCount}
-Last Updated: ${date.toISOString()}
-`;
-            
-            await fetch(`https://api.github.com/repos/MCERQUA/ECHO-MESSAGE-SERVER/contents/${filePath}`, {
-              method: 'PUT',
-              headers: {
-                'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
-                'Accept': 'application/vnd.github.v3+json',
-                'User-Agent': 'Echo-AI-Message-Server'
-              },
-              body: JSON.stringify({
-                message: `Update conversation summary for ${conversationId}`,
-                content: btoa(unescape(encodeURIComponent(fileContent)))
-              })
+          if (!env.GITHUB_TOKEN) {
+            return new Response(JSON.stringify({
+              error: 'GitHub token not configured. Add GITHUB_TOKEN to environment variables.'
+            }), {
+              status: 500,
+              headers: { ...corsHeaders, 'Content-Type': 'application/json' }
             });
           }
+
+          // Call OpenAI with tools using gpt-4.1-nano
+          const openAIResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              model: 'gpt-4.1-nano-2025-04-14', // Ultra cost-effective model
+              messages: [
+                {
+                  role: 'system',
+                  content: `You are Echo's AI Assistant with access to GitHub tools.
+You can search repositories, read files, create issues, and more.
+When users ask about GitHub operations, use the appropriate tools.
+Be helpful and concise in your responses.`
+                },
+                ...messages
+              ],
+              tools: OPENAI_TOOLS,
+              tool_choice: 'auto', // Let OpenAI decide when to use tools
+              temperature: 0.7,
+              max_tokens: 2048
+            })
+          });
+
+          if (!openAIResponse.ok) {
+            const error = await openAIResponse.text();
+            throw new Error(`OpenAI API error: ${error}`);
+          }
+
+          const data = await openAIResponse.json();
+          const message = data.choices[0].message;
+
+          // Check if OpenAI wants to use tools
+          if (message.tool_calls) {
+            const toolResults = [];
+            
+            // Execute each tool call
+            for (const toolCall of message.tool_calls) {
+              try {
+                const result = await executeGitHubTool(
+                  env.GITHUB_TOKEN, 
+                  toolCall.function.name, 
+                  JSON.parse(toolCall.function.arguments)
+                );
+                
+                toolResults.push({
+                  tool_call_id: toolCall.id,
+                  role: 'tool',
+                  name: toolCall.function.name,
+                  content: JSON.stringify(result)
+                });
+              } catch (error) {
+                toolResults.push({
+                  tool_call_id: toolCall.id,
+                  role: 'tool',
+                  name: toolCall.function.name,
+                  content: JSON.stringify({ error: error.message })
+                });
+              }
+            }
+
+            // Get final response from OpenAI with tool results
+            const finalResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                model: 'gpt-4.1-nano-2025-04-14',
+                messages: [
+                  ...messages,
+                  message,
+                  ...toolResults
+                ],
+                temperature: 0.7,
+                max_tokens: 2048
+              })
+            });
+
+            const finalData = await finalResponse.json();
+            
+            // Calculate cost estimate
+            const totalTokens = (data.usage?.total_tokens || 0) + (finalData.usage?.total_tokens || 0);
+            const estimatedCost = (totalTokens / 1000000) * 0.50; // Rough estimate
+            
+            return new Response(JSON.stringify({
+              response: finalData.choices[0].message.content,
+              usage: {
+                ...finalData.usage,
+                total_tokens: totalTokens,
+                estimated_cost: `$${estimatedCost.toFixed(6)}`
+              }
+            }), {
+              headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+            });
+          }
+
+          // Return response without tool calls
+          const estimatedCost = ((data.usage?.total_tokens || 0) / 1000000) * 0.50;
           
-          return new Response(JSON.stringify({ success: true }), {
+          return new Response(JSON.stringify({
+            response: message.content,
+            usage: {
+              ...data.usage,
+              estimated_cost: `$${estimatedCost.toFixed(6)}`
+            }
+          }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' }
           });
-          
+
         } catch (error) {
-          console.error('Summary save error:', error);
-          return new Response(JSON.stringify({ 
-            error: `Failed to save summary: ${error.message}` 
+          console.error('Chat error:', error);
+          return new Response(JSON.stringify({
+            error: error.message
           }), {
             status: 500,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' }
           });
         }
+      }
+
+      // Cost estimation endpoint
+      if (url.pathname === '/api/cost-estimate' && request.method === 'GET') {
+        const monthlyEstimate = {
+          model: 'gpt-4.1-nano',
+          pricing: {
+            input_per_million: 0.10,
+            output_per_million: 0.40,
+            cached_input_per_million: 0.025
+          },
+          typical_usage: {
+            tokens_per_month: 2000000,
+            estimated_cost: '$0.50 - $1.00'
+          },
+          comparison: {
+            'gpt-3.5-turbo': '$3.00 - $5.00',
+            'gpt-4.1-nano': '$0.50 - $1.00',
+            'claude-3-haiku': '$2.00 - $4.00'
+          }
+        };
+        
+        return new Response(JSON.stringify(monthlyEstimate), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
       }
     }
     
-    // Let Pages handle everything else (HTML, JS, CSS)
     return env.ASSETS.fetch(request);
   }
 };
+
+// GitHub tool implementations
+async function executeGitHubTool(token, toolName, args) {
+  const baseHeaders = {
+    'Authorization': `Bearer ${token}`,
+    'Accept': 'application/vnd.github.v3+json',
+    'User-Agent': 'OpenAI-MCP-Server'
+  };
+
+  switch (toolName) {
+    case 'search_repositories': {
+      const query = encodeURIComponent(args.query);
+      const perPage = args.perPage || 30;
+      const page = args.page || 1;
+      
+      const response = await fetch(
+        `https://api.github.com/search/repositories?q=${query}&per_page=${perPage}&page=${page}`,
+        { headers: baseHeaders }
+      );
+      
+      if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
+      return await response.json();
+    }
+
+    case 'get_file_contents': {
+      const { owner, repo, path, branch = 'main' } = args;
+      
+      const response = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`,
+        { headers: baseHeaders }
+      );
+      
+      if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
+      return await response.json();
+    }
+
+    case 'create_or_update_file': {
+      const { owner, repo, path, content, message, branch, sha } = args;
+      
+      const body = {
+        message,
+        content: Buffer.from(content).toString('base64'),
+        branch
+      };
+      
+      if (sha) body.sha = sha;
+      
+      const response = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
+        {
+          method: 'PUT',
+          headers: { ...baseHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        }
+      );
+      
+      if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
+      return await response.json();
+    }
+
+    case 'create_issue': {
+      const { owner, repo, title, body = '', labels = [] } = args;
+      
+      const response = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/issues`,
+        {
+          method: 'POST',
+          headers: { ...baseHeaders, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, body, labels })
+        }
+      );
+      
+      if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
+      return await response.json();
+    }
+
+    case 'list_issues': {
+      const { owner, repo, state = 'open', per_page = 30, page = 1 } = args;
+      
+      const response = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/issues?state=${state}&per_page=${per_page}&page=${page}`,
+        { headers: baseHeaders }
+      );
+      
+      if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
+      return await response.json();
+    }
+
+    default:
+      throw new Error(`Unknown tool: ${toolName}`);
+  }
+}
