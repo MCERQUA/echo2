@@ -1,3 +1,8 @@
-AI Message Server v2.0.0
-Last Updated: 2025-06-06
-Features: Groq AI Integration, GitHub MCP, Message Queue
+v2.0.1 - Fixed initialization loop issue
+Date: June 6, 2025
+
+Changes:
+- Moved _worker.js to functions directory for proper Cloudflare Pages deployment
+- Fixed API endpoints not being served correctly
+- Added proper session management with KV storage
+- Resolved infinite initialization screen issue
