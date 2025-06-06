@@ -1,4 +1,4 @@
-// AI Message Server - Enhanced Chat Interface with Conversation Memory
+// AI Message Server - Enhanced Chat Interface with OpenAI Function Calling
 let isConnected = false;
 let conversationId = null;
 let messageCount = 0;
@@ -33,7 +33,7 @@ async function sendProjectStatusRequest() {
     messagesEl.innerHTML = '';
     
     // Send the project status request
-    await sendMessage("Give me a brief status update on all current Echo AI Systems projects", true);
+    await sendMessage("List my GitHub repositories", true);
 }
 
 async function checkConnection() {
@@ -46,7 +46,7 @@ async function checkConnection() {
         if (response.ok) {
             const data = await response.json();
             statusDot.className = 'status-dot connected';
-            statusText.textContent = 'Connected';
+            statusText.textContent = `Connected (${data.model})`;
             isConnected = true;
             
             // Hide configuration notice
@@ -70,7 +70,7 @@ async function checkConnection() {
     }
 }
 
-function addMessage(content, isUser = false, isThinking = false) {
+function addMessage(content, isUser = false, isThinking = false, usage = null) {
     const messagesEl = document.getElementById('chat-messages');
     const messageDiv = document.createElement('div');
     messageDiv.className = `message mb-4 ${isUser ? 'text-right' : 'text-left'}`;
@@ -99,6 +99,17 @@ function addMessage(content, isUser = false, isThinking = false) {
             .replace(/\n/g, '<br>'); // Line breaks
         
         bubble.innerHTML = content;
+        
+        // Add usage info if available
+        if (usage && !isUser) {
+            const usageDiv = document.createElement('div');
+            usageDiv.className = 'text-xs text-gray-400 mt-2 pt-2 border-t border-gray-600';
+            usageDiv.innerHTML = `
+                <span>Tokens: ${usage.total_tokens || 0}</span>
+                ${usage.estimated_cost ? `<span class="ml-2">Cost: ${usage.estimated_cost}</span>` : ''}
+            `;
+            bubble.appendChild(usageDiv);
+        }
     }
     
     messageDiv.appendChild(bubble);
@@ -149,18 +160,18 @@ async function sendMessage(message, isFirstMessage = false) {
     showTyping();
     
     try {
+        // Build messages array for OpenAI format
+        const messages = conversationHistory.slice(-10).concat([
+            { role: 'user', content: text }
+        ]);
+        
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ 
-                message: text,
-                conversationId: conversationId,
-                messageNumber: messageCount,
-                isFirstMessage: isFirstMessage,
-                // Send conversation history for context
-                conversationHistory: conversationHistory.slice(-10) // Last 10 messages for context
+                messages: messages
             })
         });
         
@@ -176,16 +187,17 @@ async function sendMessage(message, isFirstMessage = false) {
         if (data.error) {
             addMessage(`Error: ${data.error}`);
         } else {
-            addMessage(data.response || 'No response received');
+            // Add response with usage info
+            addMessage(data.response || 'No response received', false, false, data.usage);
             
-            // Show status if message was saved
-            if (data.saved) {
+            // Show cost estimate in status
+            if (data.usage && data.usage.estimated_cost) {
                 const statusEl = document.getElementById('status');
-                statusEl.textContent = '✓ Message saved to ECHO-MESSAGE-SERVER';
+                statusEl.textContent = `✓ Response cost: ${data.usage.estimated_cost}`;
                 statusEl.style.color = '#10b981';
                 setTimeout(() => {
                     statusEl.textContent = '';
-                }, 3000);
+                }, 5000);
             }
         }
         
@@ -204,22 +216,18 @@ async function sendMessage(message, isFirstMessage = false) {
 // Make sendMessage available globally
 window.sendMessage = sendMessage;
 
-// Auto-save conversation summary periodically
-setInterval(async () => {
-    if (messageCount > 0) {
-        try {
-            await fetch('/api/conversation/summary', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    conversationId: conversationId,
-                    messageCount: messageCount
-                })
-            });
-        } catch (error) {
-            console.error('Failed to save conversation summary:', error);
+// Check monthly cost estimate
+async function checkCostEstimate() {
+    try {
+        const response = await fetch('/api/cost-estimate');
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Monthly cost estimate:', data);
         }
+    } catch (error) {
+        console.error('Failed to get cost estimate:', error);
     }
-}, 60000); // Every minute
+}
+
+// Check cost estimate on load
+window.addEventListener('DOMContentLoaded', checkCostEstimate);
