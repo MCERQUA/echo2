@@ -1,5 +1,5 @@
-// OpenAI MCP Implementation with gpt-4.1-nano - Ultra Cost-Effective!
-// Uses OpenAI's cheapest model with function calling support
+// OpenAI MCP Implementation with Session Threading
+// Uses OpenAI's gpt-4.1-nano with conversation persistence
 
 export default {
   async fetch(request, env, ctx) {
@@ -9,12 +9,18 @@ export default {
     if (url.pathname.startsWith('/api/')) {
       const corsHeaders = {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, DELETE',
+        'Access-Control-Allow-Headers': 'Content-Type, X-Session-ID',
       };
 
       if (request.method === 'OPTIONS') {
         return new Response(null, { headers: corsHeaders });
+      }
+
+      // Initialize KV namespace for session storage
+      const SESSIONS = env.SESSIONS || env.KV;
+      if (!SESSIONS) {
+        console.error('KV namespace not configured');
       }
 
       // MCP Tool Definitions - OpenAI format
@@ -115,9 +121,82 @@ export default {
         return new Response(JSON.stringify({ 
           status: 'healthy',
           model: 'OpenAI gpt-4.1-nano',
+          features: ['session_threading', 'github_tools', 'conversation_persistence'],
           cost_per_million: { input: 0.10, output: 0.40 },
           tools: OPENAI_TOOLS.length,
           timestamp: new Date().toISOString()
+        }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
+
+      // Create new session
+      if (url.pathname === '/api/session' && request.method === 'POST') {
+        const sessionId = generateSessionId();
+        const session = {
+          id: sessionId,
+          created: new Date().toISOString(),
+          messages: [],
+          metadata: {}
+        };
+        
+        if (SESSIONS) {
+          // Store session for 24 hours
+          await SESSIONS.put(`session:${sessionId}`, JSON.stringify(session), {
+            expirationTtl: 86400
+          });
+        }
+        
+        return new Response(JSON.stringify({
+          sessionId,
+          message: 'Session created successfully'
+        }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
+
+      // Get session info
+      if (url.pathname.match(/^\/api\/session\/(.+)$/) && request.method === 'GET') {
+        const sessionId = url.pathname.split('/').pop();
+        
+        if (!SESSIONS) {
+          return new Response(JSON.stringify({
+            error: 'Session storage not configured'
+          }), {
+            status: 500,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          });
+        }
+        
+        const sessionData = await SESSIONS.get(`session:${sessionId}`);
+        if (!sessionData) {
+          return new Response(JSON.stringify({
+            error: 'Session not found'
+          }), {
+            status: 404,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          });
+        }
+        
+        const session = JSON.parse(sessionData);
+        return new Response(JSON.stringify({
+          ...session,
+          messageCount: session.messages.length
+        }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
+
+      // Clear session
+      if (url.pathname.match(/^\/api\/session\/(.+)$/) && request.method === 'DELETE') {
+        const sessionId = url.pathname.split('/').pop();
+        
+        if (SESSIONS) {
+          await SESSIONS.delete(`session:${sessionId}`);
+        }
+        
+        return new Response(JSON.stringify({
+          message: 'Session cleared'
         }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         });
@@ -136,10 +215,10 @@ export default {
         });
       }
 
-      // Main chat endpoint with OpenAI
+      // Main chat endpoint with OpenAI and session threading
       if (url.pathname === '/api/chat' && request.method === 'POST') {
         try {
-          const { messages, stream = false } = await request.json();
+          const { message, sessionId, stream = false } = await request.json();
           
           if (!env.OPENAI_API_KEY) {
             return new Response(JSON.stringify({
@@ -159,6 +238,33 @@ export default {
             });
           }
 
+          // Get or create session
+          let session = { messages: [] };
+          if (sessionId && SESSIONS) {
+            const sessionData = await SESSIONS.get(`session:${sessionId}`);
+            if (sessionData) {
+              session = JSON.parse(sessionData);
+            }
+          }
+
+          // Add user message to session
+          const userMessage = { role: 'user', content: message };
+          session.messages.push(userMessage);
+
+          // Prepare messages for OpenAI (include system prompt + conversation history)
+          const systemMessage = {
+            role: 'system',
+            content: `You are Echo's AI Assistant with access to GitHub tools.
+You can search repositories, read files, create issues, and more.
+When users ask about GitHub operations, use the appropriate tools.
+Remember previous messages in this conversation to maintain context.
+Be helpful and concise in your responses.`
+          };
+
+          // Limit conversation history to last 20 messages to avoid token limits
+          const recentMessages = session.messages.slice(-20);
+          const openAIMessages = [systemMessage, ...recentMessages];
+
           // Call OpenAI with tools using gpt-4.1-nano
           const openAIResponse = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
@@ -168,16 +274,7 @@ export default {
             },
             body: JSON.stringify({
               model: 'gpt-4.1-nano-2025-04-14', // Ultra cost-effective model
-              messages: [
-                {
-                  role: 'system',
-                  content: `You are Echo's AI Assistant with access to GitHub tools.
-You can search repositories, read files, create issues, and more.
-When users ask about GitHub operations, use the appropriate tools.
-Be helpful and concise in your responses.`
-                },
-                ...messages
-              ],
+              messages: openAIMessages,
               tools: OPENAI_TOOLS,
               tool_choice: 'auto', // Let OpenAI decide when to use tools
               temperature: 0.7,
@@ -191,14 +288,14 @@ Be helpful and concise in your responses.`
           }
 
           const data = await openAIResponse.json();
-          const message = data.choices[0].message;
+          const aiMessage = data.choices[0].message;
 
           // Check if OpenAI wants to use tools
-          if (message.tool_calls) {
+          if (aiMessage.tool_calls) {
             const toolResults = [];
             
             // Execute each tool call
-            for (const toolCall of message.tool_calls) {
+            for (const toolCall of aiMessage.tool_calls) {
               try {
                 const result = await executeGitHubTool(
                   env.GITHUB_TOKEN, 
@@ -232,8 +329,8 @@ Be helpful and concise in your responses.`
               body: JSON.stringify({
                 model: 'gpt-4.1-nano-2025-04-14',
                 messages: [
-                  ...messages,
-                  message,
+                  ...openAIMessages,
+                  aiMessage,
                   ...toolResults
                 ],
                 temperature: 0.7,
@@ -242,13 +339,27 @@ Be helpful and concise in your responses.`
             });
 
             const finalData = await finalResponse.json();
+            const finalMessage = finalData.choices[0].message;
+            
+            // Add AI response to session (include tool calls for context)
+            session.messages.push(aiMessage);
+            toolResults.forEach(result => session.messages.push(result));
+            session.messages.push(finalMessage);
             
             // Calculate cost estimate
             const totalTokens = (data.usage?.total_tokens || 0) + (finalData.usage?.total_tokens || 0);
             const estimatedCost = (totalTokens / 1000000) * 0.50; // Rough estimate
             
+            // Save updated session
+            if (sessionId && SESSIONS) {
+              await SESSIONS.put(`session:${sessionId}`, JSON.stringify(session), {
+                expirationTtl: 86400 // 24 hours
+              });
+            }
+            
             return new Response(JSON.stringify({
-              response: finalData.choices[0].message.content,
+              response: finalMessage.content,
+              sessionId: sessionId || 'ephemeral',
               usage: {
                 ...finalData.usage,
                 total_tokens: totalTokens,
@@ -259,11 +370,22 @@ Be helpful and concise in your responses.`
             });
           }
 
+          // Add AI response to session (no tool calls)
+          session.messages.push(aiMessage);
+          
+          // Save updated session
+          if (sessionId && SESSIONS) {
+            await SESSIONS.put(`session:${sessionId}`, JSON.stringify(session), {
+              expirationTtl: 86400 // 24 hours
+            });
+          }
+
           // Return response without tool calls
           const estimatedCost = ((data.usage?.total_tokens || 0) / 1000000) * 0.50;
           
           return new Response(JSON.stringify({
-            response: message.content,
+            response: aiMessage.content,
+            sessionId: sessionId || 'ephemeral',
             usage: {
               ...data.usage,
               estimated_cost: `$${estimatedCost.toFixed(6)}`
@@ -312,6 +434,13 @@ Be helpful and concise in your responses.`
     return env.ASSETS.fetch(request);
   }
 };
+
+// Generate a unique session ID
+function generateSessionId() {
+  const timestamp = Date.now().toString(36);
+  const randomStr = Math.random().toString(36).substring(2, 15);
+  return `${timestamp}-${randomStr}`;
+}
 
 // GitHub tool implementations
 async function executeGitHubTool(token, toolName, args) {
