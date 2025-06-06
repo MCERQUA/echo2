@@ -258,7 +258,8 @@ export default {
 You can search repositories, read files, create issues, and more.
 When users ask about GitHub operations, use the appropriate tools.
 Remember previous messages in this conversation to maintain context.
-Be helpful and concise in your responses.`
+Be helpful and concise in your responses.
+IMPORTANT: Always respond in English, regardless of the input language.`
           };
 
           // Limit conversation history to last 20 messages to avoid token limits
@@ -426,6 +427,36 @@ Be helpful and concise in your responses.`
         };
         
         return new Response(JSON.stringify(monthlyEstimate), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
+
+      // Mock projects endpoint (for sidebar)
+      if (url.pathname === '/api/projects' && request.method === 'GET') {
+        const projects = {
+          projects: [
+            {
+              name: "echo-cnn",
+              description: "AI-powered news aggregation system",
+              category: "Media",
+              status: "active"
+            },
+            {
+              name: "VisionEcho Project",
+              description: "Computer vision and image recognition",
+              category: "AI/ML",
+              status: "active"
+            },
+            {
+              name: "OpenPacketFix",
+              description: "Network protocol optimization",
+              category: "Infrastructure",
+              status: "active"
+            }
+          ]
+        };
+        
+        return new Response(JSON.stringify(projects), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         });
       }
