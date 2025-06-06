@@ -2,6 +2,7 @@
 let isConnected = false;
 let conversationId = null;
 let messageCount = 0;
+let hasLoadedProjects = false;
 
 // Generate unique conversation ID
 function generateConversationId() {
@@ -14,7 +15,25 @@ function generateConversationId() {
 window.addEventListener('DOMContentLoaded', async () => {
     conversationId = generateConversationId();
     await checkConnection();
+    
+    // Automatically send project status request on first load
+    if (isConnected && !hasLoadedProjects) {
+        setTimeout(() => {
+            sendProjectStatusRequest();
+        }, 1000);
+    }
 });
+
+async function sendProjectStatusRequest() {
+    hasLoadedProjects = true;
+    
+    // Clear the initial message
+    const messagesEl = document.getElementById('chat-messages');
+    messagesEl.innerHTML = '';
+    
+    // Send the project status request
+    await sendMessage("Give me a brief status update on all current Echo AI Systems projects", true);
+}
 
 async function checkConnection() {
     const statusEl = document.getElementById('connectionStatus');
@@ -74,7 +93,7 @@ function addMessage(content, isUser = false, isThinking = false) {
         content = content
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
             .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic
-            .replace(/```([\s\S]*?)```/g, '<pre class="bg-gray-800 p-2 rounded mt-2"><code>$1</code></pre>') // Code blocks
+            .replace(/```([\s\S]*?)```/g, '<pre class="bg-gray-800 p-2 rounded mt-2 overflow-x-auto"><code>$1</code></pre>') // Code blocks
             .replace(/`([^`]+)`/g, '<code class="bg-gray-800 px-1 rounded">$1</code>') // Inline code
             .replace(/\n/g, '<br>'); // Line breaks
         
@@ -97,7 +116,7 @@ function hideTyping() {
     }
 }
 
-async function sendMessage(message) {
+async function sendMessage(message, isFirstMessage = false) {
     const input = document.getElementById('message-input');
     const sendButton = document.getElementById('send-button');
     const text = message || input.value.trim();
@@ -129,7 +148,8 @@ async function sendMessage(message) {
             body: JSON.stringify({ 
                 message: text,
                 conversationId: conversationId,
-                messageNumber: messageCount
+                messageNumber: messageCount,
+                isFirstMessage: isFirstMessage
             })
         });
         
