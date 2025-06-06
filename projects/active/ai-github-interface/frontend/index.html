@@ -41,7 +41,7 @@
                         <div class="status-indicator"></div>
                         <span class="status-text">Neural Link Active</span>
                     </div>
-                    <button class="new-chat-btn" onclick="location.reload()">
+                    <button class="new-chat-btn" onclick="clearSession()">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 5v14M5 12h14"/>
                         </svg>
@@ -130,7 +130,7 @@
                         </div>
                     </div>
                     <div class="input-hints">
-                        <span class="hint">Press <kbd>Enter</kbd> to send • <kbd>Shift+Enter</kbd> for new line</span>
+                        <span class="hint">Press <kbd>Enter</kbd> to send • <kbd>Shift+Enter</kbd> for new line • <kbd>Ctrl+K</kbd> for new session</span>
                         <span class="char-count"><span id="char-current">0</span> / 4000</span>
                     </div>
                 </div>
@@ -169,6 +169,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="chat.js"></script>
     <script src="terminal.js"></script>
 </body>
 </html>
