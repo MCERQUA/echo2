@@ -1,0 +1,189 @@
+{
+  "metadata": {
+    "last_updated": "2025-06-06T17:45:00Z",
+    "version": "1.0.0",
+    "description": "Current active projects across Echo AI Systems"
+  },
+  "projects": [
+    {
+      "id": "ai-message-server",
+      "name": "AI Message Server",
+      "status": "active",
+      "category": "infrastructure",
+      "description": "Web-based chat interface with Groq AI integration for client communication",
+      "repository": "echo2",
+      "url": "https://echo2.pages.dev",
+      "key_features": [
+        "Groq AI integration (llama3-8b-8192 model)",
+        "GitHub MCP for repository operations",
+        "Message queue system via ECHO-MESSAGE-SERVER",
+        "Auto-save conversations with unique IDs",
+        "Task extraction and management"
+      ],
+      "last_activity": "2025-06-06"
+    },
+    {
+      "id": "echo-message-server",
+      "name": "ECHO-MESSAGE-SERVER Repository",
+      "status": "active",
+      "category": "infrastructure",
+      "description": "Message queue and task management repository for client communications",
+      "repository": "ECHO-MESSAGE-SERVER",
+      "key_features": [
+        "Structured message storage with YAML frontmatter",
+        "Task organization (pending/in-progress/completed)",
+        "Conversation summaries",
+        "30-day message retention, 90-day task retention"
+      ],
+      "last_activity": "2025-06-06"
+    },
+    {
+      "id": "memvid",
+      "name": "Memvid Project",
+      "status": "active",
+      "category": "research",
+      "description": "Revolutionary video-based AI memory system for efficient text storage and retrieval",
+      "repository": "external",
+      "github_url": "https://github.com/Olow304/memvid",
+      "key_features": [
+        "Store millions of text chunks in MP4 files",
+        "10x storage efficiency vs vector databases",
+        "Sub-second semantic search",
+        "Offline-first architecture",
+        "PyPI package available"
+      ],
+      "last_activity": "2025-06"
+    },
+    {
+      "id": "cloudflare-mcp-infrastructure",
+      "name": "Cloudflare MCP Infrastructure",
+      "status": "active",
+      "category": "infrastructure",
+      "description": "Model Context Protocol ecosystem for AI-powered infrastructure management",
+      "components": [
+        {
+          "name": "cloudflare-api-mcp Worker",
+          "description": "Comprehensive Cloudflare API wrapper with 50+ handlers",
+          "created": "2025-06-03"
+        },
+        {
+          "name": "github-mcp-remote Worker",
+          "description": "GitHub API access via MCP protocol",
+          "created": "2025-06-03"
+        },
+        {
+          "name": "OAUTH_KV Namespace",
+          "description": "Centralized authentication token storage"
+        }
+      ],
+      "last_activity": "2025-06"
+    },
+    {
+      "id": "echo-ai-systems-website",
+      "name": "Echo AI Systems Website",
+      "status": "active",
+      "category": "client",
+      "description": "Main business website for Echo AI Systems",
+      "repository": "echo-demo-site",
+      "url": "https://echoaisystem.com",
+      "path": "projects/active/echo-ai-systems-website",
+      "last_activity": "2025-06"
+    },
+    {
+      "id": "documentation-site",
+      "name": "Documentation Site",
+      "status": "active",
+      "category": "internal",
+      "description": "Central documentation hub for Echo AI Systems",
+      "repository": "echo2",
+      "path": "projects/active/documentation_site",
+      "last_activity": "2025-06"
+    },
+    {
+      "id": "josh-domains",
+      "name": "Josh Domains Project",
+      "status": "active",
+      "category": "client",
+      "description": "Domain management and website project for Josh",
+      "repository": "echo2",
+      "path": "projects/active/josh_domains",
+      "last_activity": "2025-06"
+    },
+    {
+      "id": "rare-muscle-cars",
+      "name": "Rare Muscle Cars",
+      "status": "active",
+      "category": "client",
+      "description": "Classic car showcase and marketplace website",
+      "repository": "echo2",
+      "path": "projects/active/rare_muscle_cars",
+      "last_activity": "2025-06"
+    },
+    {
+      "id": "roofing-insurance-licensing",
+      "name": "Roofing Insurance Licensing",
+      "status": "active",
+      "category": "client",
+      "description": "Roofing contractor licensing and insurance management system",
+      "repository": "echo2",
+      "path": "projects/active/roofing-insurance-licensing",
+      "last_activity": "2025-06"
+    },
+    {
+      "id": "safety-manual",
+      "name": "Safety Manual Project",
+      "status": "active",
+      "category": "client",
+      "description": "Digital safety manual and compliance system",
+      "repository": "echo2",
+      "path": "projects/active/safety_manual",
+      "last_activity": "2025-06"
+    },
+    {
+      "id": "foamradio",
+      "name": "FoamRadio",
+      "status": "planned",
+      "category": "experimental",
+      "description": "Audio/media streaming project",
+      "storage": "foamradio R2 bucket",
+      "created": "2025-02-09"
+    },
+    {
+      "id": "agents-starter",
+      "name": "Agents Starter Template",
+      "status": "template",
+      "category": "infrastructure",
+      "description": "Template for future agent development",
+      "type": "Cloudflare Worker",
+      "created": "2025-02-25"
+    }
+  ],
+  "categories": {
+    "infrastructure": {
+      "description": "Core systems and tools that power Echo AI Systems",
+      "count": 4
+    },
+    "client": {
+      "description": "Active client projects and websites",
+      "count": 5
+    },
+    "internal": {
+      "description": "Internal tools and documentation",
+      "count": 1
+    },
+    "research": {
+      "description": "Research and development projects",
+      "count": 1
+    },
+    "experimental": {
+      "description": "Experimental or planned projects",
+      "count": 1
+    }
+  },
+  "summary": {
+    "total_projects": 12,
+    "active_projects": 10,
+    "client_projects": 5,
+    "infrastructure_projects": 4
+  }
+}
