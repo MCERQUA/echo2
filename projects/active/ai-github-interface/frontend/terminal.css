@@ -499,7 +499,7 @@ body {
     color: var(--primary-300);
 }
 
-/* Message Styles */
+/* Message Styles with Moving Glow Effect */
 .message {
     margin-bottom: 1.5rem;
     animation: messageSlide 0.3s ease-out;
@@ -526,23 +526,92 @@ body {
     justify-content: flex-start;
 }
 
+/* Moving Glow Border Container */
 .message-content {
     max-width: 70%;
-    padding: 1rem 1.5rem;
-    border-radius: 1rem;
     position: relative;
+    padding: 2px;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+}
+
+/* Moving glow effect */
+.message-content::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        transparent 30%, 
+        var(--accent-primary) 50%, 
+        transparent 70%);
+    background-size: 300% 300%;
+    animation: moveGlow 4s ease-in-out infinite;
+    border-radius: 1rem;
+    opacity: 0.7;
+}
+
+/* Alternate animation for assistant messages */
+.message.assistant .message-content::before {
+    animation-delay: 2s;
+}
+
+@keyframes moveGlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Inner content container */
+.message-content-inner {
+    position: relative;
+    background: var(--primary-900);
+    border-radius: calc(1rem - 2px);
+    padding: 1rem 1.5rem;
+    z-index: 1;
 }
 
 .message.user .message-content {
-    background: var(--gradient-primary);
-    color: white;
     border-bottom-right-radius: 0.25rem;
 }
 
+.message.user .message-content::before {
+    background: linear-gradient(45deg, 
+        transparent 30%, 
+        var(--accent-primary) 40%,
+        var(--accent-secondary) 60%, 
+        transparent 70%);
+}
+
+.message.user .message-content-inner {
+    background: var(--gradient-primary);
+    color: white;
+    border-bottom-right-radius: calc(0.25rem - 2px);
+}
+
 .message.assistant .message-content {
+    border-bottom-left-radius: 0.25rem;
+}
+
+.message.assistant .message-content-inner {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom-left-radius: 0.25rem;
+    border-bottom-left-radius: calc(0.25rem - 2px);
+}
+
+/* Hover effect - increase glow intensity */
+.message-content:hover::before {
+    opacity: 1;
+    animation-duration: 2s;
 }
 
 .message-content p {
