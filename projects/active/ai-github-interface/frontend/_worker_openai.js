@@ -1,5 +1,5 @@
-// OpenAI MCP Implementation for GitHub Tools
-// Uses OpenAI's function calling (tools) feature - cheaper than Claude!
+// OpenAI MCP Implementation with gpt-4.1-nano - Ultra Cost-Effective!
+// Uses OpenAI's cheapest model with function calling support
 
 export default {
   async fetch(request, env, ctx) {
@@ -114,7 +114,8 @@ export default {
       if (url.pathname === '/api/health') {
         return new Response(JSON.stringify({ 
           status: 'healthy',
-          model: 'OpenAI GPT-3.5 Turbo',
+          model: 'OpenAI gpt-4.1-nano',
+          cost_per_million: { input: 0.10, output: 0.40 },
           tools: OPENAI_TOOLS.length,
           timestamp: new Date().toISOString()
         }), {
@@ -158,7 +159,7 @@ export default {
             });
           }
 
-          // Call OpenAI with tools
+          // Call OpenAI with tools using gpt-4.1-nano
           const openAIResponse = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -166,7 +167,7 @@ export default {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              model: 'gpt-3.5-turbo', // Use GPT-3.5 for cost efficiency
+              model: 'gpt-4.1-nano-2025-04-14', // Ultra cost-effective model
               messages: [
                 {
                   role: 'system',
@@ -178,7 +179,9 @@ Be helpful and concise in your responses.`
                 ...messages
               ],
               tools: OPENAI_TOOLS,
-              tool_choice: 'auto' // Let OpenAI decide when to use tools
+              tool_choice: 'auto', // Let OpenAI decide when to use tools
+              temperature: 0.7,
+              max_tokens: 2048
             })
           });
 
@@ -227,28 +230,44 @@ Be helpful and concise in your responses.`
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
+                model: 'gpt-4.1-nano-2025-04-14',
                 messages: [
                   ...messages,
                   message,
                   ...toolResults
-                ]
+                ],
+                temperature: 0.7,
+                max_tokens: 2048
               })
             });
 
             const finalData = await finalResponse.json();
+            
+            // Calculate cost estimate
+            const totalTokens = (data.usage?.total_tokens || 0) + (finalData.usage?.total_tokens || 0);
+            const estimatedCost = (totalTokens / 1000000) * 0.50; // Rough estimate
+            
             return new Response(JSON.stringify({
               response: finalData.choices[0].message.content,
-              usage: finalData.usage // Include token usage for monitoring
+              usage: {
+                ...finalData.usage,
+                total_tokens: totalTokens,
+                estimated_cost: `$${estimatedCost.toFixed(6)}`
+              }
             }), {
               headers: { ...corsHeaders, 'Content-Type': 'application/json' }
             });
           }
 
           // Return response without tool calls
+          const estimatedCost = ((data.usage?.total_tokens || 0) / 1000000) * 0.50;
+          
           return new Response(JSON.stringify({
             response: message.content,
-            usage: data.usage
+            usage: {
+              ...data.usage,
+              estimated_cost: `$${estimatedCost.toFixed(6)}`
+            }
           }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' }
           });
@@ -262,6 +281,31 @@ Be helpful and concise in your responses.`
             headers: { ...corsHeaders, 'Content-Type': 'application/json' }
           });
         }
+      }
+
+      // Cost estimation endpoint
+      if (url.pathname === '/api/cost-estimate' && request.method === 'GET') {
+        const monthlyEstimate = {
+          model: 'gpt-4.1-nano',
+          pricing: {
+            input_per_million: 0.10,
+            output_per_million: 0.40,
+            cached_input_per_million: 0.025
+          },
+          typical_usage: {
+            tokens_per_month: 2000000,
+            estimated_cost: '$0.50 - $1.00'
+          },
+          comparison: {
+            'gpt-3.5-turbo': '$3.00 - $5.00',
+            'gpt-4.1-nano': '$0.50 - $1.00',
+            'claude-3-haiku': '$2.00 - $4.00'
+          }
+        };
+        
+        return new Response(JSON.stringify(monthlyEstimate), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
       }
     }
     
