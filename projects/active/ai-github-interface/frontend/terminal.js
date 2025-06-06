@@ -1,24 +1,20 @@
 // Echo AI Communication Terminal - Enhanced JavaScript
 let isConnected = false;
-let conversationId = null;
+let sessionId = null;
 let messageCount = 0;
 let hasLoadedProjects = false;
 let conversationHistory = [];
 let taskCount = 0;
 
-// Generate unique conversation ID
-function generateConversationId() {
-    const timestamp = Date.now();
-    const random = Math.random().toString(36).substring(2, 9);
-    return `conv-${timestamp}-${random}`;
-}
-
 // Initialize terminal
 window.addEventListener('DOMContentLoaded', async () => {
-    conversationId = generateConversationId();
+    // Initialize session from chat.js
+    await initializeSession();
     
-    // Update session ID in status bar
-    document.getElementById('conversation-id').textContent = `Session: ${conversationId.slice(0, 16)}...`;
+    // Update session ID in status bar if we have one
+    if (sessionId) {
+        document.getElementById('conversation-id').textContent = `Session: ${sessionId.slice(0, 16)}...`;
+    }
     
     // Initialize components
     await checkConnection();
@@ -35,6 +31,54 @@ window.addEventListener('DOMContentLoaded', async () => {
     // Start latency monitoring
     monitorLatency();
 });
+
+// Initialize session (compatible with chat.js session management)
+async function initializeSession() {
+    try {
+        // Check if there's an existing session in localStorage
+        const savedSessionId = localStorage.getItem('echo-session-id');
+        const savedTimestamp = localStorage.getItem('echo-session-timestamp');
+        
+        // Check if saved session is less than 24 hours old
+        if (savedSessionId && savedTimestamp) {
+            const age = Date.now() - parseInt(savedTimestamp);
+            if (age < 24 * 60 * 60 * 1000) { // 24 hours in milliseconds
+                // Verify session still exists on server
+                const response = await fetch(`/api/session/${savedSessionId}`);
+                if (response.ok) {
+                    sessionId = savedSessionId;
+                    const data = await response.json();
+                    messageCount = data.messageCount || 0;
+                    console.log(`Resumed session ${sessionId} with ${messageCount} messages`);
+                    return;
+                }
+            }
+        }
+        
+        // Create new session
+        const response = await fetch('/api/session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            sessionId = data.sessionId;
+            
+            // Save to localStorage
+            localStorage.setItem('echo-session-id', sessionId);
+            localStorage.setItem('echo-session-timestamp', Date.now().toString());
+            
+            console.log(`Created new session: ${sessionId}`);
+        }
+    } catch (error) {
+        console.error('Failed to initialize session:', error);
+        // Continue without session (ephemeral mode)
+        sessionId = null;
+    }
+}
 
 // Connection check with visual feedback
 async function checkConnection() {
@@ -336,10 +380,7 @@ async function sendMessage(message, isFirstMessage = false) {
             },
             body: JSON.stringify({ 
                 message: text,
-                conversationId: conversationId,
-                messageNumber: messageCount,
-                isFirstMessage: isFirstMessage,
-                conversationHistory: conversationHistory.slice(-10)
+                sessionId: sessionId // Use the session ID from chat.js
             })
         });
         
@@ -358,11 +399,12 @@ async function sendMessage(message, isFirstMessage = false) {
         } else {
             addMessage(data.response || 'No response received');
             
-            if (data.saved) {
-                document.getElementById('save-status').textContent = '✓ Saved';
+            // Show cost if available
+            if (data.usage && data.usage.estimated_cost) {
+                document.getElementById('save-status').textContent = `Cost: ${data.usage.estimated_cost}`;
                 setTimeout(() => {
                     document.getElementById('save-status').textContent = 'Auto-save enabled';
-                }, 2000);
+                }, 3000);
             }
         }
         
@@ -410,25 +452,7 @@ function monitorLatency() {
     }, 10000); // Every 10 seconds
 }
 
-// Auto-save conversation summary
-setInterval(async () => {
-    if (messageCount > 0 && isConnected) {
-        try {
-            await fetch('/api/conversation/summary', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    conversationId: conversationId,
-                    messageCount: messageCount
-                })
-            });
-        } catch (error) {
-            console.error('Failed to save conversation summary:', error);
-        }
-    }
-}, 60000); // Every minute
+// Remove the auto-save conversation summary function since the endpoint doesn't exist
 
 // Make functions available globally
 window.sendMessage = sendMessage;
