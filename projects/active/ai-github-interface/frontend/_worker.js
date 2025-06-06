@@ -29,16 +29,84 @@ export default {
         });
       }
 
+      // Projects endpoint - fetch current projects list
+      if (url.pathname === '/api/projects' && request.method === 'GET') {
+        try {
+          if (!env.GITHUB_TOKEN) {
+            return new Response(JSON.stringify({ 
+              error: 'GitHub token not configured' 
+            }), {
+              status: 500,
+              headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+            });
+          }
+
+          // Fetch the projects file from GitHub
+          const projectsResponse = await fetch('https://api.github.com/repos/MCERQUA/echo2/contents/knowledge/Echo-current-projects.json', {
+            headers: {
+              'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+              'Accept': 'application/vnd.github.v3+json',
+              'User-Agent': 'Echo-AI-Message-Server'
+            }
+          });
+
+          if (!projectsResponse.ok) {
+            throw new Error(`Failed to fetch projects: ${projectsResponse.status}`);
+          }
+
+          const projectsData = await projectsResponse.json();
+          const content = atob(projectsData.content);
+          const projects = JSON.parse(content);
+
+          return new Response(JSON.stringify(projects), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          });
+        } catch (error) {
+          console.error('Projects fetch error:', error);
+          return new Response(JSON.stringify({ 
+            error: `Failed to fetch projects: ${error.message}` 
+          }), {
+            status: 500,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          });
+        }
+      }
+
       // Main chat endpoint
       if (url.pathname === '/api/chat' && request.method === 'POST') {
         try {
-          const { message, conversationId, messageNumber } = await request.json();
+          const { message, conversationId, messageNumber, isFirstMessage } = await request.json();
           
           // Log for debugging
           console.log('Received message:', message);
           console.log('Conversation ID:', conversationId);
+          console.log('Is first message:', isFirstMessage);
           
           let aiResponse = '';
+          let projectsContext = '';
+          
+          // If this is the first message, fetch and include project information
+          if (isFirstMessage && env.GITHUB_TOKEN) {
+            try {
+              const projectsResponse = await fetch('https://api.github.com/repos/MCERQUA/echo2/contents/knowledge/Echo-current-projects.json', {
+                headers: {
+                  'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+                  'Accept': 'application/vnd.github.v3+json',
+                  'User-Agent': 'Echo-AI-Message-Server'
+                }
+              });
+
+              if (projectsResponse.ok) {
+                const projectsData = await projectsResponse.json();
+                const content = atob(projectsData.content);
+                const projects = JSON.parse(content);
+                
+                projectsContext = `\n\nCurrent Echo AI Systems Projects:\n${JSON.stringify(projects, null, 2)}\n\nYou have access to detailed information about all these projects. Feel free to provide updates or answer questions about any of them.`;
+              }
+            } catch (error) {
+              console.error('Failed to fetch projects for context:', error);
+            }
+          }
           
           // System prompt that defines the AI's role and capabilities
           const systemPrompt = `You are Echo's AI Message Center Assistant. Your role is to:
@@ -63,7 +131,7 @@ Available capabilities:
 - Provide project status updates
 - Answer questions about Echo AI Systems services
 
-Remember: You are Echo's message center, collecting and organizing communications for later review.`;
+Remember: You are Echo's message center, collecting and organizing communications for later review.${projectsContext}`;
 
           if (!env.GROQ_API_KEY) {
             aiResponse = 'Groq API key not configured. Please ask Echo to configure the GROQ_API_KEY environment variable.';
