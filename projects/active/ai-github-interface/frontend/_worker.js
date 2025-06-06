@@ -1,4 +1,4 @@
-// AI Message Server Worker - Groq Integration with Echo System Prompt
+// AI Message Server Worker - Groq Integration with Echo System Prompt and Conversation Memory
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -75,12 +75,13 @@ export default {
       // Main chat endpoint
       if (url.pathname === '/api/chat' && request.method === 'POST') {
         try {
-          const { message, conversationId, messageNumber, isFirstMessage } = await request.json();
+          const { message, conversationId, messageNumber, isFirstMessage, conversationHistory } = await request.json();
           
           // Log for debugging
           console.log('Received message:', message);
           console.log('Conversation ID:', conversationId);
-          console.log('Is first message:', isFirstMessage);
+          console.log('Message number:', messageNumber);
+          console.log('Conversation history length:', conversationHistory ? conversationHistory.length : 0);
           
           let aiResponse = '';
           let projectsContext = '';
@@ -123,6 +124,7 @@ IMPORTANT RULES:
 - Be helpful and informative about Echo's projects when asked
 - When users submit tasks, confirm receipt and that Echo will review them
 - You are an extension of Echo AI Systems, not a separate entity
+- Maintain conversation context and remember what was discussed earlier in the conversation
 
 Available capabilities:
 - List and read repositories
@@ -137,17 +139,30 @@ Remember: You are Echo's message center, collecting and organizing communication
             aiResponse = 'Groq API key not configured. Please ask Echo to configure the GROQ_API_KEY environment variable.';
           } else {
             try {
-              // Prepare conversation history if needed
+              // Build conversation messages array with history
               const messages = [
                 {
                   role: 'system',
                   content: systemPrompt
-                },
-                {
-                  role: 'user',
-                  content: message
                 }
               ];
+
+              // Add conversation history if available
+              if (conversationHistory && conversationHistory.length > 0) {
+                // Add previous messages from history
+                conversationHistory.forEach(msg => {
+                  messages.push({
+                    role: msg.role,
+                    content: msg.content
+                  });
+                });
+              }
+
+              // Add current message
+              messages.push({
+                role: 'user',
+                content: message
+              });
 
               // If message mentions GitHub operations, enhance the context
               if (message.toLowerCase().includes('github') || 
@@ -167,7 +182,7 @@ Remember: You are Echo's message center, collecting and organizing communication
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                  model: 'llama3-8b-8192',  // Changed to currently available model
+                  model: 'llama3-8b-8192',
                   messages: messages,
                   temperature: 0.7,
                   max_tokens: 2048
