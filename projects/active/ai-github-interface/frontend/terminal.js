@@ -1,82 +1,63 @@
 // Echo AI Communication Terminal - Enhanced JavaScript
 let isConnected = false;
-let sessionId = null;
 let messageCount = 0;
 let hasLoadedProjects = false;
 let conversationHistory = [];
 let taskCount = 0;
 
-// Initialize terminal
+// Wait for chat.js to initialize session
 window.addEventListener('DOMContentLoaded', async () => {
-    // Initialize session from chat.js
-    await initializeSession();
-    
-    // Update session ID in status bar if we have one
-    if (sessionId) {
-        document.getElementById('conversation-id').textContent = `Session: ${sessionId.slice(0, 16)}...`;
-    }
-    
-    // Initialize components
-    await checkConnection();
-    loadProjects();
-    setupInputHandlers();
-    
-    // Auto-load project status after connection
-    if (isConnected && !hasLoadedProjects) {
-        setTimeout(() => {
-            sendProjectStatusRequest();
-        }, 1500);
-    }
-    
-    // Start latency monitoring
-    monitorLatency();
+    // Give chat.js time to initialize
+    setTimeout(async () => {
+        // Get sessionId from chat.js if available
+        if (window.sessionId) {
+            updateSessionDisplay(window.sessionId);
+        }
+        
+        // Initialize components
+        await checkConnection();
+        loadProjects();
+        setupInputHandlers();
+        setupMobileHandlers();
+        
+        // Auto-load project status after connection
+        if (isConnected && !hasLoadedProjects) {
+            setTimeout(() => {
+                sendProjectStatusRequest();
+            }, 1500);
+        }
+        
+        // Start latency monitoring
+        monitorLatency();
+    }, 500); // Wait 500ms for chat.js to initialize
 });
 
-// Initialize session (compatible with chat.js session management)
-async function initializeSession() {
-    try {
-        // Check if there's an existing session in localStorage
-        const savedSessionId = localStorage.getItem('echo-session-id');
-        const savedTimestamp = localStorage.getItem('echo-session-timestamp');
-        
-        // Check if saved session is less than 24 hours old
-        if (savedSessionId && savedTimestamp) {
-            const age = Date.now() - parseInt(savedTimestamp);
-            if (age < 24 * 60 * 60 * 1000) { // 24 hours in milliseconds
-                // Verify session still exists on server
-                const response = await fetch(`/api/session/${savedSessionId}`);
-                if (response.ok) {
-                    sessionId = savedSessionId;
-                    const data = await response.json();
-                    messageCount = data.messageCount || 0;
-                    console.log(`Resumed session ${sessionId} with ${messageCount} messages`);
-                    return;
+// Update session display
+function updateSessionDisplay(sessionId) {
+    const sessionEl = document.getElementById('conversation-id');
+    if (sessionEl && sessionId) {
+        sessionEl.textContent = `Session: ${sessionId.slice(0, 8)}...`;
+        sessionEl.dataset.fullId = sessionId;
+    }
+}
+
+// Setup mobile-specific handlers
+function setupMobileHandlers() {
+    // Session ID click to expand on mobile
+    const sessionEl = document.getElementById('conversation-id');
+    if (sessionEl) {
+        sessionEl.classList.add('session-clickable');
+        sessionEl.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+                this.classList.toggle('expanded');
+                if (this.classList.contains('expanded')) {
+                    this.textContent = `Session: ${this.dataset.fullId || 'Initializing...'}`;
+                } else {
+                    const id = this.dataset.fullId || 'Initializing...';
+                    this.textContent = `Session: ${id.slice(0, 8)}...`;
                 }
             }
-        }
-        
-        // Create new session
-        const response = await fetch('/api/session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            }
         });
-        
-        if (response.ok) {
-            const data = await response.json();
-            sessionId = data.sessionId;
-            
-            // Save to localStorage
-            localStorage.setItem('echo-session-id', sessionId);
-            localStorage.setItem('echo-session-timestamp', Date.now().toString());
-            
-            console.log(`Created new session: ${sessionId}`);
-        }
-    } catch (error) {
-        console.error('Failed to initialize session:', error);
-        // Continue without session (ephemeral mode)
-        sessionId = null;
     }
 }
 
@@ -104,7 +85,14 @@ async function checkConnection() {
             // Hide config notice
             document.getElementById('configNotice').classList.add('hidden');
             
-            showNotification('Connection established', 'success');
+            // Remove welcome message once connected
+            const welcomeMsg = document.querySelector('.welcome-message');
+            if (welcomeMsg) {
+                setTimeout(() => {
+                    welcomeMsg.style.opacity = '0';
+                    setTimeout(() => welcomeMsg.remove(), 500);
+                }, 1000);
+            }
         } else {
             throw new Error('API not responding');
         }
@@ -122,6 +110,7 @@ async function checkConnection() {
 // Load projects into sidebar
 async function loadProjects() {
     const projectList = document.getElementById('project-list');
+    if (!projectList) return; // Skip if sidebar not visible (mobile)
     
     // Default projects for Echo AI Systems
     const defaultProjects = [
@@ -166,7 +155,9 @@ async function loadProjects() {
         
         // Update counter
         const counterNumber = document.querySelector('.counter-number');
-        counterNumber.textContent = projects.length;
+        if (counterNumber) {
+            counterNumber.textContent = projects.length;
+        }
         
         // Add project items
         projects.forEach((project, index) => {
@@ -197,14 +188,18 @@ async function loadProjects() {
     } catch (error) {
         console.error('Failed to load projects:', error);
         // Use default projects on error
-        loadDefaultProjects(projectList, defaultProjects);
+        if (projectList) {
+            loadDefaultProjects(projectList, defaultProjects);
+        }
     }
 }
 
 function loadDefaultProjects(projectList, projects) {
     projectList.innerHTML = '';
     const counterNumber = document.querySelector('.counter-number');
-    counterNumber.textContent = projects.length;
+    if (counterNumber) {
+        counterNumber.textContent = projects.length;
+    }
     
     projects.forEach((project, index) => {
         const projectEl = document.createElement('div');
@@ -234,7 +229,10 @@ async function sendProjectStatusRequest() {
     
     // Clear welcome message
     const messagesEl = document.getElementById('chat-messages');
-    messagesEl.innerHTML = '';
+    const welcomeMsg = messagesEl.querySelector('.welcome-message');
+    if (welcomeMsg) {
+        welcomeMsg.remove();
+    }
     
     // Send request in English
     await sendMessage("List my GitHub repositories", true);
@@ -246,11 +244,15 @@ function setupInputHandlers() {
     const sendBtn = document.getElementById('send-button');
     const charCount = document.getElementById('char-current');
     
+    if (!input || !sendBtn) return;
+    
     // Auto-resize textarea
     input.addEventListener('input', () => {
         input.style.height = 'auto';
         input.style.height = input.scrollHeight + 'px';
-        charCount.textContent = input.value.length;
+        if (charCount) {
+            charCount.textContent = input.value.length;
+        }
     });
     
     // Handle Enter key
@@ -268,6 +270,8 @@ function setupInputHandlers() {
 // Add message to chat
 function addMessage(content, isUser = false, isThinking = false) {
     const messagesEl = document.getElementById('chat-messages');
+    if (!messagesEl) return;
+    
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${isUser ? 'user' : 'assistant'}`;
     
@@ -311,7 +315,10 @@ function addMessage(content, isUser = false, isThinking = false) {
     // Update message count
     if (!isThinking) {
         messageCount++;
-        document.getElementById('total-messages').textContent = messageCount;
+        const totalMsgs = document.getElementById('total-messages');
+        if (totalMsgs) {
+            totalMsgs.textContent = messageCount;
+        }
     }
 }
 
@@ -344,14 +351,15 @@ async function sendMessage(message, isFirstMessage = false) {
     if (!text) return;
     
     // Disable input
-    input.disabled = true;
-    sendBtn.disabled = true;
+    if (input) input.disabled = true;
+    if (sendBtn) sendBtn.disabled = true;
     
     // Clear and reset input
-    if (!message) {
+    if (!message && input) {
         input.value = '';
         input.style.height = 'auto';
-        document.getElementById('char-current').textContent = '0';
+        const charCount = document.getElementById('char-current');
+        if (charCount) charCount.textContent = '0';
     }
     
     // Add user message
@@ -366,7 +374,10 @@ async function sendMessage(message, isFirstMessage = false) {
     
     if (isTask) {
         taskCount++;
-        document.getElementById('total-tasks').textContent = taskCount;
+        const totalTasks = document.getElementById('total-tasks');
+        if (totalTasks) {
+            totalTasks.textContent = taskCount;
+        }
     }
     
     // Show typing
@@ -380,7 +391,7 @@ async function sendMessage(message, isFirstMessage = false) {
             },
             body: JSON.stringify({ 
                 message: text,
-                sessionId: sessionId // Use the session ID from chat.js
+                sessionId: window.sessionId // Use sessionId from chat.js
             })
         });
         
@@ -398,14 +409,6 @@ async function sendMessage(message, isFirstMessage = false) {
             showNotification('Error processing message', 'error');
         } else {
             addMessage(data.response || 'No response received');
-            
-            // Show cost if available
-            if (data.usage && data.usage.estimated_cost) {
-                document.getElementById('save-status').textContent = `Cost: ${data.usage.estimated_cost}`;
-                setTimeout(() => {
-                    document.getElementById('save-status').textContent = 'Auto-save enabled';
-                }, 3000);
-            }
         }
         
     } catch (error) {
@@ -415,15 +418,19 @@ async function sendMessage(message, isFirstMessage = false) {
         showNotification('Failed to send message', 'error');
     } finally {
         // Re-enable input
-        input.disabled = false;
-        sendBtn.disabled = false;
-        input.focus();
+        if (input) {
+            input.disabled = false;
+            input.focus();
+        }
+        if (sendBtn) sendBtn.disabled = false;
     }
 }
 
 // Show notification
 function showNotification(message, type = 'info') {
     const container = document.getElementById('notification-container');
+    if (!container) return;
+    
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.textContent = message;
@@ -444,15 +451,16 @@ function monitorLatency() {
                 const startTime = Date.now();
                 await fetch('/api/health');
                 const latency = Date.now() - startTime;
-                document.getElementById('connection-ping').textContent = `Latency: ${latency}ms`;
+                const pingEl = document.getElementById('connection-ping');
+                if (pingEl) {
+                    pingEl.textContent = `Latency: ${latency}ms`;
+                }
             } catch (error) {
                 // Silent fail
             }
         }
     }, 10000); // Every 10 seconds
 }
-
-// Remove the auto-save conversation summary function since the endpoint doesn't exist
 
 // Make functions available globally
 window.sendMessage = sendMessage;
