@@ -279,16 +279,6 @@ async function sendMessage(message, isFirstMessage = false) {
                 localStorage.setItem('echo-session-timestamp', Date.now().toString());
                 updateSessionInfo();
             }
-            
-            // Show cost estimate in status
-            if (data.usage && data.usage.estimated_cost) {
-                const statusEl = document.getElementById('status');
-                statusEl.textContent = `✓ Response cost: ${data.usage.estimated_cost}`;
-                statusEl.style.color = '#10b981';
-                setTimeout(() => {
-                    statusEl.textContent = '';
-                }, 5000);
-            }
         }
         
     } catch (error) {
@@ -306,22 +296,6 @@ async function sendMessage(message, isFirstMessage = false) {
 // Make functions available globally
 window.sendMessage = sendMessage;
 window.clearSession = clearSession;
-
-// Check monthly cost estimate
-async function checkCostEstimate() {
-    try {
-        const response = await fetch('/api/cost-estimate');
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Monthly cost estimate:', data);
-        }
-    } catch (error) {
-        console.error('Failed to get cost estimate:', error);
-    }
-}
-
-// Check cost estimate on load
-window.addEventListener('DOMContentLoaded', checkCostEstimate);
 
 // Keyboard shortcut for new session (Ctrl/Cmd + K)
 document.addEventListener('keydown', (e) => {
