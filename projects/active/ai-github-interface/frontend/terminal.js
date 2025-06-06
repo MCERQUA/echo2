@@ -79,48 +79,109 @@ async function checkConnection() {
 async function loadProjects() {
     const projectList = document.getElementById('project-list');
     
+    // Default projects for Echo AI Systems
+    const defaultProjects = [
+        {
+            name: "echo-cnn",
+            description: "AI-powered news aggregation system",
+            category: "Media",
+            status: "active"
+        },
+        {
+            name: "VisionEcho Project",
+            description: "Computer vision and image recognition",
+            category: "AI/ML",
+            status: "active"
+        },
+        {
+            name: "china-dictatorship",
+            description: "Research on governance systems",
+            category: "Research",
+            status: "planned"
+        },
+        {
+            name: "OpenPacketFix",
+            description: "Network protocol optimization",
+            category: "Infrastructure",
+            status: "active"
+        }
+    ];
+    
     try {
         const response = await fetch('/api/projects');
+        let projects = defaultProjects;
+        
         if (response.ok) {
             const data = await response.json();
-            
-            projectList.innerHTML = '';
-            
-            // Update counter
-            const counterNumber = document.querySelector('.counter-number');
-            counterNumber.textContent = data.projects.length;
-            
-            // Add project items
-            data.projects.forEach((project, index) => {
-                const projectEl = document.createElement('div');
-                projectEl.className = 'project-item';
-                projectEl.style.animationDelay = `${index * 0.05}s`;
-                
-                const statusColor = project.status === 'active' ? '#10b981' : 
-                                  project.status === 'planned' ? '#f59e0b' : '#6e7681';
-                
-                projectEl.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
-                        <h3 style="font-weight: 600; font-size: 0.95rem;">${project.name}</h3>
-                        <span style="width: 8px; height: 8px; background: ${statusColor}; border-radius: 50%; flex-shrink: 0; margin-top: 4px;"></span>
-                    </div>
-                    <p style="font-size: 0.8rem; color: var(--primary-300); line-height: 1.4;">${project.description}</p>
-                    <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--primary-400);">
-                        ${project.category} • ${project.status}
-                    </div>
-                `;
-                
-                projectEl.addEventListener('click', () => {
-                    sendMessage(`Tell me more about the ${project.name} project`);
-                });
-                
-                projectList.appendChild(projectEl);
-            });
+            if (data.projects && data.projects.length > 0) {
+                projects = data.projects;
+            }
         }
+        
+        projectList.innerHTML = '';
+        
+        // Update counter
+        const counterNumber = document.querySelector('.counter-number');
+        counterNumber.textContent = projects.length;
+        
+        // Add project items
+        projects.forEach((project, index) => {
+            const projectEl = document.createElement('div');
+            projectEl.className = 'project-item';
+            projectEl.style.animationDelay = `${index * 0.05}s`;
+            
+            const statusColor = project.status === 'active' ? '#10b981' : 
+                              project.status === 'planned' ? '#f59e0b' : '#6e7681';
+            
+            projectEl.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                    <h3 style="font-weight: 600; font-size: 0.95rem;">${project.name}</h3>
+                    <span style="width: 8px; height: 8px; background: ${statusColor}; border-radius: 50%; flex-shrink: 0; margin-top: 4px;"></span>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--primary-300); line-height: 1.4;">${project.description}</p>
+                <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--primary-400);">
+                    ${project.category} • ${project.status}
+                </div>
+            `;
+            
+            projectEl.addEventListener('click', () => {
+                sendMessage(`Tell me more about the ${project.name} project`);
+            });
+            
+            projectList.appendChild(projectEl);
+        });
     } catch (error) {
         console.error('Failed to load projects:', error);
-        projectList.innerHTML = '<div class="project-item">Failed to load projects</div>';
+        // Use default projects on error
+        loadDefaultProjects(projectList, defaultProjects);
     }
+}
+
+function loadDefaultProjects(projectList, projects) {
+    projectList.innerHTML = '';
+    const counterNumber = document.querySelector('.counter-number');
+    counterNumber.textContent = projects.length;
+    
+    projects.forEach((project, index) => {
+        const projectEl = document.createElement('div');
+        projectEl.className = 'project-item';
+        projectEl.style.animationDelay = `${index * 0.05}s`;
+        
+        const statusColor = project.status === 'active' ? '#10b981' : '#f59e0b';
+        
+        projectEl.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                <h3 style="font-weight: 600; font-size: 0.95rem;">${project.name}</h3>
+                <span style="width: 8px; height: 8px; background: ${statusColor}; border-radius: 50%; flex-shrink: 0; margin-top: 4px;"></span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--primary-300); line-height: 1.4;">${project.description}</p>
+            <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--primary-400);">
+                ${project.category} • ${project.status}
+            </div>
+        `;
+        
+        projectList.appendChild(projectEl);
+    });
 }
 
 // Send initial project status request
@@ -131,7 +192,8 @@ async function sendProjectStatusRequest() {
     const messagesEl = document.getElementById('chat-messages');
     messagesEl.innerHTML = '';
     
-    await sendMessage("Give me a brief status update on all current Echo AI Systems projects", true);
+    // Send request in English
+    await sendMessage("List my GitHub repositories", true);
 }
 
 // Setup input handlers
