@@ -168,10 +168,12 @@ function addMessage(content, isUser = false, isThinking = false) {
     if (isThinking) {
         messageDiv.innerHTML = `
             <div class="message-content">
-                <div class="thinking-indicator">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <div class="message-content-inner">
+                    <div class="thinking-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                 </div>
             </div>
         `;
@@ -180,10 +182,14 @@ function addMessage(content, isUser = false, isThinking = false) {
         const messageContent = document.createElement('div');
         messageContent.className = 'message-content';
         
+        const messageInner = document.createElement('div');
+        messageInner.className = 'message-content-inner';
+        
         // Format content
         content = formatMessage(content);
-        messageContent.innerHTML = content;
+        messageInner.innerHTML = content;
         
+        messageContent.appendChild(messageInner);
         messageDiv.appendChild(messageContent);
         
         // Store in conversation history
