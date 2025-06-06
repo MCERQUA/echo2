@@ -4,6 +4,9 @@ let sessionId = null;
 let messageCount = 0;
 let hasLoadedProjects = false;
 
+// Expose sessionId globally for terminal.js
+window.sessionId = null;
+
 // Initialize conversation with session
 window.addEventListener('DOMContentLoaded', async () => {
     await initializeSession();
@@ -31,6 +34,7 @@ async function initializeSession() {
                 const response = await fetch(`/api/session/${savedSessionId}`);
                 if (response.ok) {
                     sessionId = savedSessionId;
+                    window.sessionId = sessionId; // Expose globally
                     const data = await response.json();
                     messageCount = data.messageCount || 0;
                     console.log(`Resumed session ${sessionId} with ${messageCount} messages`);
@@ -53,6 +57,7 @@ async function initializeSession() {
         if (response.ok) {
             const data = await response.json();
             sessionId = data.sessionId;
+            window.sessionId = sessionId; // Expose globally
             
             // Save to localStorage
             localStorage.setItem('echo-session-id', sessionId);
@@ -65,6 +70,7 @@ async function initializeSession() {
         console.error('Failed to initialize session:', error);
         // Continue without session (ephemeral mode)
         sessionId = null;
+        window.sessionId = null;
     }
 }
 
@@ -275,6 +281,7 @@ async function sendMessage(message, isFirstMessage = false) {
             // Update session ID if returned (in case of ephemeral -> persistent)
             if (data.sessionId && data.sessionId !== 'ephemeral' && !sessionId) {
                 sessionId = data.sessionId;
+                window.sessionId = sessionId; // Update global
                 localStorage.setItem('echo-session-id', sessionId);
                 localStorage.setItem('echo-session-timestamp', Date.now().toString());
                 updateSessionInfo();
