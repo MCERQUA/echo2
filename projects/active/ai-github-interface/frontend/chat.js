@@ -78,14 +78,16 @@ function updateSessionInfo() {
     const statusEl = document.getElementById('connectionStatus');
     if (statusEl && sessionId) {
         const sessionInfo = document.createElement('div');
-        sessionInfo.className = 'text-xs text-gray-400 mt-1';
+        sessionInfo.className = 'session-info';
         sessionInfo.innerHTML = `
-            Session: ${sessionId.substring(0, 8)}... 
-            <button onclick="clearSession()" class="ml-2 text-red-400 hover:text-red-300">Clear</button>
+            <span style="font-size: 0.75rem; color: var(--primary-400); margin-top: 0.25rem;">
+                Session: ${sessionId.substring(0, 8)}... 
+                <button onclick="clearSession()" style="margin-left: 0.5rem; color: var(--accent-500); cursor: pointer;">Clear</button>
+            </span>
         `;
         
         // Remove existing session info if any
-        const existing = statusEl.querySelector('.text-xs');
+        const existing = statusEl.querySelector('.session-info');
         if (existing) existing.remove();
         
         statusEl.appendChild(sessionInfo);
@@ -133,39 +135,54 @@ async function sendProjectStatusRequest() {
 
 async function checkConnection() {
     const statusEl = document.getElementById('connectionStatus');
-    const statusDot = statusEl.querySelector('.status-dot');
+    const statusIndicator = statusEl.querySelector('.status-indicator');
     const statusText = statusEl.querySelector('.status-text');
     
     try {
         const response = await fetch('/api/health');
         if (response.ok) {
             const data = await response.json();
-            statusDot.className = 'status-dot connected';
-            statusText.textContent = `Connected (${data.model})`;
-            isConnected = true;
-            
-            // Show features if session threading is supported
-            if (data.features && data.features.includes('session_threading')) {
-                statusText.textContent += ' + Threading';
+            if (statusIndicator) {
+                statusIndicator.style.background = '#10b981';
+                statusIndicator.style.boxShadow = '0 0 10px #10b981';
             }
+            if (statusText) {
+                statusText.textContent = `Neural Link Active`;
+            }
+            isConnected = true;
             
             // Hide configuration notice
             const configNotice = document.getElementById('configNotice');
             if (configNotice) {
-                configNotice.style.display = 'none';
+                configNotice.classList.add('hidden');
             }
+            
+            // Remove welcome message after successful connection
+            setTimeout(() => {
+                const welcomeMsg = document.querySelector('.welcome-message');
+                if (welcomeMsg) {
+                    welcomeMsg.style.opacity = '0';
+                    setTimeout(() => welcomeMsg.remove(), 500);
+                }
+            }, 1000);
         } else {
             throw new Error('API not responding');
         }
     } catch (error) {
-        statusDot.className = 'status-dot disconnected';
-        statusText.textContent = 'Disconnected';
+        if (statusIndicator) {
+            statusIndicator.style.background = '#ef4444';
+            statusIndicator.style.boxShadow = '0 0 10px #ef4444';
+        }
+        if (statusText) {
+            statusText.textContent = 'Connection Lost';
+        }
+        isConnected = false;
         console.error('Connection error:', error);
         
         // Show configuration notice
         const configNotice = document.getElementById('configNotice');
         if (configNotice) {
-            configNotice.style.display = 'block';
+            configNotice.classList.remove('hidden');
         }
     }
 }
@@ -173,48 +190,64 @@ async function checkConnection() {
 function addMessage(content, isUser = false, isThinking = false, usage = null) {
     const messagesEl = document.getElementById('chat-messages');
     const messageDiv = document.createElement('div');
-    messageDiv.className = `message mb-4 ${isUser ? 'text-right' : 'text-left'}`;
-    
-    const bubble = document.createElement('div');
-    bubble.className = `inline-block px-4 py-2 rounded-lg max-w-xs md:max-w-md ${
-        isUser ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-100'
-    }`;
+    messageDiv.className = `message ${isUser ? 'user' : 'assistant'}`;
     
     if (isThinking) {
-        bubble.innerHTML = `
-            <div class="flex space-x-1">
-                <span class="thinking-indicator"></span>
-                <span class="thinking-indicator"></span>
-                <span class="thinking-indicator"></span>
+        messageDiv.innerHTML = `
+            <div class="message-content">
+                <div class="message-content-inner">
+                    <div class="thinking-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
             </div>
         `;
         messageDiv.id = 'thinking-indicator';
     } else {
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+        
+        const messageInner = document.createElement('div');
+        messageInner.className = 'message-content-inner';
+        
         // Handle formatting
         content = content
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
             .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic
-            .replace(/```([\s\S]*?)```/g, '<pre class="bg-gray-800 p-2 rounded mt-2 overflow-x-auto"><code>$1</code></pre>') // Code blocks
-            .replace(/`([^`]+)`/g, '<code class="bg-gray-800 px-1 rounded">$1</code>') // Inline code
+            .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>') // Code blocks
+            .replace(/`([^`]+)`/g, '<code>$1</code>') // Inline code
             .replace(/\n/g, '<br>'); // Line breaks
         
-        bubble.innerHTML = content;
+        messageInner.innerHTML = content;
         
         // Add usage info if available
         if (usage && !isUser) {
             const usageDiv = document.createElement('div');
-            usageDiv.className = 'text-xs text-gray-400 mt-2 pt-2 border-t border-gray-600';
+            usageDiv.className = 'usage-info';
             usageDiv.innerHTML = `
                 <span>Tokens: ${usage.total_tokens || 0}</span>
-                ${usage.estimated_cost ? `<span class="ml-2">Cost: ${usage.estimated_cost}</span>` : ''}
+                ${usage.estimated_cost ? `<span style="margin-left: 0.5rem;">Cost: ${usage.estimated_cost}</span>` : ''}
             `;
-            bubble.appendChild(usageDiv);
+            messageInner.appendChild(usageDiv);
         }
+        
+        messageContent.appendChild(messageInner);
+        messageDiv.appendChild(messageContent);
     }
     
-    messageDiv.appendChild(bubble);
     messagesEl.appendChild(messageDiv);
     messagesEl.scrollTop = messagesEl.scrollHeight;
+    
+    // Update message count
+    if (!isThinking && !isUser) {
+        messageCount++;
+        const totalMsgs = document.getElementById('total-messages');
+        if (totalMsgs) {
+            totalMsgs.textContent = messageCount;
+        }
+    }
 }
 
 function showTyping() {
@@ -236,17 +269,19 @@ async function sendMessage(message, isFirstMessage = false) {
     if (!text) return;
     
     // Disable input while processing
-    input.disabled = true;
-    sendButton.disabled = true;
+    if (input) input.disabled = true;
+    if (sendButton) sendButton.disabled = true;
     
     // Clear input
-    if (!message) {
+    if (!message && input) {
         input.value = '';
+        input.style.height = 'auto';
+        const charCount = document.getElementById('char-current');
+        if (charCount) charCount.textContent = '0';
     }
     
     // Add user message
     addMessage(text, true);
-    messageCount++;
     
     // Show typing indicator
     showTyping();
@@ -294,9 +329,11 @@ async function sendMessage(message, isFirstMessage = false) {
         addMessage(`Sorry, there was an error: ${error.message}`);
     } finally {
         // Re-enable input
-        input.disabled = false;
-        sendButton.disabled = false;
-        input.focus();
+        if (input) {
+            input.disabled = false;
+            input.focus();
+        }
+        if (sendButton) sendButton.disabled = false;
     }
 }
 
