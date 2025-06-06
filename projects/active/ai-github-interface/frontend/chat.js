@@ -1,8 +1,9 @@
-// AI Message Server - Enhanced Chat Interface
+// AI Message Server - Enhanced Chat Interface with Conversation Memory
 let isConnected = false;
 let conversationId = null;
 let messageCount = 0;
 let hasLoadedProjects = false;
+let conversationHistory = []; // Store full conversation history
 
 // Generate unique conversation ID
 function generateConversationId() {
@@ -103,6 +104,14 @@ function addMessage(content, isUser = false, isThinking = false) {
     messageDiv.appendChild(bubble);
     messagesEl.appendChild(messageDiv);
     messagesEl.scrollTop = messagesEl.scrollHeight;
+    
+    // Store in conversation history (except thinking indicators)
+    if (!isThinking) {
+        conversationHistory.push({
+            role: isUser ? 'user' : 'assistant',
+            content: content.replace(/<[^>]*>/g, '') // Strip HTML for clean history
+        });
+    }
 }
 
 function showTyping() {
@@ -149,7 +158,9 @@ async function sendMessage(message, isFirstMessage = false) {
                 message: text,
                 conversationId: conversationId,
                 messageNumber: messageCount,
-                isFirstMessage: isFirstMessage
+                isFirstMessage: isFirstMessage,
+                // Send conversation history for context
+                conversationHistory: conversationHistory.slice(-10) // Last 10 messages for context
             })
         });
         
