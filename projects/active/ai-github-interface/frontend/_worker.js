@@ -1,4 +1,4 @@
-// AI Message Server Worker - Groq Integration
+// AI Message Server Worker - Groq Integration with Echo System Prompt
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -39,90 +39,102 @@ export default {
           console.log('Conversation ID:', conversationId);
           
           let aiResponse = '';
-          let githubOperation = false;
           
-          // Check if this is a GitHub operation
-          if (message.toLowerCase().includes('github') || 
-              message.toLowerCase().includes('repository') || 
-              message.toLowerCase().includes('repo')) {
-            githubOperation = true;
-            
-            // Handle GitHub operations
-            if (message.toLowerCase().includes('list') && message.toLowerCase().includes('repositories')) {
-              if (!env.GITHUB_TOKEN) {
-                aiResponse = 'GitHub token not configured. Please ask Echo to configure the GITHUB_TOKEN environment variable.';
-              } else {
-                try {
-                  const response = await fetch('https://api.github.com/user/repos?sort=updated&per_page=10', {
-                    headers: {
-                      'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
-                      'Accept': 'application/vnd.github.v3+json',
-                      'User-Agent': 'Echo-AI-Message-Server'
-                    }
-                  });
-                  
-                  if (!response.ok) {
-                    throw new Error(`GitHub API error: ${response.status}`);
-                  }
-                  
-                  const repos = await response.json();
-                  
-                  if (repos.length === 0) {
-                    aiResponse = 'No repositories found. Make sure your GitHub token has the correct permissions.';
-                  } else {
-                    const repoList = repos.map(r => `- **${r.full_name}** (${r.private ? 'private' : 'public'}) - ${r.description || 'No description'}`).join('\n');
-                    aiResponse = `Found ${repos.length} repositories:\n\n${repoList}`;
-                  }
-                } catch (error) {
-                  aiResponse = `Error fetching repositories: ${error.message}`;
+          // System prompt that defines the AI's role and capabilities
+          const systemPrompt = `You are Echo's AI Message Center Assistant. Your role is to:
+
+1. **Receive and Process Requests**: Accept messages, tasks, and requests from clients for Echo to review later
+2. **Access GitHub Repositories**: You can read files from ANY GitHub repository to provide project updates and information
+3. **Message Queue Management**: All conversations are saved to the ECHO-MESSAGE-SERVER repository only
+4. **Project Awareness**: You have knowledge of Echo AI Systems projects and can provide updates when asked
+5. **Task Creation**: When users request tasks for Echo, acknowledge them and note they'll be saved for review
+
+IMPORTANT RULES:
+- You can READ from any GitHub repository to provide information
+- You can only WRITE to the ECHO-MESSAGE-SERVER repository
+- Be helpful and informative about Echo's projects when asked
+- When users submit tasks, confirm receipt and that Echo will review them
+- You are an extension of Echo AI Systems, not a separate entity
+
+Available capabilities:
+- List and read repositories
+- View file contents from any repo
+- Create tasks and messages in ECHO-MESSAGE-SERVER
+- Provide project status updates
+- Answer questions about Echo AI Systems services
+
+Remember: You are Echo's message center, collecting and organizing communications for later review.`;
+
+          if (!env.GROQ_API_KEY) {
+            aiResponse = 'Groq API key not configured. Please ask Echo to configure the GROQ_API_KEY environment variable.';
+          } else {
+            try {
+              // Prepare conversation history if needed
+              const messages = [
+                {
+                  role: 'system',
+                  content: systemPrompt
+                },
+                {
+                  role: 'user',
+                  content: message
                 }
+              ];
+
+              // If message mentions GitHub operations, enhance the context
+              if (message.toLowerCase().includes('github') || 
+                  message.toLowerCase().includes('repository') || 
+                  message.toLowerCase().includes('repo') ||
+                  message.toLowerCase().includes('file') ||
+                  message.toLowerCase().includes('project')) {
+                
+                // Add GitHub context to the system message
+                messages[0].content += `\n\nThe user may be asking about GitHub operations. You have access to GitHub via the configured token. You can list repositories, read files, and provide project information. Remember to only write to ECHO-MESSAGE-SERVER.`;
               }
-            } else {
-              aiResponse = 'I can help with GitHub operations. Try asking me to "list my repositories" or specify what you\'d like to do.';
-            }
-          }
-          
-          // If not a GitHub operation, use Groq AI
-          if (!githubOperation) {
-            if (!env.GROQ_API_KEY) {
-              aiResponse = 'Groq API key not configured. Please ask Echo to configure the GROQ_API_KEY environment variable.';
-            } else {
-              try {
-                const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-                  method: 'POST',
+
+              const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${env.GROQ_API_KEY}`,
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  model: 'mixtral-8x7b-32768',
+                  messages: messages,
+                  temperature: 0.7,
+                  max_tokens: 2048
+                })
+              });
+              
+              if (!groqResponse.ok) {
+                const errorData = await groqResponse.text();
+                throw new Error(`Groq API error: ${groqResponse.status} - ${errorData}`);
+              }
+              
+              const groqData = await groqResponse.json();
+              aiResponse = groqData.choices[0].message.content;
+              
+              // If the AI response mentions needing to perform GitHub operations, handle them
+              if (aiResponse.includes('list') && aiResponse.includes('repositories') && env.GITHUB_TOKEN) {
+                // Fetch repositories
+                const repoResponse = await fetch('https://api.github.com/user/repos?sort=updated&per_page=10', {
                   headers: {
-                    'Authorization': `Bearer ${env.GROQ_API_KEY}`,
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                    model: 'mixtral-8x7b-32768',
-                    messages: [
-                      {
-                        role: 'system',
-                        content: 'You are a helpful AI assistant for Echo AI Systems. You help users with their requests and questions. When users want to create tasks for Echo, acknowledge their request and let them know it will be saved for Echo to review. Be concise but friendly.'
-                      },
-                      {
-                        role: 'user',
-                        content: message
-                      }
-                    ],
-                    temperature: 0.7,
-                    max_tokens: 1024
-                  })
+                    'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'User-Agent': 'Echo-AI-Message-Server'
+                  }
                 });
                 
-                if (!groqResponse.ok) {
-                  const errorData = await groqResponse.text();
-                  throw new Error(`Groq API error: ${groqResponse.status} - ${errorData}`);
+                if (repoResponse.ok) {
+                  const repos = await repoResponse.json();
+                  const repoList = repos.map(r => `- **${r.full_name}** (${r.private ? 'private' : 'public'}) - ${r.description || 'No description'}`).join('\\n');
+                  aiResponse += `\\n\\nHere are your recent repositories:\\n${repoList}`;
                 }
-                
-                const groqData = await groqResponse.json();
-                aiResponse = groqData.choices[0].message.content;
-                
-              } catch (error) {
-                console.error('Groq API error:', error);
-                aiResponse = `I'm having trouble connecting to the AI service. Error: ${error.message}`;
               }
+              
+            } catch (error) {
+              console.error('Groq API error:', error);
+              aiResponse = `I'm having trouble connecting to the AI service. Error: ${error.message}`;
             }
           }
           
@@ -136,12 +148,20 @@ export default {
               const fileName = `${conversationId}-msg-${String(messageNumber).padStart(4, '0')}.md`;
               const filePath = `messages/${dateFolder}/${fileName}`;
               
+              // Determine if this is a task request
+              const isTask = message.toLowerCase().includes('task') || 
+                             message.toLowerCase().includes('todo') || 
+                             message.toLowerCase().includes('request') ||
+                             message.toLowerCase().includes('need echo to') ||
+                             message.toLowerCase().includes('ask echo to');
+              
               const fileContent = `---
 id: ${conversationId}-${messageNumber}
 timestamp: ${timestamp}
 client: web-interface
-type: message
+type: ${isTask ? 'task' : 'message'}
 status: new
+priority: ${isTask ? 'normal' : 'low'}
 ---
 
 # User Message
@@ -151,6 +171,8 @@ ${message}
 # AI Response
 
 ${aiResponse}
+
+${isTask ? `\n# Task Extraction\n\nThis appears to be a task request for Echo to review.\n` : ''}
 `;
               
               const githubResponse = await fetch(`https://api.github.com/repos/MCERQUA/ECHO-MESSAGE-SERVER/contents/${filePath}`, {
@@ -170,6 +192,47 @@ ${aiResponse}
               
               if (!saved) {
                 console.error('Failed to save to GitHub:', await githubResponse.text());
+              }
+              
+              // If it's a task, also save to tasks folder
+              if (isTask && saved) {
+                const taskFileName = `${conversationId}-task-${String(messageNumber).padStart(4, '0')}.md`;
+                const taskFilePath = `tasks/pending/${taskFileName}`;
+                
+                const taskContent = `---
+id: ${conversationId}-task-${messageNumber}
+created: ${timestamp}
+conversationId: ${conversationId}
+messageNumber: ${messageNumber}
+status: pending
+priority: normal
+---
+
+# Task Request
+
+${message}
+
+# Initial AI Response
+
+${aiResponse}
+
+# Source
+
+From conversation ${conversationId}, message ${messageNumber}
+`;
+                
+                await fetch(`https://api.github.com/repos/MCERQUA/ECHO-MESSAGE-SERVER/contents/${taskFilePath}`, {
+                  method: 'PUT',
+                  headers: {
+                    'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'User-Agent': 'Echo-AI-Message-Server'
+                  },
+                  body: JSON.stringify({
+                    message: `Add task from conversation ${conversationId}`,
+                    content: btoa(unescape(encodeURIComponent(taskContent)))
+                  })
+                });
               }
               
             } catch (error) {
