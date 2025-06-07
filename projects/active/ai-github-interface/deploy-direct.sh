@@ -1,0 +1,27 @@
+#!/bin/bash
+# Cloudflare Pages Direct Deployment Script
+# This script can be used with Cloudflare Pages Direct Upload
+
+echo "Echo AI GitHub Interface - Direct Deployment"
+echo "==========================================="
+echo ""
+echo "Since GitHub integration is having issues, you can deploy directly:"
+echo ""
+echo "Option 1: Using Wrangler CLI"
+echo "1. Install wrangler: npm install -g wrangler"
+echo "2. Login: wrangler login"
+echo "3. Deploy: wrangler pages deploy ./projects/active/ai-github-interface/frontend --project-name=echo2"
+echo ""
+echo "Option 2: Using Direct Upload in Dashboard"
+echo "1. Go to Cloudflare Pages"
+echo "2. Create new project"
+echo "3. Choose 'Direct Upload'"
+echo "4. Upload the 'frontend' folder"
+echo ""
+echo "Required Environment Variables:"
+echo "- OPENAI_API_KEY"
+echo "- GITHUB_TOKEN"
+echo "- HUGGINGFACE_TOKEN (optional)"
+echo ""
+echo "KV Namespace:"
+echo "- Create and bind a KV namespace called SESSIONS"
