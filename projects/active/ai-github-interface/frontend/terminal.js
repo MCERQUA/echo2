@@ -1,4 +1,4 @@
-// Echo AI Communication Terminal - Enhanced JavaScript
+// Echo AI Communication Terminal - Enhanced JavaScript with Image Support
 let isConnected = false;
 let messageCount = 0;
 let hasLoadedProjects = false;
@@ -267,8 +267,8 @@ function setupInputHandlers() {
     sendBtn.addEventListener('click', () => sendMessage());
 }
 
-// Add message to chat
-function addMessage(content, isUser = false, isThinking = false) {
+// Add message to chat with enhanced image support
+function addMessage(content, isUser = false, isThinking = false, images = [], toolCalls = []) {
     const messagesEl = document.getElementById('chat-messages');
     if (!messagesEl) return;
     
@@ -299,13 +299,69 @@ function addMessage(content, isUser = false, isThinking = false) {
         content = formatMessage(content);
         messageInner.innerHTML = content;
         
+        // Add tool usage indicators if present
+        if (toolCalls && toolCalls.length > 0) {
+            const toolsDiv = document.createElement('div');
+            toolsDiv.className = 'tool-usage';
+            toolsDiv.style.cssText = 'margin-top: 0.5rem; padding: 0.5rem; background: rgba(16, 185, 129, 0.1); border-radius: 4px; font-size: 0.85em;';
+            
+            const toolNames = toolCalls.map(tc => tc.function.name).join(', ');
+            toolsDiv.innerHTML = `🔧 Used tools: ${toolNames}`;
+            messageInner.appendChild(toolsDiv);
+        }
+        
+        // Add images if present
+        if (images && images.length > 0) {
+            const imagesContainer = document.createElement('div');
+            imagesContainer.className = 'message-images';
+            imagesContainer.style.cssText = 'margin-top: 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;';
+            
+            images.forEach(img => {
+                const imageWrapper = document.createElement('div');
+                imageWrapper.style.cssText = 'position: relative; border-radius: 8px; overflow: hidden; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2);';
+                
+                const imageEl = document.createElement('img');
+                imageEl.src = img.url || img.image_base64 || img.image_url;
+                imageEl.alt = img.prompt || 'AI generated image';
+                imageEl.style.cssText = 'width: 100%; height: auto; display: block; cursor: pointer;';
+                imageEl.loading = 'lazy';
+                
+                // Click to expand
+                imageEl.addEventListener('click', () => {
+                    expandImage(imageEl.src, imageEl.alt);
+                });
+                
+                imageWrapper.appendChild(imageEl);
+                
+                // Add metadata overlay
+                if (img.model || img.github_url) {
+                    const metaDiv = document.createElement('div');
+                    metaDiv.style.cssText = 'position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.8); color: white; padding: 0.5rem; font-size: 0.75rem;';
+                    
+                    let metaContent = '';
+                    if (img.model) metaContent += `Model: ${img.model}`;
+                    if (img.github_url) {
+                        metaContent += ` | <a href="${img.github_url}" target="_blank" style="color: #10b981;">View on GitHub</a>`;
+                    }
+                    metaDiv.innerHTML = metaContent;
+                    
+                    imageWrapper.appendChild(metaDiv);
+                }
+                
+                imagesContainer.appendChild(imageWrapper);
+            });
+            
+            messageInner.appendChild(imagesContainer);
+        }
+        
         messageContent.appendChild(messageInner);
         messageDiv.appendChild(messageContent);
         
         // Store in conversation history
         conversationHistory.push({
             role: isUser ? 'user' : 'assistant',
-            content: content.replace(/<[^>]*>/g, '') // Strip HTML
+            content: content.replace(/<[^>]*>/g, ''), // Strip HTML
+            images: images
         });
     }
     
@@ -320,6 +376,43 @@ function addMessage(content, isUser = false, isThinking = false) {
             totalMsgs.textContent = messageCount;
         }
     }
+}
+
+// Expand image in modal
+function expandImage(src, alt) {
+    // Remove existing modal if any
+    const existingModal = document.getElementById('image-modal');
+    if (existingModal) existingModal.remove();
+    
+    // Create modal
+    const modal = document.createElement('div');
+    modal.id = 'image-modal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        cursor: pointer;
+        padding: 2rem;
+    `;
+    
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = alt;
+    img.style.cssText = 'max-width: 90%; max-height: 90%; object-fit: contain;';
+    
+    modal.appendChild(img);
+    
+    // Close on click
+    modal.addEventListener('click', () => modal.remove());
+    
+    document.body.appendChild(modal);
 }
 
 // Format message content
@@ -340,6 +433,33 @@ function showTyping() {
 function hideTyping() {
     const indicator = document.getElementById('thinking-indicator');
     if (indicator) indicator.remove();
+}
+
+// Parse response for images
+function parseResponseForImages(response) {
+    const images = [];
+    
+    // Check for image URLs in the response
+    const imageUrlPattern = /(https?:\/\/[^\s]+\.(jpg|jpeg|png|gif|webp))/gi;
+    const matches = response.match(imageUrlPattern);
+    
+    if (matches) {
+        matches.forEach(url => {
+            images.push({ url, type: 'url' });
+        });
+    }
+    
+    // Check for base64 images
+    const base64Pattern = /data:image\/(png|jpeg|jpg|gif|webp);base64,[^\s]+/gi;
+    const base64Matches = response.match(base64Pattern);
+    
+    if (base64Matches) {
+        base64Matches.forEach(data => {
+            images.push({ url: data, type: 'base64' });
+        });
+    }
+    
+    return images;
 }
 
 // Send message
@@ -408,7 +528,42 @@ async function sendMessage(message, isFirstMessage = false) {
             addMessage(`Error: ${data.error}`);
             showNotification('Error processing message', 'error');
         } else {
-            addMessage(data.response || 'No response received');
+            // Extract images from tool calls if present
+            let images = [];
+            if (data.tool_calls) {
+                data.tool_calls.forEach(toolCall => {
+                    if (toolCall.function.name.includes('image')) {
+                        try {
+                            const result = JSON.parse(toolCall.result || '{}');
+                            if (result.image_url || result.image_base64) {
+                                images.push(result);
+                            }
+                            if (result.results) {
+                                // Multiple images from generate_multiple_images
+                                result.results.forEach(r => {
+                                    if (r.image_url || r.image_base64) {
+                                        images.push(r);
+                                    }
+                                });
+                            }
+                        } catch (e) {
+                            console.error('Error parsing tool result:', e);
+                        }
+                    }
+                });
+            }
+            
+            // Also check for images in the response text
+            const textImages = parseResponseForImages(data.response || '');
+            images = [...images, ...textImages];
+            
+            // Add message with images
+            addMessage(data.response || 'No response received', false, false, images, data.tool_calls);
+            
+            // Show cost if available
+            if (data.usage && data.usage.estimated_cost) {
+                showNotification(`Cost: ${data.usage.estimated_cost}`, 'info');
+            }
         }
         
     } catch (error) {
