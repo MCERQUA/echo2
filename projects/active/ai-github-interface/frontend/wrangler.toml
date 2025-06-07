@@ -1,0 +1,25 @@
+name = "echo2-ai-interface"
+main = "./_worker.js"
+compatibility_date = "2024-01-01"
+
+[env.production]
+vars = { }
+kv_namespaces = [
+  { binding = "SESSIONS", id = "YOUR_KV_NAMESPACE_ID" }
+]
+
+# Uncomment to use a custom domain
+# routes = [
+#   { pattern = "echo-ai.example.com", custom_domain = true }
+# ]
+
+[build]
+command = ""
+
+[build.upload]
+format = "modules"
+main = "./_worker.js"
+
+[[build.upload.rules]]
+type = "ESModule"
+globs = ["**/*.js"]
