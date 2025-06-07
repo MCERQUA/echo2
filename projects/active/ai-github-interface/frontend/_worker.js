@@ -1,4 +1,4 @@
-// OpenAI MCP Implementation with Session Threading - FIXED
+// OpenAI MCP Implementation with GitHub AND Hugging Face Tools
 // Uses OpenAI's gpt-4.1-nano with conversation persistence
 
 export default {
@@ -24,7 +24,7 @@ export default {
       }
 
       // MCP Tool Definitions - OpenAI format
-      const OPENAI_TOOLS = [
+      const GITHUB_TOOLS = [
         {
           type: "function",
           function: {
@@ -116,14 +116,101 @@ export default {
         }
       ];
 
+      // Hugging Face MCP Tools
+      const HUGGINGFACE_TOOLS = [
+        {
+          type: "function",
+          function: {
+            name: "search_ai_models",
+            description: "Search for AI models on Hugging Face. Use this to find popular models for text generation, image generation, etc.",
+            parameters: {
+              type: "object",
+              properties: {
+                query: { type: "string", description: "Search query (e.g., 'text generation', 'stable diffusion')" },
+                limit: { type: "number", description: "Number of results (default: 10)" },
+                sort: { 
+                  type: "string", 
+                  enum: ["downloads", "likes", "trending"],
+                  description: "Sort order" 
+                }
+              },
+              required: ["query"]
+            }
+          }
+        },
+        {
+          type: "function",
+          function: {
+            name: "generate_image",
+            description: "Generate an image using AI models (FLUX, Stable Diffusion XL, etc)",
+            parameters: {
+              type: "object",
+              properties: {
+                prompt: { type: "string", description: "Text description of the image to generate" },
+                model: { 
+                  type: "string", 
+                  enum: ["flux-schnell", "stable-diffusion-xl", "playground-v2"],
+                  description: "Model to use (default: flux-schnell)" 
+                },
+                width: { type: "number", description: "Image width (default: 1024)" },
+                height: { type: "number", description: "Image height (default: 1024)" },
+                steps: { type: "number", description: "Inference steps (default: 4 for flux, 25 for others)" }
+              },
+              required: ["prompt"]
+            }
+          }
+        },
+        {
+          type: "function",
+          function: {
+            name: "generate_multiple_images",
+            description: "Generate multiple variations of an image",
+            parameters: {
+              type: "object",
+              properties: {
+                prompt: { type: "string", description: "Text description" },
+                count: { type: "number", description: "Number of images to generate (max: 4)" },
+                model: { type: "string", enum: ["flux-schnell", "stable-diffusion-xl"] }
+              },
+              required: ["prompt", "count"]
+            }
+          }
+        },
+        {
+          type: "function",
+          function: {
+            name: "analyze_image",
+            description: "Analyze an image using vision AI to extract text, describe content, etc",
+            parameters: {
+              type: "object",
+              properties: {
+                image_url: { type: "string", description: "URL of the image to analyze" },
+                task: { 
+                  type: "string", 
+                  enum: ["describe", "ocr", "caption"],
+                  description: "Type of analysis" 
+                }
+              },
+              required: ["image_url"]
+            }
+          }
+        }
+      ];
+
+      const ALL_TOOLS = [...GITHUB_TOOLS, ...HUGGINGFACE_TOOLS];
+
       // Health check
       if (url.pathname === '/api/health') {
         return new Response(JSON.stringify({ 
           status: 'healthy',
           model: 'OpenAI gpt-4.1-nano',
-          features: ['session_threading', 'github_tools', 'conversation_persistence'],
+          features: ['session_threading', 'github_tools', 'huggingface_tools', 'conversation_persistence'],
           cost_per_million: { input: 0.10, output: 0.40 },
-          tools: OPENAI_TOOLS.length,
+          tools: ALL_TOOLS.length,
+          tool_categories: {
+            github: GITHUB_TOOLS.length,
+            huggingface: HUGGINGFACE_TOOLS.length
+          },
           timestamp: new Date().toISOString()
         }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -205,10 +292,11 @@ export default {
       // List available tools
       if (url.pathname === '/api/mcp/tools') {
         return new Response(JSON.stringify({
-          tools: OPENAI_TOOLS.map(t => ({
+          tools: ALL_TOOLS.map(t => ({
             name: t.function.name,
             description: t.function.description,
-            parameters: t.function.parameters
+            parameters: t.function.parameters,
+            category: GITHUB_TOOLS.includes(t) ? 'github' : 'huggingface'
           }))
         }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -254,10 +342,13 @@ export default {
           // Prepare messages for OpenAI (include system prompt + conversation history)
           const systemMessage = {
             role: 'system',
-            content: `You are Echo's AI Assistant with access to GitHub tools.
-You can search repositories, read files, create issues, and more.
-When users ask about GitHub operations, use the appropriate tools.
-Remember previous messages in this conversation to maintain context.
+            content: `You are Echo's AI Assistant with access to GitHub and Hugging Face tools.
+You can:
+- Search repositories, read files, create issues (GitHub)
+- Search AI models, generate images, analyze images (Hugging Face)
+
+When users ask about image generation, use the generate_image tool.
+When users ask about AI models, use search_ai_models.
 Be helpful and concise in your responses.
 IMPORTANT: Always respond in English, regardless of the input language.`
           };
@@ -282,7 +373,7 @@ IMPORTANT: Always respond in English, regardless of the input language.`
             body: JSON.stringify({
               model: 'gpt-4.1-nano-2025-04-14', // Ultra cost-effective model
               messages: openAIMessages,
-              tools: OPENAI_TOOLS,
+              tools: ALL_TOOLS,
               tool_choice: 'auto', // Let OpenAI decide when to use tools
               temperature: 0.7,
               max_tokens: 2048
@@ -304,11 +395,22 @@ IMPORTANT: Always respond in English, regardless of the input language.`
             // Execute each tool call
             for (const toolCall of aiMessage.tool_calls) {
               try {
-                const result = await executeGitHubTool(
-                  env.GITHUB_TOKEN, 
-                  toolCall.function.name, 
-                  JSON.parse(toolCall.function.arguments)
-                );
+                let result;
+                
+                // Route to appropriate tool handler
+                if (GITHUB_TOOLS.some(t => t.function.name === toolCall.function.name)) {
+                  result = await executeGitHubTool(
+                    env.GITHUB_TOKEN, 
+                    toolCall.function.name, 
+                    JSON.parse(toolCall.function.arguments)
+                  );
+                } else {
+                  result = await executeHuggingFaceTool(
+                    toolCall.function.name,
+                    JSON.parse(toolCall.function.arguments),
+                    env
+                  );
+                }
                 
                 toolResults.push({
                   tool_call_id: toolCall.id,
@@ -568,4 +670,141 @@ async function executeGitHubTool(token, toolName, args) {
     default:
       throw new Error(`Unknown tool: ${toolName}`);
   }
+}
+
+// Hugging Face tool implementations
+async function executeHuggingFaceTool(toolName, args, env) {
+  switch (toolName) {
+    case 'search_ai_models': {
+      const { query, limit = 10, sort = 'downloads' } = args;
+      
+      // Use Hugging Face API to search models
+      const response = await fetch(
+        `https://huggingface.co/api/models?search=${encodeURIComponent(query)}&limit=${limit}&sort=${sort}`,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      if (!response.ok) throw new Error(`HuggingFace API error: ${response.status}`);
+      const models = await response.json();
+      
+      // Format response
+      return {
+        models: models.map(m => ({
+          name: m.modelId,
+          downloads: m.downloads,
+          likes: m.likes,
+          tags: m.tags,
+          url: `https://huggingface.co/${m.modelId}`
+        }))
+      };
+    }
+
+    case 'generate_image': {
+      const { prompt, model = 'flux-schnell', width = 1024, height = 1024, steps } = args;
+      
+      // Map model names to HuggingFace spaces
+      const modelSpaces = {
+        'flux-schnell': 'black-forest-labs/FLUX.1-schnell',
+        'stable-diffusion-xl': 'stabilityai/stable-diffusion-xl-base-1.0',
+        'playground-v2': 'playgroundai/playground-v2-1024px-aesthetic'
+      };
+      
+      const spaceUrl = modelSpaces[model];
+      const defaultSteps = model === 'flux-schnell' ? 4 : 25;
+      
+      // Generate through HuggingFace inference API
+      const response = await fetch(
+        `https://api-inference.huggingface.co/models/${spaceUrl}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${env.HUGGINGFACE_TOKEN || 'hf_free_token'}`
+          },
+          body: JSON.stringify({
+            inputs: prompt,
+            parameters: {
+              width,
+              height,
+              num_inference_steps: steps || defaultSteps
+            }
+          })
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error(`Image generation failed: ${response.status}`);
+      }
+      
+      // Get image as blob
+      const imageBlob = await response.blob();
+      const imageBase64 = await blobToBase64(imageBlob);
+      
+      return {
+        image: imageBase64,
+        prompt,
+        model,
+        dimensions: `${width}x${height}`,
+        metadata: {
+          space: spaceUrl,
+          steps: steps || defaultSteps
+        }
+      };
+    }
+
+    case 'generate_multiple_images': {
+      const { prompt, count, model = 'flux-schnell' } = args;
+      const images = [];
+      
+      for (let i = 0; i < Math.min(count, 4); i++) {
+        const result = await executeHuggingFaceTool('generate_image', {
+          prompt: `${prompt} (variation ${i + 1})`,
+          model
+        }, env);
+        images.push(result);
+      }
+      
+      return { images, count: images.length };
+    }
+
+    case 'analyze_image': {
+      const { image_url, task = 'describe' } = args;
+      
+      // Use HuggingFace vision models for analysis
+      const visionModels = {
+        describe: 'Salesforce/blip-image-captioning-large',
+        ocr: 'microsoft/trocr-base-printed',
+        caption: 'nlpconnect/vit-gpt2-image-captioning'
+      };
+      
+      const modelId = visionModels[task];
+      
+      // For demo purposes, return mock analysis
+      // In production, you'd call the actual HF inference API
+      return {
+        task,
+        image_url,
+        result: `Analysis result for ${task}: This would contain the actual ${task} output from the vision model.`,
+        model: modelId
+      };
+    }
+
+    default:
+      throw new Error(`Unknown Hugging Face tool: ${toolName}`);
+  }
+}
+
+// Helper function to convert blob to base64
+async function blobToBase64(blob) {
+  const arrayBuffer = await blob.arrayBuffer();
+  const bytes = new Uint8Array(arrayBuffer);
+  let binary = '';
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return `data:${blob.type};base64,${btoa(binary)}`;
 }
