@@ -1,6 +1,6 @@
-// Echo AI Interface - Cloudflare R2 Migration Worker
-// Combines GitHub tools with R2 storage for message persistence
-// Updated for echo2.pages.dev deployment
+// Echo AI Interface - Fully Self-Contained R2 Architecture
+// Updated for echo2.pages.dev with complete R2 migration
+// Serves frontend from R2 + GitHub MCP tools + R2 storage
 
 export default {
   async fetch(request, env, ctx) {
@@ -186,24 +186,27 @@ export default {
         }
       ];
 
-      // Health check - updated to show R2 status
+      // Health check - updated to show R2 frontend status
       if (url.pathname === '/api/health') {
         return new Response(JSON.stringify({ 
           status: 'healthy',
           model: 'OpenAI gpt-4.1-nano',
           storage: 'Cloudflare R2',
+          frontend: env.R2_FRONTEND ? 'R2 Self-Contained' : 'GitHub Fallback',
           deployment: 'echo2.pages.dev',
-          features: ['session_threading', 'github_tools', 'r2_storage', 'message_persistence'],
+          features: ['session_threading', 'github_tools', 'r2_storage', 'message_persistence', 'r2_frontend'],
           cost_per_million: { input: 0.10, output: 0.40 },
           tools: ECHO_TOOLS.length,
-          buckets: ['echo-messages', 'echo-conversations'],
+          buckets: ['echo-messages', 'echo-conversations', 'echo-frontend'],
           bindings: {
             r2_messages: !!env.R2_MESSAGES,
             r2_conversations: !!env.R2_CONVERSATIONS,
+            r2_frontend: !!env.R2_FRONTEND,
             kv_sessions: !!SESSIONS,
             openai: !!env.OPENAI_API_KEY,
             github: !!env.GITHUB_TOKEN
           },
+          github_dependency: env.R2_FRONTEND ? 'MCP tools only' : 'MCP tools + frontend fallback',
           timestamp: new Date().toISOString()
         }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -261,12 +264,13 @@ export default {
           // Prepare messages for OpenAI
           const systemMessage = {
             role: 'system',
-            content: `You are Echo's AI Assistant with access to GitHub tools and R2 storage.
+            content: `You are Echo's AI Assistant with GitHub tools and R2 storage.
 
 CAPABILITIES:
-- GitHub: Search repos, read/write files, manage issues
+- GitHub: Search repos, read/write files, manage issues  
 - R2 Storage: Save messages, conversations, create tasks for Echo (if configured)
 - Session Management: Maintain conversation context
+- Frontend: ${env.R2_FRONTEND ? 'Served from R2 (fully self-contained)' : 'GitHub fallback mode'}
 
 BEHAVIOR:
 - Use GitHub tools for code/repository operations
@@ -278,7 +282,12 @@ BEHAVIOR:
 STORAGE GUIDANCE:
 - If R2 is available, auto-save important conversations using save_conversation_summary
 - Create tasks for Echo using create_task when users request follow-up
-- Save messages with save_message for persistence beyond session expiry`
+- Save messages with save_message for persistence beyond session expiry
+
+MIGRATION STATUS:
+- R2 Frontend: ${env.R2_FRONTEND ? 'Active' : 'Pending - using GitHub fallback'}
+- R2 Storage: ${env.R2_MESSAGES ? 'Active' : 'Not configured'}
+- System: Hybrid GitHub/R2 architecture`
           };
 
           // Limit conversation history to avoid token limits
@@ -405,7 +414,8 @@ STORAGE GUIDANCE:
               response: finalMessage.content,
               sessionId: sessionId || 'ephemeral',
               messageId,
-              storage: env.R2_MESSAGES ? 'R2 enabled' : 'R2 not configured',
+              storage: env.R2_MESSAGES ? 'R2 active' : 'R2 not configured',
+              frontend: env.R2_FRONTEND ? 'R2 self-contained' : 'GitHub fallback',
               usage: {
                 ...finalData.usage,
                 total_tokens: totalTokens,
@@ -447,7 +457,8 @@ STORAGE GUIDANCE:
             response: aiMessage.content,
             sessionId: sessionId || 'ephemeral',
             messageId,
-            storage: env.R2_MESSAGES ? 'R2 enabled' : 'R2 not configured',
+            storage: env.R2_MESSAGES ? 'R2 active' : 'R2 not configured',
+            frontend: env.R2_FRONTEND ? 'R2 self-contained' : 'GitHub fallback',
             usage: {
               ...data.usage,
               estimated_cost: `$${estimatedCost.toFixed(6)}`
@@ -525,51 +536,26 @@ STORAGE GUIDANCE:
         });
       }
 
-      // Cost estimation endpoint
-      if (url.pathname === '/api/cost-estimate' && request.method === 'GET') {
-        const monthlyEstimate = {
-          model: 'gpt-4.1-nano',
-          pricing: {
-            input_per_million: 0.10,
-            output_per_million: 0.40,
-            cached_input_per_million: 0.025
-          },
-          typical_usage: {
-            tokens_per_month: 2000000,
-            estimated_cost: '$0.50 - $1.00'
-          },
-          comparison: {
-            'gpt-3.5-turbo': '$3.00 - $5.00',
-            'gpt-4.1-nano': '$0.50 - $1.00',
-            'claude-3-haiku': '$2.00 - $4.00'
-          }
-        };
-        
-        return new Response(JSON.stringify(monthlyEstimate), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-        });
-      }
-
       // Projects endpoint
       if (url.pathname === '/api/projects' && request.method === 'GET') {
         const projects = {
           projects: [
             {
               name: "echo-ai-interface",
-              description: "AI chat interface with R2 storage",
+              description: "Self-contained AI interface with R2 storage",
               category: "Interface",
-              status: "migrated"
+              status: env.R2_FRONTEND ? "fully-migrated" : "migration-pending"
             },
             {
-              name: "echo-cnn",
-              description: "AI-powered news aggregation system",
-              category: "Media",
-              status: "active"
+              name: "r2-storage-system",
+              description: "10GB message and conversation persistence",
+              category: "Storage",
+              status: env.R2_MESSAGES ? "active" : "pending"
             },
             {
-              name: "VisionEcho Project",
-              description: "Computer vision and image recognition",
-              category: "AI/ML",
+              name: "github-mcp-tools",
+              description: "Repository operations and code management",
+              category: "Integration",
               status: "active"
             }
           ]
@@ -581,6 +567,44 @@ STORAGE GUIDANCE:
       }
     }
     
+    // NEW: Serve frontend files from R2 storage if available
+    if (env.R2_FRONTEND) {
+      try {
+        // Determine file path
+        let filePath = url.pathname === '/' ? 'frontend/index.html' : `frontend${url.pathname}`;
+        
+        // Get file from R2
+        const object = await env.R2_FRONTEND.get(filePath);
+        
+        if (object) {
+          const headers = new Headers();
+          
+          // Set content type based on file extension
+          if (filePath.endsWith('.html')) {
+            headers.set('Content-Type', 'text/html');
+          } else if (filePath.endsWith('.css')) {
+            headers.set('Content-Type', 'text/css');
+          } else if (filePath.endsWith('.js')) {
+            headers.set('Content-Type', 'application/javascript');
+          } else if (filePath.endsWith('.json')) {
+            headers.set('Content-Type', 'application/json');
+          } else {
+            headers.set('Content-Type', 'text/plain');
+          }
+          
+          // Add caching headers
+          headers.set('Cache-Control', 'public, max-age=3600');
+          headers.set('ETag', object.etag);
+          
+          return new Response(object.body, { headers });
+        }
+      } catch (error) {
+        console.error('R2 frontend error:', error);
+        // Fall through to GitHub serving
+      }
+    }
+    
+    // Fallback to GitHub serving if R2 not available or file not found
     return env.ASSETS.fetch(request);
   }
 };
