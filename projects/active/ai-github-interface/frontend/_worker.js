@@ -1,5 +1,6 @@
-// OpenAI MCP Implementation with Session Threading
-// Uses OpenAI's gpt-4.1-nano with conversation persistence
+// Echo AI Interface - Cloudflare R2 Migration Worker
+// Combines GitHub tools with R2 storage for message persistence
+// Updated for echo2.pages.dev deployment
 
 export default {
   async fetch(request, env, ctx) {
@@ -19,12 +20,10 @@ export default {
 
       // Initialize KV namespace for session storage
       const SESSIONS = env.SESSIONS || env.KV;
-      if (!SESSIONS) {
-        console.error('KV namespace not configured');
-      }
 
-      // MCP Tool Definitions - OpenAI format
-      const OPENAI_TOOLS = [
+      // Combined Tool Definitions - GitHub + R2 Storage
+      const ECHO_TOOLS = [
+        // GitHub Tools
         {
           type: "function",
           function: {
@@ -113,109 +112,105 @@ export default {
               required: ["owner", "repo"]
             }
           }
+        },
+        // R2 Storage Tools for Echo Messages
+        {
+          type: "function",
+          function: {
+            name: "save_message",
+            description: "Save a message to R2 storage with metadata",
+            parameters: {
+              type: "object",
+              properties: {
+                messageId: { type: "string", description: "Unique message identifier" },
+                sessionId: { type: "string", description: "Session identifier" },
+                content: { type: "string", description: "Message content" },
+                userType: { type: "string", enum: ["user", "assistant"], description: "Message sender type" },
+                metadata: { type: "object", description: "Additional message metadata" }
+              },
+              required: ["messageId", "sessionId", "content", "userType"]
+            }
+          }
+        },
+        {
+          type: "function",
+          function: {
+            name: "get_messages",
+            description: "Retrieve messages from R2 storage by session or date range",
+            parameters: {
+              type: "object",
+              properties: {
+                sessionId: { type: "string", description: "Session identifier" },
+                limit: { type: "number", description: "Maximum number of messages to retrieve" },
+                startDate: { type: "string", description: "Start date for filtering (ISO string)" },
+                endDate: { type: "string", description: "End date for filtering (ISO string)" }
+              }
+            }
+          }
+        },
+        {
+          type: "function",
+          function: {
+            name: "save_conversation_summary",
+            description: "Save a conversation summary to R2 storage",
+            parameters: {
+              type: "object",
+              properties: {
+                sessionId: { type: "string", description: "Session identifier" },
+                summary: { type: "string", description: "Conversation summary" },
+                messageCount: { type: "number", description: "Total messages in conversation" },
+                duration: { type: "string", description: "Conversation duration" },
+                topics: { type: "array", items: { type: "string" }, description: "Main topics discussed" }
+              },
+              required: ["sessionId", "summary", "messageCount"]
+            }
+          }
+        },
+        {
+          type: "function",
+          function: {
+            name: "create_task",
+            description: "Create a task in R2 storage for Echo to review later",
+            parameters: {
+              type: "object",
+              properties: {
+                title: { type: "string", description: "Task title" },
+                description: { type: "string", description: "Task description" },
+                priority: { type: "string", enum: ["low", "medium", "high", "urgent"], description: "Task priority" },
+                category: { type: "string", description: "Task category" },
+                relatedSessionId: { type: "string", description: "Related conversation session" }
+              },
+              required: ["title", "description", "priority"]
+            }
+          }
         }
       ];
 
-      // Health check
+      // Health check - updated to show R2 status
       if (url.pathname === '/api/health') {
         return new Response(JSON.stringify({ 
           status: 'healthy',
           model: 'OpenAI gpt-4.1-nano',
-          features: ['session_threading', 'github_tools', 'conversation_persistence'],
+          storage: 'Cloudflare R2',
+          deployment: 'echo2.pages.dev',
+          features: ['session_threading', 'github_tools', 'r2_storage', 'message_persistence'],
           cost_per_million: { input: 0.10, output: 0.40 },
-          tools: OPENAI_TOOLS.length,
+          tools: ECHO_TOOLS.length,
+          buckets: ['echo-messages', 'echo-conversations'],
+          bindings: {
+            r2_messages: !!env.R2_MESSAGES,
+            r2_conversations: !!env.R2_CONVERSATIONS,
+            kv_sessions: !!SESSIONS,
+            openai: !!env.OPENAI_API_KEY,
+            github: !!env.GITHUB_TOKEN
+          },
           timestamp: new Date().toISOString()
         }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         });
       }
 
-      // Create new session
-      if (url.pathname === '/api/session' && request.method === 'POST') {
-        const sessionId = generateSessionId();
-        const session = {
-          id: sessionId,
-          created: new Date().toISOString(),
-          messages: [],
-          metadata: {}
-        };
-        
-        if (SESSIONS) {
-          // Store session for 24 hours
-          await SESSIONS.put(`session:${sessionId}`, JSON.stringify(session), {
-            expirationTtl: 86400
-          });
-        }
-        
-        return new Response(JSON.stringify({
-          sessionId,
-          message: 'Session created successfully'
-        }), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-        });
-      }
-
-      // Get session info
-      if (url.pathname.match(/^\/api\/session\/(.+)$/) && request.method === 'GET') {
-        const sessionId = url.pathname.split('/').pop();
-        
-        if (!SESSIONS) {
-          return new Response(JSON.stringify({
-            error: 'Session storage not configured'
-          }), {
-            status: 500,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-          });
-        }
-        
-        const sessionData = await SESSIONS.get(`session:${sessionId}`);
-        if (!sessionData) {
-          return new Response(JSON.stringify({
-            error: 'Session not found'
-          }), {
-            status: 404,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-          });
-        }
-        
-        const session = JSON.parse(sessionData);
-        return new Response(JSON.stringify({
-          ...session,
-          messageCount: session.messages.length
-        }), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-        });
-      }
-
-      // Clear session
-      if (url.pathname.match(/^\/api\/session\/(.+)$/) && request.method === 'DELETE') {
-        const sessionId = url.pathname.split('/').pop();
-        
-        if (SESSIONS) {
-          await SESSIONS.delete(`session:${sessionId}`);
-        }
-        
-        return new Response(JSON.stringify({
-          message: 'Session cleared'
-        }), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-        });
-      }
-
-      // List available tools
-      if (url.pathname === '/api/mcp/tools') {
-        return new Response(JSON.stringify({
-          tools: OPENAI_TOOLS.map(t => ({
-            name: t.function.name,
-            description: t.function.description,
-            parameters: t.function.parameters
-          }))
-        }), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-        });
-      }
-
-      // Main chat endpoint with OpenAI and session threading
+      // Main chat endpoint with OpenAI and R2 integration
       if (url.pathname === '/api/chat' && request.method === 'POST') {
         try {
           const { message, sessionId, stream = false } = await request.json();
@@ -223,15 +218,6 @@ export default {
           if (!env.OPENAI_API_KEY) {
             return new Response(JSON.stringify({
               error: 'OpenAI API key not configured. Add OPENAI_API_KEY to environment variables.'
-            }), {
-              status: 500,
-              headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-            });
-          }
-
-          if (!env.GITHUB_TOKEN) {
-            return new Response(JSON.stringify({
-              error: 'GitHub token not configured. Add GITHUB_TOKEN to environment variables.'
             }), {
               status: 500,
               headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -247,26 +233,59 @@ export default {
             }
           }
 
+          // Generate unique message ID
+          const messageId = generateMessageId();
+
+          // Auto-save user message to R2 storage (if available)
+          if (env.R2_MESSAGES) {
+            try {
+              await saveMessageToR2(env.R2_MESSAGES, {
+                messageId,
+                sessionId: sessionId || 'ephemeral',
+                content: message,
+                userType: 'user',
+                metadata: {
+                  timestamp: new Date().toISOString(),
+                  ip: request.headers.get('cf-connecting-ip') || 'unknown'
+                }
+              });
+            } catch (error) {
+              console.log('R2 save failed (graceful degradation):', error.message);
+            }
+          }
+
           // Add user message to session
           const userMessage = { role: 'user', content: message };
           session.messages.push(userMessage);
 
-          // Prepare messages for OpenAI (include system prompt + conversation history)
+          // Prepare messages for OpenAI
           const systemMessage = {
             role: 'system',
-            content: `You are Echo's AI Assistant with access to GitHub tools.
-You can search repositories, read files, create issues, and more.
-When users ask about GitHub operations, use the appropriate tools.
-Remember previous messages in this conversation to maintain context.
-Be helpful and concise in your responses.
-IMPORTANT: Always respond in English, regardless of the input language.`
+            content: `You are Echo's AI Assistant with access to GitHub tools and R2 storage.
+
+CAPABILITIES:
+- GitHub: Search repos, read/write files, manage issues
+- R2 Storage: Save messages, conversations, create tasks for Echo (if configured)
+- Session Management: Maintain conversation context
+
+BEHAVIOR:
+- Use GitHub tools for code/repository operations
+- Use R2 storage tools to save important conversations or create tasks (when available)
+- Maintain context from previous messages in this session
+- Be helpful and concise
+- Always respond in English
+
+STORAGE GUIDANCE:
+- If R2 is available, auto-save important conversations using save_conversation_summary
+- Create tasks for Echo using create_task when users request follow-up
+- Save messages with save_message for persistence beyond session expiry`
           };
 
-          // Limit conversation history to last 20 messages to avoid token limits
+          // Limit conversation history to avoid token limits
           const recentMessages = session.messages.slice(-20);
           const openAIMessages = [systemMessage, ...recentMessages];
 
-          // Call OpenAI with tools using gpt-4.1-nano
+          // Call OpenAI with tools
           const openAIResponse = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -274,10 +293,10 @@ IMPORTANT: Always respond in English, regardless of the input language.`
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              model: 'gpt-4.1-nano-2025-04-14', // Ultra cost-effective model
+              model: 'gpt-4.1-nano-2025-04-14',
               messages: openAIMessages,
-              tools: OPENAI_TOOLS,
-              tool_choice: 'auto', // Let OpenAI decide when to use tools
+              tools: ECHO_TOOLS,
+              tool_choice: 'auto',
               temperature: 0.7,
               max_tokens: 2048
             })
@@ -291,23 +310,29 @@ IMPORTANT: Always respond in English, regardless of the input language.`
           const data = await openAIResponse.json();
           const aiMessage = data.choices[0].message;
 
-          // Check if OpenAI wants to use tools
+          // Handle tool calls
           if (aiMessage.tool_calls) {
             const toolResults = [];
             
-            // Execute each tool call
             for (const toolCall of aiMessage.tool_calls) {
               try {
-                const result = await executeGitHubTool(
-                  env.GITHUB_TOKEN, 
-                  toolCall.function.name, 
-                  JSON.parse(toolCall.function.arguments)
-                );
+                let result;
+                const toolName = toolCall.function.name;
+                const args = JSON.parse(toolCall.function.arguments);
+                
+                // Route to appropriate tool handler
+                if (['save_message', 'get_messages', 'save_conversation_summary', 'create_task'].includes(toolName)) {
+                  // R2 Storage tools
+                  result = await executeR2Tool(env, toolName, args);
+                } else {
+                  // GitHub tools
+                  result = await executeGitHubTool(env.GITHUB_TOKEN, toolName, args);
+                }
                 
                 toolResults.push({
                   tool_call_id: toolCall.id,
                   role: 'tool',
-                  name: toolCall.function.name,
+                  name: toolName,
                   content: JSON.stringify(result)
                 });
               } catch (error) {
@@ -320,7 +345,7 @@ IMPORTANT: Always respond in English, regardless of the input language.`
               }
             }
 
-            // Get final response from OpenAI with tool results
+            // Get final response with tool results
             const finalResponse = await fetch('https://api.openai.com/v1/chat/completions', {
               method: 'POST',
               headers: {
@@ -342,25 +367,45 @@ IMPORTANT: Always respond in English, regardless of the input language.`
             const finalData = await finalResponse.json();
             const finalMessage = finalData.choices[0].message;
             
-            // Add AI response to session (include tool calls for context)
+            // Auto-save assistant response to R2 (if available)
+            if (env.R2_MESSAGES) {
+              try {
+                await saveMessageToR2(env.R2_MESSAGES, {
+                  messageId: generateMessageId(),
+                  sessionId: sessionId || 'ephemeral',
+                  content: finalMessage.content,
+                  userType: 'assistant',
+                  metadata: {
+                    timestamp: new Date().toISOString(),
+                    toolsUsed: aiMessage.tool_calls?.map(tc => tc.function.name) || []
+                  }
+                });
+              } catch (error) {
+                console.log('R2 save failed (graceful degradation):', error.message);
+              }
+            }
+            
+            // Add messages to session
             session.messages.push(aiMessage);
             toolResults.forEach(result => session.messages.push(result));
             session.messages.push(finalMessage);
             
-            // Calculate cost estimate
+            // Calculate cost
             const totalTokens = (data.usage?.total_tokens || 0) + (finalData.usage?.total_tokens || 0);
-            const estimatedCost = (totalTokens / 1000000) * 0.50; // Rough estimate
+            const estimatedCost = (totalTokens / 1000000) * 0.50;
             
-            // Save updated session
+            // Save session
             if (sessionId && SESSIONS) {
               await SESSIONS.put(`session:${sessionId}`, JSON.stringify(session), {
-                expirationTtl: 86400 // 24 hours
+                expirationTtl: 86400
               });
             }
             
             return new Response(JSON.stringify({
               response: finalMessage.content,
               sessionId: sessionId || 'ephemeral',
+              messageId,
+              storage: env.R2_MESSAGES ? 'R2 enabled' : 'R2 not configured',
               usage: {
                 ...finalData.usage,
                 total_tokens: totalTokens,
@@ -371,22 +416,38 @@ IMPORTANT: Always respond in English, regardless of the input language.`
             });
           }
 
-          // Add AI response to session (no tool calls)
+          // No tool calls - save response and return
+          if (env.R2_MESSAGES) {
+            try {
+              await saveMessageToR2(env.R2_MESSAGES, {
+                messageId: generateMessageId(),
+                sessionId: sessionId || 'ephemeral',
+                content: aiMessage.content,
+                userType: 'assistant',
+                metadata: {
+                  timestamp: new Date().toISOString()
+                }
+              });
+            } catch (error) {
+              console.log('R2 save failed (graceful degradation):', error.message);
+            }
+          }
+
           session.messages.push(aiMessage);
           
-          // Save updated session
           if (sessionId && SESSIONS) {
             await SESSIONS.put(`session:${sessionId}`, JSON.stringify(session), {
-              expirationTtl: 86400 // 24 hours
+              expirationTtl: 86400
             });
           }
 
-          // Return response without tool calls
           const estimatedCost = ((data.usage?.total_tokens || 0) / 1000000) * 0.50;
           
           return new Response(JSON.stringify({
             response: aiMessage.content,
             sessionId: sessionId || 'ephemeral',
+            messageId,
+            storage: env.R2_MESSAGES ? 'R2 enabled' : 'R2 not configured',
             usage: {
               ...data.usage,
               estimated_cost: `$${estimatedCost.toFixed(6)}`
@@ -404,6 +465,64 @@ IMPORTANT: Always respond in English, regardless of the input language.`
             headers: { ...corsHeaders, 'Content-Type': 'application/json' }
           });
         }
+      }
+
+      // Session management endpoints
+      if (url.pathname === '/api/session' && request.method === 'POST') {
+        const sessionId = generateSessionId();
+        const session = { id: sessionId, created: new Date().toISOString(), messages: [], metadata: {} };
+        
+        if (SESSIONS) {
+          await SESSIONS.put(`session:${sessionId}`, JSON.stringify(session), { expirationTtl: 86400 });
+        }
+        
+        return new Response(JSON.stringify({ sessionId, message: 'Session created successfully' }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
+
+      if (url.pathname.match(/^\/api\/session\/(.+)$/) && request.method === 'GET') {
+        const sessionId = url.pathname.split('/').pop();
+        
+        if (!SESSIONS) {
+          return new Response(JSON.stringify({ error: 'Session storage not configured' }), {
+            status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          });
+        }
+        
+        const sessionData = await SESSIONS.get(`session:${sessionId}`);
+        if (!sessionData) {
+          return new Response(JSON.stringify({ error: 'Session not found' }), {
+            status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          });
+        }
+        
+        const session = JSON.parse(sessionData);
+        return new Response(JSON.stringify({ ...session, messageCount: session.messages.length }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
+
+      if (url.pathname.match(/^\/api\/session\/(.+)$/) && request.method === 'DELETE') {
+        const sessionId = url.pathname.split('/').pop();
+        if (SESSIONS) await SESSIONS.delete(`session:${sessionId}`);
+        
+        return new Response(JSON.stringify({ message: 'Session cleared' }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
+
+      // Tools endpoint
+      if (url.pathname === '/api/mcp/tools') {
+        return new Response(JSON.stringify({
+          tools: ECHO_TOOLS.map(t => ({
+            name: t.function.name,
+            description: t.function.description,
+            parameters: t.function.parameters
+          }))
+        }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
       }
 
       // Cost estimation endpoint
@@ -431,10 +550,16 @@ IMPORTANT: Always respond in English, regardless of the input language.`
         });
       }
 
-      // Mock projects endpoint (for sidebar)
+      // Projects endpoint
       if (url.pathname === '/api/projects' && request.method === 'GET') {
         const projects = {
           projects: [
+            {
+              name: "echo-ai-interface",
+              description: "AI chat interface with R2 storage",
+              category: "Interface",
+              status: "migrated"
+            },
             {
               name: "echo-cnn",
               description: "AI-powered news aggregation system",
@@ -445,12 +570,6 @@ IMPORTANT: Always respond in English, regardless of the input language.`
               name: "VisionEcho Project",
               description: "Computer vision and image recognition",
               category: "AI/ML",
-              status: "active"
-            },
-            {
-              name: "OpenPacketFix",
-              description: "Network protocol optimization",
-              category: "Infrastructure",
               status: "active"
             }
           ]
@@ -466,19 +585,187 @@ IMPORTANT: Always respond in English, regardless of the input language.`
   }
 };
 
-// Generate a unique session ID
+// Helper functions
 function generateSessionId() {
   const timestamp = Date.now().toString(36);
   const randomStr = Math.random().toString(36).substring(2, 15);
   return `${timestamp}-${randomStr}`;
 }
 
-// GitHub tool implementations
+function generateMessageId() {
+  const timestamp = Date.now().toString(36);
+  const randomStr = Math.random().toString(36).substring(2, 10);
+  return `msg_${timestamp}_${randomStr}`;
+}
+
+// R2 Storage Tool Implementations
+async function executeR2Tool(env, toolName, args) {
+  switch (toolName) {
+    case 'save_message':
+      return await saveMessageToR2(env.R2_MESSAGES, args);
+    
+    case 'get_messages':
+      return await getMessagesFromR2(env.R2_MESSAGES, args);
+    
+    case 'save_conversation_summary':
+      return await saveConversationSummary(env.R2_CONVERSATIONS, args);
+    
+    case 'create_task':
+      return await createTask(env.R2_MESSAGES, args);
+    
+    default:
+      throw new Error(`Unknown R2 tool: ${toolName}`);
+  }
+}
+
+async function saveMessageToR2(bucket, data) {
+  if (!bucket) {
+    return { success: false, error: 'R2 bucket not configured - add R2_MESSAGES binding' };
+  }
+
+  const { messageId, sessionId, content, userType, metadata = {} } = data;
+  
+  const messageData = {
+    messageId,
+    sessionId,
+    content,
+    userType,
+    timestamp: new Date().toISOString(),
+    ...metadata
+  };
+  
+  const key = `messages/${sessionId}/${messageId}.json`;
+  const messageContent = JSON.stringify(messageData, null, 2);
+  
+  try {
+    await bucket.put(key, messageContent, {
+      httpMetadata: { contentType: 'application/json' }
+    });
+    
+    return {
+      success: true,
+      messageId,
+      key,
+      size: messageContent.length,
+      timestamp: messageData.timestamp
+    };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+async function getMessagesFromR2(bucket, args) {
+  if (!bucket) {
+    return { error: 'R2 bucket not configured - add R2_MESSAGES binding' };
+  }
+
+  const { sessionId, limit = 50 } = args;
+  
+  try {
+    const objects = await bucket.list({ prefix: `messages/${sessionId}/`, limit });
+    const messages = [];
+    
+    for (const obj of objects.objects.slice(0, limit)) {
+      try {
+        const content = await bucket.get(obj.key);
+        const messageData = JSON.parse(await content.text());
+        messages.push(messageData);
+      } catch (error) {
+        console.error(`Error reading message ${obj.key}:`, error);
+      }
+    }
+    
+    return {
+      sessionId,
+      messages: messages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)),
+      count: messages.length
+    };
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+async function saveConversationSummary(bucket, data) {
+  if (!bucket) {
+    return { success: false, error: 'R2 bucket not configured - add R2_CONVERSATIONS binding' };
+  }
+
+  const { sessionId, summary, messageCount, duration, topics = [] } = data;
+  
+  const summaryData = {
+    sessionId,
+    summary,
+    messageCount,
+    duration,
+    topics,
+    createdAt: new Date().toISOString()
+  };
+  
+  const key = `summaries/${sessionId}_summary.json`;
+  
+  try {
+    await bucket.put(key, JSON.stringify(summaryData, null, 2), {
+      httpMetadata: { contentType: 'application/json' }
+    });
+    
+    return {
+      success: true,
+      sessionId,
+      key,
+      summary: summaryData
+    };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+async function createTask(bucket, data) {
+  if (!bucket) {
+    return { success: false, error: 'R2 bucket not configured - add R2_MESSAGES binding' };
+  }
+
+  const { title, description, priority, category, relatedSessionId } = data;
+  const taskId = `task_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 8)}`;
+  
+  const taskData = {
+    taskId,
+    title,
+    description,
+    priority,
+    category,
+    relatedSessionId,
+    status: 'pending',
+    createdAt: new Date().toISOString()
+  };
+  
+  const key = `tasks/pending/${taskId}.json`;
+  
+  try {
+    await bucket.put(key, JSON.stringify(taskData, null, 2), {
+      httpMetadata: { contentType: 'application/json' }
+    });
+    
+    return {
+      success: true,
+      taskId,
+      key,
+      task: taskData
+    };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+// GitHub Tool Implementations
 async function executeGitHubTool(token, toolName, args) {
+  if (!token) {
+    return { error: 'GitHub token not configured - add GITHUB_TOKEN environment variable' };
+  }
+
   const baseHeaders = {
     'Authorization': `Bearer ${token}`,
     'Accept': 'application/vnd.github.v3+json',
-    'User-Agent': 'OpenAI-MCP-Server'
+    'User-Agent': 'Echo-AI-Interface'
   };
 
   switch (toolName) {
@@ -561,6 +848,6 @@ async function executeGitHubTool(token, toolName, args) {
     }
 
     default:
-      throw new Error(`Unknown tool: ${toolName}`);
+      throw new Error(`Unknown GitHub tool: ${toolName}`);
   }
 }
