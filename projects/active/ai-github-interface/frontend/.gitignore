@@ -1,5 +1,0 @@
-# Ignore the old _worker.js file to prevent Cloudflare deployment conflicts
-/projects/active/ai-github-interface/frontend/_worker.js
-
-# The correct worker file is in the functions directory
-# /projects/active/ai-github-interface/frontend/functions/_worker.js
