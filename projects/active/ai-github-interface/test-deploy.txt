@@ -1,4 +1,0 @@
-# Deployment Test
-Testing deployment trigger - June 7, 2025 3:47 AM
-
-This file is to test if deployments are working after the recent changes.

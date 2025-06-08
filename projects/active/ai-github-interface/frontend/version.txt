@@ -1,9 +1,0 @@
-v2.0.2 - Fixed JavaScript selector issues and CSS styles
-Date: June 6, 2025
-
-Changes:
-- Fixed chat.js element selectors to match HTML structure
-- Added missing CSS styles for messages
-- Fixed connection status indicator
-- Resolved initialization loop by ensuring proper API connectivity
-- Enhanced error handling and session management
