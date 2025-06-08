@@ -1,0 +1,8 @@
+{
+  "name": "ai-github-interface-functions",
+  "version": "1.0.0",
+  "description": "Netlify Functions for AI GitHub Interface",
+  "dependencies": {
+    "eventsource": "^2.0.2"
+  }
+}
